@@ -1,0 +1,66 @@
+<header class="header ion-text-center" style="color:whitesmoke;">
+  <p><b><font size="5">PetUniverse</font></b></p>
+  </header>
+<ion-content class="swiper-no-swiping">
+    <div class="container top" [hidden]="nativekeyboard.isVisible">
+        <img class="center" src="/assets/img/Logo.png">
+    
+        <ion-segment (ionChange)="segmentChanged($event)" value="login">
+          <ion-segment-button value="login">
+            <ion-label>Login</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="register">
+            <ion-label>Registar</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </div>
+
+  <ion-slides>
+    <ion-slide>
+      <div class="slide-inner ion-padding">
+        <span>Login</span>
+
+        <ion-item class="ion-margin-top" lines="none">
+          <ion-input type="email" placeholder="E-mail"></ion-input>
+        </ion-item>
+
+        <ion-item class="ion-margin-top" lines="none">
+          <ion-input type="password" placeholder="Senha"></ion-input>
+        </ion-item>
+
+        <ion-button class="ion-margin-top" (click)="login()" color="light" expand="block">
+          Entrar
+        </ion-button>
+      </div>
+    </ion-slide>
+
+    <ion-slide>
+      <div class="slide-inner ion-padding">
+        <span>Registar</span>
+
+        <ion-item class="ion-margin-top" lines="none">
+          <ion-input type="text" placeholder="Nome"></ion-input>
+        </ion-item>
+
+        <ion-item class="ion-margin-top" lines="none">
+          <ion-input type="email" placeholder="E-mail"></ion-input>
+        </ion-item>
+
+        <ion-item class="ion-margin-top" lines="none">
+          <ion-input type="password" placeholder="Senha"></ion-input>
+        </ion-item>
+
+        <ion-button class="ion-margin-top" (click)="register()" color="light" expand="block">
+          Registar
+        </ion-button>
+      </div>
+    </ion-slide>
+  </ion-slides>
+  <div class="animals">
+    <div class="allanimals" [ngStyle]="{'background-position-x': allanimalsPosition + 'px'}" ></div>
+
+  </div>
+</ion-content>
+    <footer class="footer ion-text-center" style="color:whitesmoke;">
+        <b><font size="1">@All rights reserved | PEI</font></b>
+      </footer>
