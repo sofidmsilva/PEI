@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
+import { TouchSequence } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-home',
@@ -11,5 +13,5 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
   }
-
+  
 }
