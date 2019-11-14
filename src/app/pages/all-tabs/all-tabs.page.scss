@@ -1,17 +1,13 @@
-.header{
-    background:#967a05;
-    border-style: solid;
-    border-width: 0.09cm;
-
-}
-ion-tab-bar{
+ion-content{
     border-color: var(--ion-color-primary-shade) ;
     border-style: solid;
     border-width: 0.10cm;
 }
+
 ion-button {
     float: right;
-    margin-top: 0.4cm;
-    top: 30%;
- 
+    background-color: #182a43;;
+    border-radius: 50%;
+    height: 30px;
+     width: 30px;
 }

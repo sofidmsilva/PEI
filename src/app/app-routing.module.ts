@@ -7,6 +7,7 @@ const routes: Routes = [
   {path:'', redirectTo:'login', pathMatch:'full'},
   { path: 'tabs', loadChildren: ()=>import('./pages/all-tabs/all-tabs.module').then(m=>m.AllTabsPageModule),canActivate:[AuthGuard] },
   { path: 'login', loadChildren: ()=>import('./pages/login/login.module').then(m=>m.LoginPageModule),canActivate:[LoginGuard] },
+  { path: 'language-popover', loadChildren: './pages/language-popover/language-popover.module#LanguagePopoverPageModule' },
 ];
 @NgModule({
   imports: [

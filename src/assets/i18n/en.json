@@ -1,0 +1,19 @@
+{
+ "Home": {
+    "title": "PetUniverse"
+ },
+ "Login": {
+     "register":"Register",
+     "name": "Name",
+     "signIn": "Sign-In",
+     "errormessage":{
+        "invalidemail": "Invalid E-mail!",
+        "emailalreadyinuse": "E-mail already in Use!",
+        "differentpasswords": "The passwords do not match"
+
+     }
+
+ }
+
+
+}

@@ -14,6 +14,16 @@ import { environment } from 'src/environments/environment';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import {IonicStorageModule} from '@ionic/storage'
+import { LanguagePopoverPageModule } from './pages/language-popover/language-popover.module';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http,'../assets/i18n/', '.json');
+}
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -22,7 +32,17 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    HttpClientModule,
+    IonicStorageModule.forRoot(),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    }),
+    LanguagePopoverPageModule
   ],
   providers: [
     StatusBar,

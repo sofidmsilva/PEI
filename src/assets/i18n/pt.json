@@ -1,0 +1,20 @@
+{
+    "Home": {
+       "title": "ola"
+    },
+    "Login": {
+      "register":"Registar",
+      "name": "Nome",
+      "signIn": "Entrar",
+      "errormessage":{
+         "invalidemail": "E-mail Inválido!",
+         "emailalreadyinuse": "E-mail já em uso!",
+         "differentpasswords": "As passswords não coincidem"
+ 
+      }
+ 
+ 
+  }
+   
+   
+   }
