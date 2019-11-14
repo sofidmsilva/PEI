@@ -6,10 +6,19 @@
       "register":"Registar",
       "name": "Nome",
       "signIn": "Entrar",
+      "buttonnext": "Próximo",
+      "buttonprev": "Anterior",
+      "Gender": "Genero",
+      "Male": "Masculino",
+      "Female":"Feminio",
+      "BirthdayDate":"Data Nascimento",
+      "ConfirmPass": "Confirma Password",
+      "finality": "Finalidade",
       "errormessage":{
          "invalidemail": "E-mail Inválido!",
          "emailalreadyinuse": "E-mail já em uso!",
-         "differentpasswords": "As passswords não coincidem"
+         "differentpasswords": "As passswords não coincidem",
+         "argument-error":"É necessário preencher os campos!"
  
       }
  

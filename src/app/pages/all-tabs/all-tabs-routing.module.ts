@@ -39,6 +39,22 @@ const routes: Routes = [
         ]
       }
     ]
+  },
+  {
+    path: '',
+    component: AllTabsPage,
+    children: [
+      {
+        path: 'favorites',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../favorites/favorites.module').then(m => m.FavoritesPageModule)
+          }
+        ]
+      }
+    ]
   }
 ];
 

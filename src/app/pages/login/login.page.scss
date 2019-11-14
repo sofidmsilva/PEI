@@ -17,17 +17,12 @@
         top: 5%;
     }
 
-    &.bottom{
-        bottom: 2%;
-        span{
-            color: black;
-        }
-    }
 }
 ion-slides{
-    height: 135%;
+    height: 100%;
     .slide-inner{
-        width: 75%;
+        margin-top: 5cm;
+        width: 85%;
         color: #fff;
         background: var(--ion-color-primary);
         border-radius: 10px;
@@ -35,9 +30,9 @@ ion-slides{
         ion-item {
             --background: rgba(255,255,255,0.2);
             --broder-radius: 10px;
-
-            ion-input{
-                --color:#fff;
+        
+            ion-label{
+                color: #674c00;
             }
         }
     }
@@ -68,6 +63,4 @@ ion-slides{
 .footer{
     background-color:black;
 }
-ion-button{
-    margin-right: 15px;
-}
+

@@ -1,42 +1,49 @@
- <ion-content>
-    <ion-toolbar color="primary">
-        <img class="center" height="55" width="55" src="/assets/img/Logo.png">
-        <b style="color: burlywood;">
-          <font size="5">PetUniverse</font>
-        </b>
-      <ion-buttons slot="end">
-        <ion-button class="language" (click)="openlanguages($event)"  slot="icon-only">
-          <ion-icon name="globe"></ion-icon>
-        </ion-button>
-        <ion-button (click)="settings()"  slot="icon-only">
-            <ion-icon name="settings"></ion-icon>
-          </ion-button>
-        <ion-button (click)="logout()"   slot="icon-only">
-          <ion-icon name="log-out"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-toolbar>
-  
+<ion-content>
+  <ion-toolbar color="primary">
+    <img class="center" height="55" width="55" src="/assets/img/Logo.png">
+    <b style="color: burlywood;">
+      <font size="5">PetUniverse</font>
+    </b>
+    <ion-buttons slot="end">
+      <ion-button class="language" (click)="openlanguages($event)" slot="icon-only">
+        <ion-icon name="globe"></ion-icon>
+      </ion-button>
+      <ion-button (click)="notification()" tabBadge="14" slot="icon-only">
+          <ion-badge id="notifications-badge" color="danger">5</ion-badge>
+        <ion-icon name="notifications"></ion-icon>
+      </ion-button>
+      <ion-button (click)="settings()" slot="icon-only">
+        <ion-icon name="settings"></ion-icon>
+      </ion-button>
+      <ion-button (click)="logout()" slot="icon-only">
+        <ion-icon name="log-out"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
   <ion-tabs>
-  
+      
     <ion-tab-bar slot="bottom" color="primary">
       <ion-tab-button tab="home">
         <ion-icon name="paw"></ion-icon>
         <ion-label>Home</ion-label>
       </ion-tab-button>
-  
-      <ion-tab-button tab="favorite">
-        <ion-icon name="apps"></ion-icon>
+      
+      <ion-tab-button tab="favorites">
+        <ion-icon name="heart"></ion-icon>
         <ion-label>Favoritos</ion-label>
       </ion-tab-button>
-  
+
       <ion-tab-button tab="profile">
         <ion-icon name="contact"></ion-icon>
         <ion-label>Perfil</ion-label>
       </ion-tab-button>
+      <ion-tab-button tab="message">
+        <ion-icon name="mail"></ion-icon>
+        <ion-label>Message</ion-label>
+      </ion-tab-button>
     </ion-tab-bar>
-  
+
   </ion-tabs>
 
- </ion-content>
- 
+</ion-content>

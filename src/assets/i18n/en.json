@@ -6,10 +6,20 @@
      "register":"Register",
      "name": "Name",
      "signIn": "Sign-In",
+     "buttonnext": "Next",
+     "buttonprev": "Previous",
+     "Gender": "Gender",
+     "Male": "Male",
+     "Female":"Female",
+     "BirthdayDate":"Birthday Date",
+     "ConfirmPass": "Confirm Password",
+     "finality": "Finality",
+     "owner":"Animal Owner",
      "errormessage":{
         "invalidemail": "Invalid E-mail!",
         "emailalreadyinuse": "E-mail already in Use!",
-        "differentpasswords": "The passwords do not match"
+        "differentpasswords": "The passwords do not match",
+        "argument-error":"You must fill in the fields!"
 
      }
 

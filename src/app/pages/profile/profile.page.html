@@ -1,7 +1,12 @@
 <ion-content>
-    <div class="container">
-        <br>
-        <br>
-        introduzir o layout dos perfis aqui
-    </div>
+        <ion-segment (ionChange)="segmentChanged($event)">
+                <ion-segment-button value="friends">
+                  <ion-label>Meu perfil</ion-label>
+                </ion-segment-button>
+                <ion-segment-button value="enemies">
+                  <ion-label>Meus Animais</ion-label>
+                </ion-segment-button>
+              </ion-segment>
 </ion-content>
+
+

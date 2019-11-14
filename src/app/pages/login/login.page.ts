@@ -20,6 +20,8 @@ export class LoginPage implements OnInit {
   public userRegister: User = {};
   public confirmpassword: string ="";
   private loading: any;
+  public position : number=0;
+  public guardposition: number=0;
 
   constructor(
     public nativekeyboard: NativeKeyboard,
@@ -33,7 +35,13 @@ export class LoginPage implements OnInit {
 
   segmentChanged(event: any) {
     if (event.detail.value === "login") {
+     if(this.guardposition===2){
       this.slides.slidePrev();
+     }else{
+      this.slides.slidePrev();
+      this.slides.slidePrev();
+     }
+    
       this.allanimalsPosition += this.allanimalsDifference;
     }
     else {
@@ -41,7 +49,13 @@ export class LoginPage implements OnInit {
       this.allanimalsPosition -= this.allanimalsDifference;
     }
   }
-
+  NextChanged(position){
+    this.guardposition=position;
+    this.slides.slideNext();
+  }
+  PrevChanged(){
+    this.slides.slidePrev();
+  }
  async login() {
   await this.presentLoading();
 
@@ -50,7 +64,18 @@ export class LoginPage implements OnInit {
       await this.authServices.login(this.userLogin);
     }
     catch (error) {
-      this.presentToast(error.message);
+      let message: string;
+      switch (error.code) {
+        case 'auth/argument-error':
+          message = this.translationservice.instant('Login.errormessage.argument-error');
+          break;
+
+        case 'auth/invalid-email':
+          message = this.translationservice.instant('Login.errormessage.invalidemail');
+          break;
+      }
+      console.log(error);
+      this.presentToast(message);
     } finally {
       this.loading.dismiss();
     }
@@ -71,6 +96,7 @@ export class LoginPage implements OnInit {
     }
     catch (error) {
       let message: string;
+  
       switch (error.code) {
         case 'auth/email-already-in-use':
           message = this.translationservice.instant('Login.errormessage.emailalreadyinuse');
@@ -80,7 +106,6 @@ export class LoginPage implements OnInit {
           message = this.translationservice.instant('Login.errormessage.invalidemail');
           break;
       }
-      console.log(message);
       this.presentToast(message);
     } finally {
       this.loading.dismiss();

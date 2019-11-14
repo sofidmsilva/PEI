@@ -1,27 +1,26 @@
 <ion-header class="header" style="color:whitesmoke;">
   <ion-toolbar color="dark">
-      <ion-title class="ion-text-center"><b><font size="5">PetUniverse</font></b></ion-title>
-        <ion-button (click)="openlanguages($event)" size="small" shape="round" color="success" slot="end">
-          <ion-icon name="globe" slot="icon-only"></ion-icon>
-        </ion-button>
+    <ion-title class="ion-text-center"><b>
+        <font size="5">PetUniverse</font>
+      </b></ion-title>
+    <ion-button #one class="language" (click)="openlanguages($event)" size="small" shape="round" color="success" slot="end">
+      <ion-icon name="globe" slot="icon-only"></ion-icon>
+    </ion-button>
   </ion-toolbar>
-
-  
-    
-  </ion-header>
+</ion-header>
 <ion-content class="swiper-no-swiping">
-    <div class="container top" [hidden]="nativekeyboard.isVisible">
-        <img class="center" src="/assets/img/Logo.png">
-    
-        <ion-segment (ionChange)="segmentChanged($event)" value="login">
-          <ion-segment-button value="login">
-            <ion-label>Login</ion-label>
-          </ion-segment-button>
-          <ion-segment-button value="register">
-            <ion-label> {{ 'Login.register' | translate }}</ion-label>
-          </ion-segment-button>
-        </ion-segment>
-      </div>
+  <div class="container top" [hidden]="nativekeyboard.isVisible">
+    <img class="center" src="/assets/img/Logo.png">
+
+    <ion-segment (ionChange)="segmentChanged($event)" value="login">
+      <ion-segment-button value="login">
+        <ion-label>Login</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="register">
+        <ion-label> {{ 'Login.register' | translate }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
 
   <ion-slides>
     <ion-slide>
@@ -37,7 +36,7 @@
         </ion-item>
 
         <ion-button class="ion-margin-top" (click)="login()" color="light" expand="block">
-            {{ 'Login.signIn' | translate }}
+          {{ 'Login.signIn' | translate }}
         </ion-button>
       </div>
     </ion-slide>
@@ -45,40 +44,63 @@
     <ion-slide>
       <div class="slide-inner ion-padding">
         <span>{{ 'Login.register' | translate }}</span>
-
         <ion-item class="ion-margin-top" lines="none">
-          <ion-input type="text" placeholder="Nome" ></ion-input>
+          <ion-input type="email" placeholder="E-mail" [(ngModel)]="userRegister.email" size="2"></ion-input>
         </ion-item>
 
         <ion-item class="ion-margin-top" lines="none">
-          <ion-input type="email" placeholder="E-mail"[(ngModel)]="userRegister.email"></ion-input>
-        </ion-item>
-
-        <ion-item class="ion-margin-top" lines="none">
-          <ion-input type="password" placeholder="Password"[(ngModel)]="userRegister.password"></ion-input>
+          <ion-input type="password" placeholder="Password" [(ngModel)]="userRegister.password"></ion-input>
         </ion-item>
         <ion-item class="ion-margin-top" lines="none">
-            <ion-input type="password" placeholder="ConfirmPassword"[(ngModel)]="confirmpassword"></ion-input>
-          </ion-item>
-          <ion-item>
-              <ion-label>Pet Sitter</ion-label>
-              <ion-checkbox color="danger" checked slot="start"></ion-checkbox>
-            </ion-item>
-            <ion-item>
-                <ion-label>Dono</ion-label>
-                <ion-checkbox color="primary" checked slot="start"></ion-checkbox>
-              </ion-item>
-        <ion-button class="ion-margin-top" (click)="register()" color="light" expand="block">
-            {{ 'Login.register' | translate }}
+          <ion-input type="password"  placeholder="{{'Login.ConfirmPass'| translate}}" [(ngModel)]="confirmpassword"></ion-input>
+        </ion-item>
+        <ion-button class="ion-margin-top" (click)="NextChanged(1)" color="light" size="default">
+            {{ 'Login.buttonnext' | translate }}
         </ion-button>
       </div>
     </ion-slide>
+    <ion-slide>
+      <div class="slide-inner ion-padding">
+        <span>{{ 'Login.register' | translate }}</span>
+        
+        <ion-item class="ion-margin-top" lines="none">
+            <ion-input type="text" placeholder="Nome" required></ion-input>
+          </ion-item>
+          <ion-item class="ion-margin-top" lines="none">
+              <ion-label>{{ 'Login.Gender' | translate }}</ion-label>
+              <ion-select placeholder="Select">
+                <ion-select-option value="f">{{ 'Login.Female' | translate }}</ion-select-option>
+                <ion-select-option value="m">{{ 'Login.Male' | translate }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item class="ion-margin-top" lines="none">
+                <ion-label>{{ 'Login.finality' | translate }}</ion-label>
+                <ion-select placeholder="Select">
+                  <ion-select-option value="owner">{{ 'Login.owner' | translate }}</ion-select-option>
+                  <ion-select-option value="petsitter">Pet Sitter</ion-select-option>
+                </ion-select>
+              </ion-item>
+        
+          
+        <ion-button class="ion-margin-top" (click)="PrevChanged()" color="light" size="default">
+            {{ 'Login.buttonprev' | translate }}
+        </ion-button>
+        <ion-button class="ion-margin-top" (click)="register()" color="light" size="default">
+          {{ 'Login.register' | translate }}
+        </ion-button>
+
+
+      </div>
+    </ion-slide>
+
   </ion-slides>
   <div class="animals">
-    <div class="allanimals" [ngStyle]="{'background-position-x': allanimalsPosition + 'px'}" ></div>
+    <div class="allanimals" [ngStyle]="{'background-position-x': allanimalsPosition + 'px'}"></div>
 
   </div>
 </ion-content>
-    <ion-footer class="footer ion-text-center" style="color:whitesmoke;">
-        <b><font size="1">@All rights reserved | PEI</font></b>
-      </ion-footer>
+<ion-footer class="footer ion-text-center" style="color:whitesmoke;">
+  <b>
+    <font size="1">@All rights reserved | PEI</font>
+  </b>
+</ion-footer>
