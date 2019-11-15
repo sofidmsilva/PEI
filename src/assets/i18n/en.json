@@ -1,6 +1,9 @@
 {
  "Home": {
-    "title": "PetUniverse"
+   "Question":"What service are you looking for?",
+    "PetWalking":"Walking your animals has never been easier, come see who can make your life easier",
+    "PetCare":"All the care your pet needs can be found here.",
+    "PetSitting":"Your pet will never need to be alone. Come find out who can take care of him when you are not in home."
  },
  "Login": {
      "register":"Register",
@@ -23,6 +26,9 @@
 
      }
 
+ },
+ "Profile":{
+   
  }
 
 

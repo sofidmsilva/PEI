@@ -4,6 +4,8 @@ import { TouchSequence } from 'selenium-webdriver';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { PopoverController } from '@ionic/angular';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-home',
@@ -12,9 +14,13 @@ import { PopoverController } from '@ionic/angular';
 })
 export class HomePage implements OnInit {
 
-  constructor(private translateService: TranslateService) { }
+  constructor(private translateService: TranslateService,
+    private router: Router) { }
 
   ngOnInit() {
   }
  
+  searchServices(){
+    this.router.navigate(['search-services']);
+  }
 }

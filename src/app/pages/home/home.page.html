@@ -1,12 +1,53 @@
 
 <ion-content>
+        <br><br><br><br><br>
+        <ion-title class="ion-text-center" color="dark">{{ 'Home.Question' | translate }}</ion-title>
     <div class="container">
         <br>
         <br>
-        <ion-title>
-            {{ 'Home.title' | translate }} <!-- modify this -->
-          </ion-title>
-        introduzir o layout da home aqui
+        <ion-card color="tertiary" >
+                <img  src="assets/img/petwalking.png"/>
+        <ion-card-content>
+                <ion-card-title style="color:black;">
+                  Pet Walking
+                </ion-card-title>
+                <p>
+                        {{ 'Home.PetWalking' | translate }}
+                </p>
+              </ion-card-content>
+                  <ion-button class="ion-margin-top" (click)="searchServices()"  small color="danger">
+                        <ion-icon name="arrow-forward"></ion-icon>
+                  </ion-button>
+            </ion-card>
+
+            <ion-card color="warning">
+                    <img src="assets/img/petCare.png"/>
+            <ion-card-content>
+                    <ion-card-title style="color:black;">
+                      Pet Care
+                    </ion-card-title>
+                    <p>
+                            {{ 'Home.PetCare' | translate }}
+                    </p>
+                  </ion-card-content>
+                      <ion-button (click)="searchServices()" small color="danger">
+                            <ion-icon name="arrow-forward"></ion-icon>
+                      </ion-button>
+                </ion-card>
+                <ion-card color="medium">
+                        <img class="center" src="assets/img/petSitting.png"/>
+                <ion-card-content>
+                        <ion-card-title style="color:black;">
+                          Pet Sitting
+                        </ion-card-title>
+                        <p>
+                                {{ 'Home.PetSitting' | translate }}
+                        </p>
+                      </ion-card-content>
+                          <ion-button  (click)="searchServices()" small color="danger">
+                                <ion-icon name="arrow-forward"></ion-icon>
+                          </ion-button>
+                    </ion-card>
     </div>
 </ion-content>
 

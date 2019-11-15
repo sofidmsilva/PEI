@@ -1,9 +1,37 @@
 .container{
     position: absolute;
-    left: 0;
-    right: 0;
-    width: 75%;
-    top: 20%;
+    width: 100%;
+    height: 100%;
+    top: 10.5%;
     margin: 0 auto;
     z-index: 2;
+    background: khaki
+    ;
+
+    .center{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 45%;
+    }
+}
+
+ion-segment{
+    background:#e2a75b;
+
+}
+
+ion-slides{
+    height: 25%;
+    .slide-inner{
+        width: 85%;
+        ion-item {
+            --background: rgba(255,255,255,0.2);
+            --broder-radius: 10px;
+        
+            ion-label{
+                color: #674c00;
+            }
+        }
+    }
 }

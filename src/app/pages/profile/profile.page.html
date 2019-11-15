@@ -1,12 +1,26 @@
-<ion-content>
+<ion-content class="swiper-no-swiping">
+    <div class="container">
         <ion-segment (ionChange)="segmentChanged($event)">
-                <ion-segment-button value="friends">
-                  <ion-label>Meu perfil</ion-label>
-                </ion-segment-button>
-                <ion-segment-button value="enemies">
-                  <ion-label>Meus Animais</ion-label>
-                </ion-segment-button>
-              </ion-segment>
+            <ion-segment-button checked value="profile">
+                <ion-label>Meu perfil</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="animals">
+                <ion-label>Meus Animais</ion-label>
+            </ion-segment-button>
+        </ion-segment> 
+
+    <ion-slides >
+            <ion-slide>
+                    <div class="slide-inner ion-padding">
+                        <img class="center ion-margin-top" lines="none" src="/assets/img/iconperfil.png">
+                    </div>
+             </ion-slide>
+    
+        <ion-slide>
+                <div class="slide-inner ion-padding">
+                        <h1>Inserir detalhes do animal</h1>
+                    </div>
+        </ion-slide>
+    </ion-slides>
+</div>
 </ion-content>
-
-
