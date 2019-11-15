@@ -2,12 +2,20 @@
     position: absolute;
     left: 0;
     right: 0;
-    width: 80%;
+    width: 85%;
     top: 15%;
     margin: 0 auto;
     z-index: 2;
 }
 
 .sc-ion-card-md-s img {
-        max-width:50%;
+        margin-left: 5%;
+        margin-top: 3%;
+        max-width:20%;
     }
+
+    ion-button {
+        margin-left: 80%;
+
+    }
+

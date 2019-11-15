@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AllTabsPage } from './all-tabs.page';
-
+import { SearchServicesPage } from '../search-services/search-services.page';
 const routes: Routes = [
-    {
-        path: '',
-        redirectTo: '/tabs/home',
-        pathMatch: 'full'
-      },
+  {
+    path: '',
+    redirectTo: '/tabs/home',
+    pathMatch: 'full'
+  },
   {
     path: '',
     component: AllTabsPage,
@@ -19,7 +19,13 @@ const routes: Routes = [
             path: '',
             loadChildren: () =>
               import('../home/home.module').then(m => m.HomePageModule)
+          },
+          {
+            path: 'search-services',
+            loadChildren: () =>
+              import('../search-services/search-services.module').then(m => m.SearchServicesPageModule)
           }
+
         ]
       }
     ]
@@ -55,11 +61,12 @@ const routes: Routes = [
         ]
       }
     ]
-  }
+  },
+
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class TabsPageRoutingModule {}
+export class TabsPageRoutingModule { }

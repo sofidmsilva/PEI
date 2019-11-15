@@ -21,6 +21,6 @@ export class HomePage implements OnInit {
   }
  
   searchServices(){
-    this.router.navigate(['search-services']);
+    this.router.navigate(['tabs/home/search-services']);
   }
 }
