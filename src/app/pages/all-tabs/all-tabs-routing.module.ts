@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AllTabsPage } from './all-tabs.page';
-import { SearchServicesPage } from '../search-services/search-services.page';
 const routes: Routes = [
   {
     path: '',

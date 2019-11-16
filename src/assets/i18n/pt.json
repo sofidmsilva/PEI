@@ -29,7 +29,16 @@
   },
   "Profile":{
    
+},
+"SearchServices":{
+   "title":"Procurar por serviços",
+   "relevance":"Relevância",
+   "distance":"Distância",
+   "price":"Preço"
+} ,
+"Favorites":{
+   "title":"Favoritos"
+
 }
-   
    
    }

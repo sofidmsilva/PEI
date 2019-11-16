@@ -29,7 +29,17 @@
  },
  "Profile":{
    
- }
+ },
+ "SearchServices":{
+    "title":"Search for Services",
+    "relevance":"Relevance",
+    "distance":"Distance",
+    "price":"Price"
+ },
+ "Favorites":{
+    "title":"Favorites"
+ 
+}
 
 
 }

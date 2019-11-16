@@ -1,13 +1,34 @@
-<br>
-<br>  <br>
-<br>  <br>
-<br>
-
 <ion-content>
     <div class="container">
-        <br>
-        <br>
-        introduzir o layout dos favoritod aqui
+            <ion-item  color="light" >
+                    <ion-label style="color: rgb(226, 216, 216);font-size: 30px;">
+                            {{ 'Favorites.title' | translate }}
+                    </ion-label>
+                    <ion-icon color="danger" name="heart" style="font-size: 50px;"></ion-icon>
+                  </ion-item>
+        <ion-item (click)="searchprofile()">
+            <ion-avatar slot="start">
+                <img src="/assets/img/iconperfil.png">
+            </ion-avatar>
+            <ion-label>
+                descricao
+            </ion-label>
+        </ion-item>
+        <ion-item (click)="searchprofile()">
+            <ion-avatar slot="start">
+                <img src="/assets/img/iconperfil.png">
+            </ion-avatar>
+            <ion-label>
+                descricao2
+            </ion-label>
+        </ion-item>
+        <ion-item (click)="searchprofile()">
+            <ion-avatar slot="start">
+                <img src="/assets/img/iconperfil.png">
+            </ion-avatar>
+            <ion-label>
+                descricao3
+            </ion-label>
+        </ion-item>
     </div>
 </ion-content>
-        

@@ -1,0 +1,22 @@
+.container{
+    position: absolute;
+    width: 100%;
+    margin: 0 auto;
+    z-index: 4;
+    ;
+
+    ion-title{
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        text-align: center;
+    }
+    ion-segment{
+        width: 100%;
+        ion-segment-button{
+        width: 2%;
+    }
+    ion-label{
+        font-size: 10px;;
+    }
+    }
+}
+

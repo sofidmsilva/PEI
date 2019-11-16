@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { IonSlides } from '@ionic/angular';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-search-services',
   templateUrl: './search-services.page.html',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchServicesPage implements OnInit {
 
-  constructor() { }
+  @ViewChild(IonSlides, { static: false }) slides: IonSlides;
+
+  public animalsPosition: number = 0;
+  public animalsDifference: number = 100;
+  public option="relevance";
+
+  constructor(private router: Router) {
+   }
 
   ngOnInit() {
   }
 
+  searchprofile() {
+    this.router.navigate(['tabs/profile']);
+  }
 }
