@@ -64,20 +64,20 @@
         <span>{{ 'Login.register' | translate }}</span>
         
         <ion-item class="ion-margin-top" lines="none">
-            <ion-input type="text" placeholder="Nome" required></ion-input>
+            <ion-input type="text" placeholder="Nome" [(ngModel)]="userRegister.name"required></ion-input>
           </ion-item>
           <ion-item class="ion-margin-top" lines="none">
               <ion-label>{{ 'Login.Gender' | translate }}</ion-label>
-              <ion-select placeholder="Select">
+              <ion-select placeholder="Select" [(ngModel)]="userRegister.gender">
                 <ion-select-option value="f">{{ 'Login.Female' | translate }}</ion-select-option>
                 <ion-select-option value="m">{{ 'Login.Male' | translate }}</ion-select-option>
               </ion-select>
             </ion-item>
             <ion-item class="ion-margin-top" lines="none">
                 <ion-label>{{ 'Login.finality' | translate }}</ion-label>
-                <ion-select placeholder="Select">
-                  <ion-select-option value="owner">{{ 'Login.owner' | translate }}</ion-select-option>
-                  <ion-select-option value="petsitter">Pet Sitter</ion-select-option>
+                <ion-select placeholder="Select" [(ngModel)]="userRegister.tipeuser">
+                  <ion-select-option value="1">{{ 'Login.owner' | translate }}</ion-select-option>
+                  <ion-select-option value="2">Pet Sitter</ion-select-option>
                 </ion-select>
               </ion-item>
         

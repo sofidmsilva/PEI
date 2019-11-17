@@ -5,6 +5,8 @@ import { User } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { TranslateService } from '@ngx-translate/core';
+import { Subscription, VirtualTimeScheduler } from 'rxjs';
+import { RegisterService } from 'src/app/services/register.service';
 
 
 @Component({
@@ -22,6 +24,7 @@ export class LoginPage implements OnInit {
   private loading: any;
   public position : number=0;
   public guardposition: number=0;
+  private userSubscription: Subscription
 
   constructor(
     public nativekeyboard: NativeKeyboard,
@@ -29,7 +32,8 @@ export class LoginPage implements OnInit {
     private toastCrt: ToastController,
     private authServices: AuthService,
     private popoverCtr:PopoverController,
-    private translationservice:TranslateService) { }
+    private translationservice:TranslateService,
+    private registerServices: RegisterService ) { }
 
   ngOnInit() { }
 
@@ -89,7 +93,9 @@ export class LoginPage implements OnInit {
         return console.error("Passwords diferentes!");
         
       }else{
-        await this.authServices.register(this.userRegister);
+       const NewUser= await this.authServices.register(this.userRegister);
+        console.log(this.userRegister);
+        await this.registerServices.addUser(this.userRegister,NewUser);
       }
   
     }

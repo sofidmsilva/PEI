@@ -17,6 +17,7 @@
       "BirthdayDate":"Data Nascimento",
       "ConfirmPass": "Confirma Password",
       "finality": "Finalidade",
+      "owner":"Dono Animal",
       "errormessage":{
          "invalidemail": "E-mail Inválido!",
          "emailalreadyinuse": "E-mail já em uso!",
