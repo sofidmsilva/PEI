@@ -28,7 +28,20 @@
 
  },
  "Profile":{
-   
+      "AddAnimal":"Add Animal",
+      "AnimalType":"Animal type",
+      "Breed":"Breed",
+      "Size":"Animal Size",
+      "Yes":"Yes",
+      "No": "No",
+      "dewormed":"Is dewormed?",
+      "vaccinated":"Is vaccinated?",
+      "Age":"Age",
+      "medication":"Medication",
+      "description":"Description",
+      "myprofile":"My Profile",
+      "myanimals":"My Animals"
+
  },
  "SearchServices":{
     "title":"Search for Services",
@@ -39,6 +52,22 @@
  "Favorites":{
     "title":"Favorites"
  
+},
+"TypeAnimals":{
+   "cat":"Cat",
+   "dog": "Dog",
+   "turtle":"Turtle",
+   "fish":"Fish",
+   "bird":"Bird",
+   "snake":"Snake",
+   "hamster":"Hamster",
+   "other":"Other"
+},
+"SizeAnimals":{
+   "verysmall":"Very Small(<15cm)",
+   "small":"Small(<25cm)",
+   "medium":"Medium(<50cm)",
+   "big":"Big(>50 cm)"
 }
 
 

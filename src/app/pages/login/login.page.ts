@@ -24,7 +24,7 @@ export class LoginPage implements OnInit {
   private loading: any;
   public position : number=0;
   public guardposition: number=0;
-  private userSubscription: Subscription
+
 
   constructor(
     public nativekeyboard: NativeKeyboard,

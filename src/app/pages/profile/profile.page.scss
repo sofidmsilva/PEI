@@ -3,7 +3,7 @@
     width: 100%;
     margin: 0 auto;
     z-index: 2;
-    ;
+    
 
     .center{
         display: block;
@@ -21,14 +21,43 @@ ion-segment{
 ion-slides{
     height: 25%;
     .slide-inner{
-        width: 85%;
+        width: 100%;
+ 
         ion-item {
             --background: rgba(255,255,255,0.2);
-            --broder-radius: 10px;
+            --border-radius: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
         
             ion-label{
-                color: #674c00;
+                color: #23686f;
             }
+
         }
     }
+    .addanimals{
+        color: #fff;
+        background: #0993a2;;
+        border-radius: 10px;
+        border-style: solid;
+        border-color: black;
+
+        ion-list{
+            color: #fff;
+            background: #0993a2;;
+            
+        }
+ 
+    }
+    
 }
+ion-title{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 26px;
+}
+
+ion-select {
+    max-width: 100% !important;
+  }
+
+

@@ -2,25 +2,117 @@
     <div class="container">
         <ion-segment (ionChange)="segmentChanged($event)">
             <ion-segment-button checked value="profile">
-                <ion-label>Meu perfil</ion-label>
+                <ion-label>{{ 'Profile.myprofile' | translate }}</ion-label>
             </ion-segment-button>
             <ion-segment-button value="animals">
-                <ion-label>Meus Animais</ion-label>
+                <ion-label>{{ 'Profile.myanimals' | translate }}</ion-label>
             </ion-segment-button>
-        </ion-segment> 
+        </ion-segment>
 
-    <ion-slides >
+        <ion-slides>
             <ion-slide>
-                    <div class="slide-inner ion-padding">
-                        <img class="center ion-margin-top" lines="none" src="/assets/img/iconperfil.png">
-                    </div>
-             </ion-slide>
-    
-        <ion-slide>
                 <div class="slide-inner ion-padding">
-                        <h1>Inserir detalhes do animal</h1>
+                    <img class="center ion-margin-top" lines="none" src="/assets/img/iconperfil.png">
+                </div>
+            </ion-slide>
+
+            <ion-slide>
+                <div class="slide-inner ion-padding">
+                    <ion-title>{{ 'Profile.AddAnimal' | translate }}</ion-title>
+                    <div *ngIf="showaddanimals == 0">
+                        <ion-fab vertical="top" horizontal="end" slot="fixed">
+                            <ion-fab-button (click)="addanimal()">
+                                <ion-icon name="add"></ion-icon>
+                            </ion-fab-button>
+                        </ion-fab>
+                        <ion-list>
+                            <ion-item (click)="searchprofile()">
+                                <ion-avatar slot="start">
+                                    <img src="/assets/img/iconperfil.png">
+                                </ion-avatar>
+                                <ion-label>
+                                    Avatar Start, Button Item
+                                </ion-label>
+                            </ion-item>
+                        </ion-list>
                     </div>
-        </ion-slide>
-    </ion-slides>
-</div>
+
+                    <div class="addanimals" *ngIf="showaddanimals == 1">
+                            <span></span>
+                        <ion-item class="ion-margin-top" lines="none">
+                            <ion-input type="text" placeholder="{{'Login.name'| translate}}"></ion-input>
+                        </ion-item>
+                        <ion-item class="ion-margin-top" lines="none">
+                            <ion-input type="text" placeholder="{{'Profile.Age'| translate}}"></ion-input>
+                        </ion-item>
+                        <ion-item class="ion-margin-top" lines="none">
+                            <ion-label>{{ 'Profile.Size' | translate }}</ion-label>
+                            <ion-select placeholder="Select" interface="popover" [(ngModel)]="AnimalsRegister.size">
+                                <ion-select-option *ngFor="let item of sizeanimals" lines="none" value="{{item}}">
+                                    {{ item | translate}}
+                                </ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-item class="ion-margin-top" lines="none">
+                            <ion-label>{{ 'Profile.AnimalType' | translate }}</ion-label>
+                            <ion-select placeholder="Select" interface="alert" [(ngModel)]="AnimalsRegister.type">
+                                <ion-select-option *ngFor="let item of typeanimals" value="{{item}}">{{ item | translate}}
+                                </ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-item class="ion-margin-top" lines="none">
+                            <ion-label>{{ 'Profile.Breed' | translate }}</ion-label>
+                            <ion-select placeholder="Select" interface="popover" [(ngModel)]="AnimalsRegister.breed">
+                                <ion-select-option *ngFor="let item of typeanimals" value="{{item}}">{{item}}
+                                </ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                            <ion-list>
+                                <ion-radio-group lines="none">
+                                    <ion-list-header>
+                                        <ion-label style="font-size: 20px;font-family: Verdana, Geneva, Tahoma, sans-serif;">{{ 'Profile.vaccinated' | translate }}</ion-label>
+                                    </ion-list-header>
+
+                                    <ion-item class="ion-margin-top" lines="none">
+                                        <ion-label>{{ 'Profile.Yes' | translate }}</ion-label>
+                                        <ion-radio lines="none" slot="start" value="biff" checked></ion-radio>
+                                    </ion-item>
+                                    <ion-item class="ion-margin-top" lines="none">
+                                        <ion-label>{{ 'Profile.No' | translate }}</ion-label>
+                                        <ion-radio lines="none" slot="start" value="griff"></ion-radio>
+                                    </ion-item>
+                                </ion-radio-group>
+                                <ion-radio-group>
+                                    <ion-list-header>
+                                        <ion-label style="font-size: 20px;font-family: Verdana, Geneva, Tahoma, sans-serif;">{{ 'Profile.dewormed' | translate }}</ion-label>
+                                    </ion-list-header>
+                                    <ion-item class="ion-margin-top" lines="none">
+                                        <ion-label>{{ 'Profile.Yes' | translate }}</ion-label>
+                                        <ion-radio slot="start" value="yes" checked></ion-radio>
+                                    </ion-item>
+                                    <ion-item class="ion-margin-top" lines="none">
+                                        <ion-label>{{ 'Profile.Yes' | translate }}</ion-label>
+                                        <ion-radio slot="start" value="no"></ion-radio>
+                                    </ion-item>
+                                </ion-radio-group>
+                            </ion-list>
+
+                        <ion-item class="ion-margin-top" lines="none">
+                            <ion-input type="text" placeholder="Imagens"></ion-input>
+                        </ion-item>
+                        <ion-item class="ion-margin-top" lines="none">
+                            <ion-textarea placeholder="{{'Profile.medication'| translate}}"></ion-textarea>
+                        </ion-item>
+                        <ion-item class="ion-margin-top" lines="none">
+                            <ion-textarea placeholder="{{'Profile.description'| translate}}"></ion-textarea>
+                        </ion-item>
+                        <ion-button class="ion-margin-top" (click)="add()" color="medium" >
+                                {{ 'Profile.AddAnimal' | translate }}
+                        </ion-button>
+                    </div>
+
+                </div>
+            </ion-slide>
+        </ion-slides>
+    </div>
 </ion-content>

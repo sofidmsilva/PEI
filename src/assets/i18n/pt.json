@@ -29,7 +29,19 @@
  
   },
   "Profile":{
-   
+   "AddAnimal":"Adicionar Animal",
+   "AnimalType":"Tipo de Animal",
+   "Breed":"Raça",
+   "Size":"Tamanho do animal",
+   "Yes":"Sim",
+   "No": "Não",
+   "dewormed":"Está desparatizado?",
+   "vaccinated":"Está vacinado?",
+   "Age":"Idade",
+   "medication":"Medicação",
+   "description":"Descrição",
+   "myprofile":"Meu Perfil",
+   "myanimals":"Meus Animais"
 },
 "SearchServices":{
    "title":"Procurar por serviços",
@@ -40,6 +52,23 @@
 "Favorites":{
    "title":"Favoritos"
 
+},
+"TypeAnimals":{
+   "cat":"Gato",
+   "dog": "Cão",
+   "turtle":"Tartaruga",
+   "fish":"Peixe",
+   "bird":"Pássaro",
+   "snake":"Cobra",
+   "hamster":"Hamster",
+   "other":"Outro"
+},
+"SizeAnimals":{
+   "verysmall":"Muito Pequeno(<15cm)",
+   "small":"Pequeno(<25cm)",
+   "medium":"Médio(<50cm)",
+   "big":"Grande(>50 cm)"
 }
+
    
    }
