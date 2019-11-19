@@ -13,12 +13,13 @@ export class SearchServicesPage implements OnInit {
 
   public animalsPosition: number = 0;
   public animalsDifference: number = 100;
-  public option="relevance";
+  public option: string;
 
   constructor(private router: Router) {
    }
 
   ngOnInit() {
+    this.option="relevance";
   }
 
   searchprofile() {
