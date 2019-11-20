@@ -22,7 +22,20 @@ ion-slides{
     height: 25%;
     .slide-inner{
         width: 100%;
- 
+        .detailsanimals{
+            background: #d1b953;;
+            border-radius: 10px;
+            border-style: solid;
+            border-color: black;
+            margin-top: 5%;
+        }
+        .profile{
+            color: #fff;
+            background: #ffa0a0;;
+            border-radius: 10px;
+            border-style: solid;
+            border-color: black;
+        }
         ion-item {
             --background: rgba(255,255,255,0.2);
             --border-radius: 10px;
@@ -32,8 +45,10 @@ ion-slides{
             ion-label{
                 color: #23686f;
             }
+            
 
         }
+        
     }
     .addanimals{
         color: #fff;

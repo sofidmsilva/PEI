@@ -34,13 +34,14 @@
       "Size":"Animal Size",
       "Yes":"Yes",
       "No": "No",
-      "dewormed":"Is dewormed?",
-      "vaccinated":"Is vaccinated?",
-      "Age":"Age",
+      "dewormed":"Is dewormed",
+      "vaccinated":"Is vaccinated",
+      "Age1":"Age (Ex: 2years or 2months)",
+      "Age2":"Age",
       "medication":"Medication",
       "description":"Description",
-      "myprofile":"My Profile",
-      "myanimals":"My Animals"
+      "myprofile":"Profile",
+      "myanimals":"Animals"
 
  },
  "SearchServices":{

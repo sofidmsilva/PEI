@@ -6,6 +6,7 @@ export interface User {
     sexo?: string;
     name?: string;
     tipoutilizador?: number;
+    
 
 
 }

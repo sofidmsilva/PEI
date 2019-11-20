@@ -1,4 +1,5 @@
 export interface Animals {
+    id?:string;
     name?: string;
     breed?: string;
     age?: string;
@@ -9,4 +10,5 @@ export interface Animals {
     photo?:string;
     type?: string;
     description?: string;
+    userID?:string;
 }

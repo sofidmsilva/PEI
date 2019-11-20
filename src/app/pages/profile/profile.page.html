@@ -12,38 +12,65 @@
         <ion-slides>
             <ion-slide>
                 <div class="slide-inner ion-padding">
-                    <img class="center ion-margin-top" lines="none" src="/assets/img/iconperfil.png">
+                    <img class="center ion-margin-top" lines="none" src="/assets/img/iconperfil.png"><br>
+                    <ion-item class="profile">
+                        <ion-label style="color: black" class="ion-text-wrap"
+                            style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                            <h6><b style="color: #16275d;">Nome:</b>klp</h6>
+                            <h6><b style="color: #16275d;">Sexo:</b>bvc</h6>
+                        </ion-label>
+                    </ion-item>
                 </div>
+                
             </ion-slide>
 
             <ion-slide>
                 <div class="slide-inner ion-padding">
                     <ion-title>{{ 'Profile.AddAnimal' | translate }}</ion-title>
-                    <div *ngIf="showaddanimals == 0">
+                    <div  *ngIf="showaddanimals == 0">
                         <ion-fab vertical="top" horizontal="end" slot="fixed">
-                            <ion-fab-button (click)="addanimal()">
+                            <ion-fab-button (click)="buttonadd(1)">
                                 <ion-icon name="add"></ion-icon>
                             </ion-fab-button>
-                        </ion-fab>
-                        <ion-list>
-                            <ion-item (click)="searchprofile()">
+                        </ion-fab><br>
+                            <ion-item *ngFor="let animal of animals" class="detailsanimals">
                                 <ion-avatar slot="start">
                                     <img src="/assets/img/iconperfil.png">
                                 </ion-avatar>
-                                <ion-label>
-                                    Avatar Start, Button Item
+                                <ion-label style="color: black" class="ion-text-wrap"
+                                    style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                                    <h6><b style="color: #222428;">{{'Login.name'| translate}}:</b>
+                                        {{ animal.name | translate}} &nbsp;
+                                        <b style="color: #222428;">{{'Profile.Age2'| translate}}:</b> {{ animal.age}}
+                                    </h6>
+                                    <h6><b style="color: #222428;">{{ 'Profile.Size' | translate }}:</b>
+                                        {{ animal.size | translate}}</h6>
+                                    <h6><b style="color: #222428;">{{ 'Profile.vaccinated' | translate }}:</b>
+                                        {{ animal.vaccination}}</h6>
+                                    <h6><b style="color: #222428;">{{ 'Profile.dewormed' | translate }}:</b>
+                                        {{ animal.deworming}}</h6>
+                                    <h6><b style="color: #222428;">{{'Profile.medication'| translate}}:</b>
+                                        {{ animal.medication}}</h6>
+                                    <h6><b style="color: #222428;">{{ 'Profile.AnimalType' | translate }}:</b>
+                                        {{ animal.type}}</h6>
+                                    <h6><b style="color: #222428;">{{'Profile.description'| translate}}:</b>
+                                        {{ animal.description}}</h6>
                                 </ion-label>
+
                             </ion-item>
-                        </ion-list>
                     </div>
 
                     <div class="addanimals" *ngIf="showaddanimals == 1">
-                            <span></span>
+                        <ion-button class="ion-margin-top" (click)="buttonadd(0)" size="default" color="medium">
+                            <ion-icon name="arrow-back"></ion-icon>
+                        </ion-button>
                         <ion-item class="ion-margin-top" lines="none">
-                            <ion-input type="text" placeholder="{{'Login.name'| translate}}"></ion-input>
+                            <ion-input type="text" [(ngModel)]="AnimalsRegister.name"
+                                placeholder="{{'Login.name'| translate}}"></ion-input>
                         </ion-item>
                         <ion-item class="ion-margin-top" lines="none">
-                            <ion-input type="text" placeholder="{{'Profile.Age'| translate}}"></ion-input>
+                            <ion-input type="text" [(ngModel)]="AnimalsRegister.age"
+                                placeholder="{{'Profile.Age1'| translate}}"></ion-input>
                         </ion-item>
                         <ion-item class="ion-margin-top" lines="none">
                             <ion-label>{{ 'Profile.Size' | translate }}</ion-label>
@@ -56,7 +83,8 @@
                         <ion-item class="ion-margin-top" lines="none">
                             <ion-label>{{ 'Profile.AnimalType' | translate }}</ion-label>
                             <ion-select placeholder="Select" interface="alert" [(ngModel)]="AnimalsRegister.type">
-                                <ion-select-option *ngFor="let item of typeanimals" value="{{item}}">{{ item | translate}}
+                                <ion-select-option *ngFor="let item of typeanimals" value="{{item}}">
+                                    {{ item | translate}}
                                 </ion-select-option>
                             </ion-select>
                         </ion-item>
@@ -67,48 +95,61 @@
                                 </ion-select-option>
                             </ion-select>
                         </ion-item>
-                            <ion-list>
-                                <ion-radio-group lines="none">
-                                    <ion-list-header>
-                                        <ion-label style="font-size: 20px;font-family: Verdana, Geneva, Tahoma, sans-serif;">{{ 'Profile.vaccinated' | translate }}</ion-label>
-                                    </ion-list-header>
+                        <ion-list>
+                            <ion-radio-group lines="none" [(ngModel)]="AnimalsRegister.vaccination">
+                                <ion-list-header>
+                                    <ion-label
+                                        style="font-size: 20px;font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                                        {{ 'Profile.vaccinated' | translate }}?</ion-label>
+                                </ion-list-header>
 
-                                    <ion-item class="ion-margin-top" lines="none">
-                                        <ion-label>{{ 'Profile.Yes' | translate }}</ion-label>
-                                        <ion-radio lines="none" slot="start" value="biff" checked></ion-radio>
-                                    </ion-item>
-                                    <ion-item class="ion-margin-top" lines="none">
-                                        <ion-label>{{ 'Profile.No' | translate }}</ion-label>
-                                        <ion-radio lines="none" slot="start" value="griff"></ion-radio>
-                                    </ion-item>
-                                </ion-radio-group>
-                                <ion-radio-group>
-                                    <ion-list-header>
-                                        <ion-label style="font-size: 20px;font-family: Verdana, Geneva, Tahoma, sans-serif;">{{ 'Profile.dewormed' | translate }}</ion-label>
-                                    </ion-list-header>
-                                    <ion-item class="ion-margin-top" lines="none">
-                                        <ion-label>{{ 'Profile.Yes' | translate }}</ion-label>
-                                        <ion-radio slot="start" value="yes" checked></ion-radio>
-                                    </ion-item>
-                                    <ion-item class="ion-margin-top" lines="none">
-                                        <ion-label>{{ 'Profile.Yes' | translate }}</ion-label>
-                                        <ion-radio slot="start" value="no"></ion-radio>
-                                    </ion-item>
-                                </ion-radio-group>
-                            </ion-list>
+                                <ion-item class="ion-margin-top" lines="none">
+                                    <ion-label>{{ 'Profile.Yes' | translate }}</ion-label>
+                                    <ion-radio lines="none" slot="start" value="{{ 'Profile.Yes' | translate }}"
+                                        checked></ion-radio>
+                                </ion-item>
+                                <ion-item class="ion-margin-top" lines="none">
+                                    <ion-label>{{ 'Profile.No' | translate }}</ion-label>
+                                    <ion-radio lines="none" slot="start" value="{{ 'Profile.No' | translate }}">
+                                    </ion-radio>
+                                </ion-item>
+                            </ion-radio-group>
+                            <ion-radio-group [(ngModel)]="AnimalsRegister.deworming">
+                                <ion-list-header>
+                                    <ion-label
+                                        style="font-size: 20px;font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                                        {{ 'Profile.dewormed' | translate }}?</ion-label>
+                                </ion-list-header>
+                                <ion-item class="ion-margin-top" lines="none">
+                                    <ion-label>{{ 'Profile.Yes' | translate }}</ion-label>
+                                    <ion-radio slot="start" value="{{ 'Profile.Yes' | translate }}" checked></ion-radio>
+                                </ion-item>
+                                <ion-item class="ion-margin-top" lines="none">
+                                    <ion-label>{{ 'Profile.No' | translate }}</ion-label>
+                                    <ion-radio slot="start" value="{{ 'Profile.No' | translate }}"></ion-radio>
+                                </ion-item>
+                            </ion-radio-group>
+                        </ion-list>
 
                         <ion-item class="ion-margin-top" lines="none">
-                            <ion-input type="text" placeholder="Imagens"></ion-input>
+                            <ion-input type="text" [(ngModel)]="AnimalsRegister.photo" placeholder="Imagens">
+                            </ion-input>
                         </ion-item>
                         <ion-item class="ion-margin-top" lines="none">
-                            <ion-textarea placeholder="{{'Profile.medication'| translate}}"></ion-textarea>
+                            <ion-textarea [(ngModel)]="AnimalsRegister.medication"
+                                placeholder="{{'Profile.medication'| translate}}"></ion-textarea>
                         </ion-item>
                         <ion-item class="ion-margin-top" lines="none">
-                            <ion-textarea placeholder="{{'Profile.description'| translate}}"></ion-textarea>
+                            <ion-textarea [(ngModel)]="AnimalsRegister.description"
+                                placeholder="{{'Profile.description'| translate}}"></ion-textarea>
                         </ion-item>
-                        <ion-button class="ion-margin-top" (click)="add()" color="medium" >
-                                {{ 'Profile.AddAnimal' | translate }}
+                        <ion-button class="ion-margin-top" (click)="buttonadd(0)" color="medium">
+                            <ion-icon name="arrow-back"></ion-icon>
                         </ion-button>
+                        <ion-button class="ion-margin-top" (click)="addanimal()" color="medium">
+                            {{ 'Profile.AddAnimal' | translate }}
+                        </ion-button>
+
                     </div>
 
                 </div>

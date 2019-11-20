@@ -35,13 +35,14 @@
    "Size":"Tamanho do animal",
    "Yes":"Sim",
    "No": "Não",
-   "dewormed":"Está desparatizado?",
-   "vaccinated":"Está vacinado?",
-   "Age":"Idade",
+   "dewormed":"Está desparatizado",
+   "vaccinated":"Está vacinado",
+   "Age1":"Idade (Ex: 2anos or 2meses)",
+   "Age2":"Idade",
    "medication":"Medicação",
    "description":"Descrição",
-   "myprofile":"Meu Perfil",
-   "myanimals":"Meus Animais"
+   "myprofile":"Perfil",
+   "myanimals":"Animais"
 },
 "SearchServices":{
    "title":"Procurar por serviços",

@@ -34,7 +34,7 @@ const routes: Routes = [
     component: AllTabsPage,
     children: [
       {
-        path: 'profile',
+        path: 'profile/:id',
         children: [
           {
             path: '',

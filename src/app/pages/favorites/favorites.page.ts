@@ -14,6 +14,6 @@ export class FavoritesPage implements OnInit {
   ngOnInit() {
   }
   searchprofile() {
-    this.router.navigate(['tabs/profile']);
+    this.router.navigate(['tabs/profile/:id']);
   }
 }
