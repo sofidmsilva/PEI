@@ -42,7 +42,12 @@
    "medication":"Medicação",
    "description":"Descrição",
    "myprofile":"Perfil",
-   "myanimals":"Animais"
+   "myanimals":"Animais",
+   "Comment":{
+      "title":"Comentários",
+      "label":"Inserir Comentário...",
+      "buttonadd":"Adicionar"
+   }
 },
 "SearchServices":{
    "title":"Procurar por serviços",

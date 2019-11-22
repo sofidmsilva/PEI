@@ -69,8 +69,8 @@
           <ion-item class="ion-margin-top" lines="none">
               <ion-label>{{ 'Login.Gender' | translate }}</ion-label>
               <ion-select placeholder="Select" [(ngModel)]="userRegister.gender">
-                <ion-select-option value="f">{{ 'Login.Female' | translate }}</ion-select-option>
-                <ion-select-option value="m">{{ 'Login.Male' | translate }}</ion-select-option>
+                <ion-select-option value="{{ 'Login.Female' | translate }}">{{ 'Login.Female' | translate }}</ion-select-option>
+                <ion-select-option value="{{ 'Login.Male' | translate }}">{{ 'Login.Male' | translate }}</ion-select-option>
               </ion-select>
             </ion-item>
             <ion-item class="ion-margin-top" lines="none">

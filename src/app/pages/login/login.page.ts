@@ -7,7 +7,8 @@ import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription, VirtualTimeScheduler } from 'rxjs';
 import { RegisterService } from 'src/app/services/register.service';
-
+import { EmailComposer} from '@ionic-native/email-composer/ngx';
+import { send } from 'q';
 
 @Component({
   selector: 'app-login',
@@ -33,7 +34,8 @@ export class LoginPage implements OnInit {
     private authServices: AuthService,
     private popoverCtr:PopoverController,
     private translationservice:TranslateService,
-    private registerServices: RegisterService ) { }
+    private registerServices: RegisterService,
+    public composer: EmailComposer ) { }
 
   ngOnInit() { }
 
@@ -94,8 +96,10 @@ export class LoginPage implements OnInit {
         
       }else{
        const NewUser= await this.authServices.register(this.userRegister);
-        console.log(this.userRegister);
+       this.userRegister.verifycode=Math.floor(Math.random() * 3000); 
         await this.registerServices.addUser(this.userRegister,NewUser);
+
+
       }
   
     }

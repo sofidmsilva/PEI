@@ -1,43 +1,64 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { User } from '../interfaces/user';
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import { AuthService } from './auth.service';
+import { Comments } from '../interfaces/comments';
 @Injectable({
   providedIn: 'root'
 })
 export class RegisterService {
 
-  private usersCollection : AngularFirestoreCollection<User>;
-  constructor(private afs:AngularFirestore) {
-    
-   }
+  private usersCollection;
+  private userCommentCollection;
+  constructor(private afs: AngularFirestore, private authServices: AuthService) {
 
-   /*getDataUser(){
-    return this.usersCollection.snapshotChanges().pipe(
-      map(actions => {
-        return actions.map( a =>{
-          const data = a.payload.doc.data();
-          console.log(data);
-          const id =a.payload.doc.id;
-            return{id, ...data};
-        
-        
-          
-        });
-      })
-    )
-   }*/
+  }
 
-   updateUser(id:string, user: User){
+  documentToDomainObject = _ => {
+    const object = _.payload.doc.data();
+    object.id = _.payload.doc.id;
+    return object;
+  }
+  getDataUser(newUser) {
+    this.usersCollection = this.afs.collection('Utilizador').snapshotChanges()
+      .pipe(map(action => action.map(
+        this.documentToDomainObject
+      )
+        .filter(item => (item.id == newUser))
+      ));
+    return this.usersCollection;
+  }
 
-   }
-   
-   addUser(user: User,newUser){
-     const newUserObject = Object.assign({},user);
-     delete newUserObject.email;
-     delete newUserObject.password;
-     return  this.afs.collection('Utilizador').doc(newUser.user.uid).set(newUserObject);
-   }
+
+  getComments(newUser) {
+    this.userCommentCollection = this.afs.collection('Comentarios').snapshotChanges()
+      .pipe(map(action => action.map(
+        this.documentToDomainObject
+      )
+        .filter(item => (item.to == newUser))
+      ));
+    return this.userCommentCollection;
+  }
+
+  updateUser(id: string, user: User) {
+
+  }
+
+  addUser(user: User, newUser) {
+    const newUserObject = Object.assign({}, user);
+    delete newUserObject.email;
+    delete newUserObject.password;
+    return this.afs.collection('Utilizador').doc(newUser.user.uid).set(newUserObject);
+  }
+
+  addComments(comment: Comments) {
+    return this.afs.collection('Comentarios').add(comment);
+  }
+
+  deleteComment(id: string) {
+    return this.afs.collection('Comentarios').doc(id).delete();
+  }
 
 
 }

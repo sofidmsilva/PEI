@@ -41,7 +41,12 @@
       "medication":"Medication",
       "description":"Description",
       "myprofile":"Profile",
-      "myanimals":"Animals"
+      "myanimals":"Animals",
+      "Comment":{
+         "title":"Comments",
+         "label":"Insert comment...",
+         "buttonadd":"ADD"
+      }
 
  },
  "SearchServices":{

@@ -19,7 +19,6 @@ ion-segment{
 }
 
 ion-slides{
-    height: 25%;
     .slide-inner{
         width: 100%;
         .detailsanimals{
@@ -31,10 +30,28 @@ ion-slides{
         }
         .profile{
             color: #fff;
-            background: #ffa0a0;;
+            background: #ffc151;
             border-radius: 10px;
             border-style: solid;
             border-color: black;
+        }
+        .coments{
+            color: #fff;
+            background: #cccccc;
+            border-radius: 10px;
+            border-style: solid;
+            border-color: black;
+            margin-top: 10px;
+            ion-textarea{
+                background: #c5c3c3;
+                border-radius: 10px;
+                border-style: solid;
+                bottom: 5px;
+                font-size: 15px;
+            }
+            ion-button{
+                color: brown;
+            }
         }
         ion-item {
             --background: rgba(255,255,255,0.2);
@@ -43,7 +60,7 @@ ion-slides{
             margin-right: 10px;
         
             ion-label{
-                color: #23686f;
+                color: black;
             }
             
 

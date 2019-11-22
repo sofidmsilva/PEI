@@ -5,9 +5,10 @@ import { Router } from '@angular/router';
 import { Animals } from 'src/app/interfaces/animals';
 import { AuthService } from 'src/app/services/auth.service';
 import { AnimalsService } from 'src/app/services/animals.service';
-import { Subscription } from 'rxjs';
+import { Subscription, VirtualTimeScheduler } from 'rxjs';
 import { RegisterService } from 'src/app/services/register.service';
 import { User } from 'src/app/interfaces/user';
+import { Comments } from 'src/app/interfaces/comments';
 
 
 @Component({
@@ -22,40 +23,54 @@ export class ProfilePage implements OnInit {
   public animalsPosition: number = 0;
   public animalsDifference: number = 100;
   private loading: any;
-  private showaddanimals: number=0;
+  private Dateformat;
+  private showaddanimals: number = 0;
   private animals = new Array<Animals>();
   private datauser = new Array<User>();
-  private animalsSubscription : Subscription;
-  private userSubscription : Subscription;
-  private typeanimals: Array<string>=["TypeAnimals.cat","TypeAnimals.dog","TypeAnimals.turtle","TypeAnimals.fish",
-    "TypeAnimals.bird","TypeAnimals.snake","TypeAnimals.hamster"];
-    
-  private sizeanimals: Array<string>=["SizeAnimals.verysmall","SizeAnimals.small","SizeAnimals.medium","SizeAnimals.big"];
-  private AnimalsRegister: Animals={};
+  private datacomment = new Array<Comments>();
+  private animalsSubscription: Subscription;
+  private userSubscription: Subscription;
+  private CommentsSubscription: Subscription;
+  private typeanimals: Array<string> = ["TypeAnimals.cat", "TypeAnimals.dog", "TypeAnimals.turtle", "TypeAnimals.fish",
+    "TypeAnimals.bird", "TypeAnimals.snake", "TypeAnimals.hamster"];
 
-  constructor( private translationservice:TranslateService,
+  private sizeanimals: Array<string> = ["SizeAnimals.verysmall", "SizeAnimals.small", "SizeAnimals.medium", "SizeAnimals.big"];
+  private AnimalsRegister: Animals = {};
+  private AddComment: Comments = {};
+
+  constructor(private translationservice: TranslateService,
     private router: Router,
     private authServices: AuthService,
     private loadingCtrl: LoadingController,
     private toastCrt: ToastController,
     private animalServices: AnimalsService,
     private userServices: RegisterService) {
-   
-    this.animalsSubscription= this.animalServices.getAnimals().subscribe(
-        data => { this.animals=data;});
-    /*this.userSubscription= this.userServices.getDataUser().subscribe(
-          data => { 
-            console.log(data);
-            this.datauser=data;});*/
-        
+
+    this.animalsSubscription = this.animalServices.getAnimals(this.authServices.getAuth().currentUser.uid).subscribe(
+      data => {
+      this.animals = data;
+      });
+    this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
+      data => {
+        console.log(data);
+        this.datauser = data
+      });
+      this.CommentsSubscription = this.userServices.getComments(this.authServices.getAuth().currentUser.uid).subscribe(
+        data => {
+          console.log(data);
+          this.datacomment = data
+        });
     this.typeanimals;
     this.sizeanimals;
-   }
+
+  }
 
   ngOnInit() {
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.animalsSubscription.unsubscribe();
+    this.userSubscription.unsubscribe();
+    this.CommentsSubscription.unsubscribe();
   }
 
   segmentChanged(event: any) {
@@ -69,24 +84,81 @@ export class ProfilePage implements OnInit {
     }
   }
 
-  buttonadd(h:number){
-    if( h ==1){
-      this.showaddanimals=1;
+  buttonadd(h: number) {
+    if (h == 1) {
+      this.showaddanimals = 1;
     }
-    else{
-      this.showaddanimals=0;
+    else {
+      this.showaddanimals = 0;
     }
- 
+
   }
 
+  formatedDate(){
+    var dateObjct= new Date();
+    console.log(dateObjct.getUTCHours());
+    var year=dateObjct.getFullYear().toString();
+    var month=dateObjct.getMonth().toString();
+    var day=dateObjct.getDay().toString();
+    var hours=dateObjct.getUTCHours();
+    var min=dateObjct.getMinutes();
+
+    this.Dateformat = year + '-'+ month + '-' + day + ' ' + hours +':' + min;
+  }
+
+  async addcomment(){
+    await this.presentLoading();
+    this.formatedDate();
+    var to= this.router.url.split('/');
+    console.log(new Date().getTime());
+    try {
+      if(this.AddComment.content !== undefined){
+        this.AddComment.from=this.authServices.getAuth().currentUser.uid;
+        this.AddComment.date=this.Dateformat;
+        this.AddComment.to=to[3];
+        await this.userServices.addComments(this.AddComment);
+        this.AddComment.content="";
+      }
+    }
+    catch (error) {
+
+      console.error(error);
+      this.presentToast('erro a guardar');
+    } finally {
+      this.loading.dismiss();
+    }
+
+    this.loading.dismiss();
+  }
+
+  async deletecomment(id:string){
+    await this.presentLoading();
+    try {
+      await this.userServices.deleteComment(id);
+    }
+    catch (error) {
+      this.presentToast('erro ao apagar');
+    } finally {
+      this.loading.dismiss();
+    }
+
+    this.loading.dismiss();
+  }
   async addanimal() {
     await this.presentLoading();
- 
+
     try {
-      
-      this.AnimalsRegister.userID =  this.authServices.getAuth().currentUser.uid;
-      await this.animalServices.addAnimal(this.AnimalsRegister); 
-      this.showaddanimals=0;
+
+      this.AnimalsRegister.userID = this.authServices.getAuth().currentUser.uid;
+      await this.animalServices.addAnimal(this.AnimalsRegister);
+      this.AnimalsRegister.age = "";
+      this.AnimalsRegister.breed = "";
+      this.AnimalsRegister.description = "";
+      this.AnimalsRegister.deworming = null;
+      this.AnimalsRegister.medication = "";
+      this.AnimalsRegister.name = "";
+      this.AnimalsRegister.size = "";
+      this.showaddanimals = 0;
     }
     catch (error) {
 

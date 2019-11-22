@@ -14,7 +14,7 @@ private userId: string;
     this.userId=this.authServices.getAuth().currentUser.uid;
   }
   
-  getAnimals(){
+  getAnimals(newUser){
     return this.animalsCollection.snapshotChanges().pipe(
       map(actions => {
         return actions.map( a =>{
@@ -22,10 +22,8 @@ private userId: string;
           const id =a.payload.doc.id;
     
             return{id, ...data};
-        
-        
-          
-        });
+        })
+        .filter(item => (item.userID == newUser));
       })
     )
   }

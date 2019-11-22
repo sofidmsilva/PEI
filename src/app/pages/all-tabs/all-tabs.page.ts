@@ -12,11 +12,10 @@ export class AllTabsPage implements OnInit {
 
   private userId: string;
   constructor(private authService: AuthService, private popoverCtr:PopoverController) { 
-    this.userId = this.authService.getAuth().currentUser.uid;
-    console.log(this.userId);
   }
 
   ngOnInit() {
+    this.userId = this.authService.getAuth().currentUser.uid;
   }
   async logout() {
     try {
