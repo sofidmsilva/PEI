@@ -25,7 +25,6 @@ ion-header{
 ion-slides{
     height: 100%;
     .slide-inner{
-        margin-top: 5cm;
         width: 85%;
         color: #fff;
         background: var(--ion-color-primary);
@@ -39,6 +38,14 @@ ion-slides{
                 color: #674c00;
             }
         }
+    }
+    .login{
+        position: absolute;
+        margin-top: 3cm;
+    }
+    .register{
+        position: absolute;
+        margin-top: 3cm;
     }
 }
 

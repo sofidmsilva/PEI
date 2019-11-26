@@ -14,12 +14,15 @@ import { environment } from 'src/environments/environment';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import { EmailComposer} from '@ionic-native/email-composer/ngx';
-
+import {AngularFireStorageModule} from '@angular/fire/storage'
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {IonicStorageModule} from '@ionic/storage'
 import { LanguagePopoverPageModule } from './pages/language-popover/language-popover.module';
+import { from } from 'rxjs';
+import { File } from '@ionic-native/file/ngx';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http,'../assets/i18n/', '.json');
@@ -35,6 +38,7 @@ export function createTranslateLoader(http: HttpClient) {
     AngularFireAuthModule,
     AngularFirestoreModule,
     HttpClientModule,
+    AngularFireStorageModule,
     IonicStorageModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
@@ -49,6 +53,8 @@ export function createTranslateLoader(http: HttpClient) {
     StatusBar,
     SplashScreen,
     EmailComposer,
+    File,
+    Camera,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     NativeKeyboard
   ],

@@ -8,6 +8,15 @@ export interface User {
     tipoutilizador?: number;
     verifycode?: number;
     verify?:boolean;
+    drivinglicense?:string;
+    experience?:string;
+    garden?:string;
+    surface?:string;
+    car?:string;
+    dateofbirthday?:Date;
+    location?:string;
+    phonenumber?: number;
+ 
     
 
 

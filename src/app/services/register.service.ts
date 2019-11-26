@@ -41,8 +41,8 @@ export class RegisterService {
     return this.userCommentCollection;
   }
 
-  updateUser(id: string, user: User) {
-
+  updateUser(user: User,newUser) {
+    return this.afs.collection('Utilizador').doc(newUser).update(user);
   }
 
   addUser(user: User, newUser) {

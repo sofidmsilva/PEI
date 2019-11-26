@@ -28,9 +28,13 @@ ion-slides{
             border-color: black;
             margin-top: 5%;
         }
+        b{
+            color: black;
+            font-size: 15px;
+        }
         .profile{
             color: #fff;
-            background: #ffc151;
+            background: #add9a6;
             border-radius: 10px;
             border-style: solid;
             border-color: black;
@@ -49,9 +53,7 @@ ion-slides{
                 bottom: 5px;
                 font-size: 15px;
             }
-            ion-button{
-                color: brown;
-            }
+
         }
         ion-item {
             --background: rgba(255,255,255,0.2);

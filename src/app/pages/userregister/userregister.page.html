@@ -1,0 +1,70 @@
+<ion-content>
+  <div class="container">
+    <p><b>{{ 'UserRegister.title' | translate }}</b></p>
+
+    <img src={{currentImage}} />
+    <ion-button class="language" (click)="uploadimage()">
+      <ion-label> {{ 'UserRegister.uploadImage' | translate }}</ion-label>
+      <ion-icon name="cloud-upload" slot="end"></ion-icon>
+    </ion-button>
+    <ion-item>
+      <ion-label>{{ 'UserRegister.dateofbirth' | translate }}</ion-label>
+      <ion-datetime [(ngModel)]="userRegister.dateofbirthday" displayFormat="MM/DD/YYYY" placeholder="Select Date">
+      </ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{ 'UserRegister.location' | translate }}</ion-label>
+      <ion-input [(ngModel)]="userRegister.location"></ion-input>
+    </ion-item>
+
+    <div class="phone">
+      <p style="font-size: 15px; text-align: left; margin-left: 10px;">{{ 'UserRegister.phonenumber' | translate }}</p>
+      <ion-item style="top: 5%;">
+        <ion-select placeholder="(+351)" interface="popover" style=" text-align: left;"
+          [(ngModel)]="userRegister.phonenumber">
+          <ion-select-option value="f">colocar os começos dos numeros</ion-select-option>
+        </ion-select>
+        <ion-input [(ngModel)]="userRegister.garden" placeholder="{{ 'UserRegister.insertnumber' | translate }}">
+        </ion-input>
+      </ion-item>
+    </div>
+    <div *ngIf="datauser == 2">
+      <ion-item>
+        <ion-label>{{ 'UserRegister.experience' | translate }}</ion-label>
+        <ion-select placeholder="Select" interface="alert" [(ngModel)]="userRegister.experience">
+          <ion-select-option *ngFor="let item of experience" value="{{item}}">{{item}}
+            {{ 'UserRegister.years' | translate }} </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>{{ 'UserRegister.drivinglicense' | translate }}</ion-label>
+        <ion-select placeholder="Select" interface="popover" [(ngModel)]="userRegister.drivinglicense">
+          <ion-select-option value="{{ 'Profile.Yes'}}">{{ 'Profile.Yes' | translate }}</ion-select-option>
+          <ion-select-option value="{{ 'Profile.No'}}">{{ 'Profile.No' | translate }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>{{ 'UserRegister.car' | translate }}</ion-label>
+        <ion-select placeholder="Select" interface="popover" [(ngModel)]="userRegister.car">
+          <ion-select-option value="{{ 'Profile.Yes'}}">{{ 'Profile.Yes' | translate }}</ion-select-option>
+          <ion-select-option value="{{ 'Profile.No'}}">{{ 'Profile.No' | translate }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>{{ 'UserRegister.garden' | translate }}</ion-label>
+        <ion-select placeholder="Select" interface="popover" [(ngModel)]="userRegister.garden">
+          <ion-select-option value="{{ 'Profile.Yes'}}">{{ 'Profile.Yes' | translate }}</ion-select-option>
+          <ion-select-option value="{{ 'Profile.No'}}">{{ 'Profile.No' | translate }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>{{ 'UserRegister.surface' | translate }}</ion-label>
+        <ion-input placeholder="m2" [(ngModel)]="userRegister.surface"></ion-input>
+      </ion-item>
+    </div>
+    <ion-button class="ion-margin-top" (click)="uploadinformation()" color="medium">
+      {{ 'UserRegister.continue' | translate }}
+    </ion-button>
+  </div>
+
+</ion-content>

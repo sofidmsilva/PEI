@@ -15,9 +15,16 @@
                     <img class="center ion-margin-top" lines="none" src="/assets/img/iconperfil.png"><br>
                     <ion-item class="profile" *ngFor="let user of datauser">
                         <ion-label style="color: black" class="ion-text-wrap"
-                            style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
-                            <h6><b style="color: #16275d;">Nome:</b>{{ user.name }}</h6>
-                            <h6><b style="color: #16275d;">Sexo:</b>{{ user.gender }}</h6>
+                            style="font-family: Verdana, Geneva, Tahoma, sans-serif;font-size: 15px;">
+                            <h6><b>Nome:</b>{{ user.name }}</h6>
+                            <h6><b>Sexo:</b>{{ user.gender }}</h6>
+                            <h6><b>Localidade:</b>{{ user.location }}</h6>
+                            <h6><b>Carro:</b>{{ user.car | translate }}</h6>
+                            <h6><b>Carta de condução:</b>{{ user.drivinglicense | translate }}</h6>
+                            <h6><b>Superficie:</b>{{ user.surface }} m2</h6>
+                            <h6><b>Numero telefone:</b>{{ user.phonenumber }}</h6>
+                            <h6><b>Data Nascimento:</b>{{ user.dateofbirthday }}</h6>
+                            <h6><b>Experiencia:</b>{{ user.experience }} {{ 'UserRegister.years' | translate }}</h6>
                         </ion-label>
                     </ion-item>
                     <div class="coments">
@@ -72,9 +79,9 @@
                                 <h6><b style="color: #222428;">{{ 'Profile.Size' | translate }}:</b>
                                     {{ animal.size | translate}}</h6>
                                 <h6><b style="color: #222428;">{{ 'Profile.vaccinated' | translate }}:</b>
-                                    {{ animal.vaccination}}</h6>
+                                    {{ animal.vaccination | translate}}</h6>
                                 <h6><b style="color: #222428;">{{ 'Profile.dewormed' | translate }}:</b>
-                                    {{ animal.deworming}}</h6>
+                                    {{ animal.deworming | translate}}</h6>
                                 <h6><b style="color: #222428;">{{'Profile.medication'| translate}}:</b>
                                     {{ animal.medication}}</h6>
                                 <h6><b style="color: #222428;">{{ 'Profile.AnimalType' | translate }}:</b>
@@ -131,12 +138,12 @@
 
                                 <ion-item class="ion-margin-top" lines="none">
                                     <ion-label>{{ 'Profile.Yes' | translate }}</ion-label>
-                                    <ion-radio lines="none" slot="start" value="{{ 'Profile.Yes' | translate }}"
+                                    <ion-radio lines="none" slot="start" value="{{ 'Profile.Yes' }}"
                                         checked></ion-radio>
                                 </ion-item>
                                 <ion-item class="ion-margin-top" lines="none">
                                     <ion-label>{{ 'Profile.No' | translate }}</ion-label>
-                                    <ion-radio lines="none" slot="start" value="{{ 'Profile.No' | translate }}">
+                                    <ion-radio lines="none" slot="start" value="{{ 'Profile.No' }}">
                                     </ion-radio>
                                 </ion-item>
                             </ion-radio-group>
@@ -148,11 +155,11 @@
                                 </ion-list-header>
                                 <ion-item class="ion-margin-top" lines="none">
                                     <ion-label>{{ 'Profile.Yes' | translate }}</ion-label>
-                                    <ion-radio slot="start" value="{{ 'Profile.Yes' | translate }}" checked></ion-radio>
+                                    <ion-radio slot="start" value="{{ 'Profile.Yes'}}" checked></ion-radio>
                                 </ion-item>
                                 <ion-item class="ion-margin-top" lines="none">
                                     <ion-label>{{ 'Profile.No' | translate }}</ion-label>
-                                    <ion-radio slot="start" value="{{ 'Profile.No' | translate }}"></ion-radio>
+                                    <ion-radio slot="start" value="{{ 'Profile.No' }}"></ion-radio>
                                 </ion-item>
                             </ion-radio-group>
                         </ion-list>

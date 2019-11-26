@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, IonTabs } from '@ionic/angular';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
+import {   Router } from '@angular/router';
 
 @Component({
   selector: 'app-all-tabs',
@@ -10,12 +11,19 @@ import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 })
 export class AllTabsPage implements OnInit {
 
-  private userId: string;
-  constructor(private authService: AuthService, private popoverCtr:PopoverController) { 
+  public userId: string;
+  constructor(private authService: AuthService, 
+    private popoverCtr:PopoverController,
+    private route: Router) { 
+
   }
 
   ngOnInit() {
+  }
+
+  searchuser(){
     this.userId = this.authService.getAuth().currentUser.uid;
+    this.route.navigate(['/tabs/profile',this.userId]);
   }
   async logout() {
     try {
@@ -31,4 +39,5 @@ export class AllTabsPage implements OnInit {
     });
     await popover.present();
   }
+
 }

@@ -9,6 +9,7 @@ import { Subscription, VirtualTimeScheduler } from 'rxjs';
 import { RegisterService } from 'src/app/services/register.service';
 import { EmailComposer} from '@ionic-native/email-composer/ngx';
 import { send } from 'q';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -35,7 +36,8 @@ export class LoginPage implements OnInit {
     private popoverCtr:PopoverController,
     private translationservice:TranslateService,
     private registerServices: RegisterService,
-    public composer: EmailComposer ) { }
+    public composer: EmailComposer,
+    private router: Router ) { }
 
   ngOnInit() { }
 
@@ -121,6 +123,7 @@ export class LoginPage implements OnInit {
     }
 
     this.loading.dismiss();
+    this.router.navigate(['tabs/userregister']);
   }
 
   async presentLoading() {

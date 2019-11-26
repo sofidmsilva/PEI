@@ -34,6 +34,22 @@ const routes: Routes = [
     component: AllTabsPage,
     children: [
       {
+        path: 'userregister',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../userregister/userregister.module').then(m => m.UserregisterPageModule)
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: '',
+    component: AllTabsPage,
+    children: [
+      {
         path: 'profile/:id',
         children: [
           {

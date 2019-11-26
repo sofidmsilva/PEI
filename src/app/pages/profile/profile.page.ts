@@ -48,24 +48,25 @@ export class ProfilePage implements OnInit {
 
     this.animalsSubscription = this.animalServices.getAnimals(this.authServices.getAuth().currentUser.uid).subscribe(
       data => {
-      this.animals = data;
+        this.animals = data;
       });
     this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
       data => {
-        console.log(data);
+       var a= data[0].dateofbirthday.split('T');
+       data[0].dateofbirthday = a[0];
         this.datauser = data
       });
-      this.CommentsSubscription = this.userServices.getComments(this.authServices.getAuth().currentUser.uid).subscribe(
-        data => {
-          console.log(data);
-          this.datacomment = data
-        });
+    this.CommentsSubscription = this.userServices.getComments(this.authServices.getAuth().currentUser.uid).subscribe(
+      data => {
+        this.datacomment = data
+      });
     this.typeanimals;
     this.sizeanimals;
 
   }
 
   ngOnInit() {
+ 
   }
   ngOnDestroy() {
     this.animalsSubscription.unsubscribe();
@@ -94,30 +95,27 @@ export class ProfilePage implements OnInit {
 
   }
 
-  formatedDate(){
-    var dateObjct= new Date();
-    console.log(dateObjct.getUTCHours());
-    var year=dateObjct.getFullYear().toString();
-    var month=dateObjct.getMonth().toString();
-    var day=dateObjct.getDay().toString();
-    var hours=dateObjct.getUTCHours();
-    var min=dateObjct.getMinutes();
+  formatedDate() {
+    var dateObjct = new Date();
+    var year = dateObjct.getFullYear().toString();
+    var month = dateObjct.getUTCMonth().toString();
+    var day = dateObjct.getUTCDay().toString();
+    var hours = dateObjct.getUTCHours();
+    var min = dateObjct.getMinutes();
 
-    this.Dateformat = year + '-'+ month + '-' + day + ' ' + hours +':' + min;
+    this.Dateformat = year + '-' + month + '-' + day + ' ' + hours + ':' + min;
   }
 
-  async addcomment(){
+  async addcomment() {
     await this.presentLoading();
     this.formatedDate();
-    var to= this.router.url.split('/');
-    console.log(new Date().getTime());
+    var to = this.router.url.split('/');
     try {
-      if(this.AddComment.content !== undefined){
-        this.AddComment.from=this.authServices.getAuth().currentUser.uid;
-        this.AddComment.date=this.Dateformat;
-        this.AddComment.to=to[3];
+      if (this.AddComment.content !== undefined) {
+        this.AddComment.from = this.authServices.getAuth().currentUser.uid;
+        this.AddComment.date = this.Dateformat;
+        this.AddComment.to = to[3];
         await this.userServices.addComments(this.AddComment);
-        this.AddComment.content="";
       }
     }
     catch (error) {
@@ -127,11 +125,11 @@ export class ProfilePage implements OnInit {
     } finally {
       this.loading.dismiss();
     }
-
+    this.AddComment.content = "";
     this.loading.dismiss();
   }
 
-  async deletecomment(id:string){
+  async deletecomment(id: string) {
     await this.presentLoading();
     try {
       await this.userServices.deleteComment(id);
@@ -146,7 +144,7 @@ export class ProfilePage implements OnInit {
   }
   async addanimal() {
     await this.presentLoading();
-
+    console.log(this.AnimalsRegister);
     try {
 
       this.AnimalsRegister.userID = this.authServices.getAuth().currentUser.uid;
@@ -169,6 +167,7 @@ export class ProfilePage implements OnInit {
 
     this.loading.dismiss();
   }
+
   async presentLoading() {
     this.loading = await this.loadingCtrl.create({ message: 'Aguarde' });
     return this.loading.present();

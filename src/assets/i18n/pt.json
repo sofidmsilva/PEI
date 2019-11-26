@@ -25,9 +25,22 @@
          "argument-error":"É necessário preencher os campos!"
  
       }
- 
- 
   },
+  "UserRegister":{
+   "title":"Dei nos mais informações acerca de si",
+   "dateofbirth":"Data de Nascimento",
+   "location":"Localização",
+   "insertnumber":"Inserir número",
+   "uploadImage":"Inserir Imagem",
+   "phonenumber":"Numbero de Telemóvel:",
+   "drivinglicense":"Carta de Condução",
+   "experience": "Experiência",
+   "garden":"Jardim",
+   "surface":"Superfície da casa(m2):",
+   "car":"Carro",
+   "years":"Anos",
+   "continue":"Continuar"
+},
   "Profile":{
    "AddAnimal":"Adicionar Animal",
    "AnimalType":"Tipo de Animal",

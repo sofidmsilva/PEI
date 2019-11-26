@@ -27,6 +27,21 @@
      }
 
  },
+ "UserRegister":{
+      "title":"Give us more information about you",
+      "dateofbirth":"Date of Birth",
+      "location":"Location",
+      "insertnumber":"Insert number",
+      "uploadImage":"Upload Image",
+      "phonenumber":"Phone Number:",
+      "drivinglicense":"Driving license",
+      "experience": "Experience",
+      "garden":"Garden",
+      "surface":"House surface(m2): ",
+      "car":"Car",
+      "years":"Years",
+      "continue":"Continue"
+ },
  "Profile":{
       "AddAnimal":"Add Animal",
       "AnimalType":"Animal type",
