@@ -17,7 +17,9 @@ ion-segment{
     background:#e2a75b;
 
 }
-
+.monthview-container{
+    background: olive;
+}
 ion-slides{
     .slide-inner{
         width: 100%;
@@ -64,9 +66,7 @@ ion-slides{
             ion-label{
                 color: black;
             }
-            
-
-        }
+        } 
         
     }
     .addanimals{
@@ -94,4 +94,14 @@ ion-select {
     max-width: 100% !important;
   }
 
+  ion-card{
+      background: oldlace;
+  }
+  .calendar{
+    border-radius: 5px;
+    border-style: solid;
+    border-color: black;
+    background: #405a86;
+    
+  }
 

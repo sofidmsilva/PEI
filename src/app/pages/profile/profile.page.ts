@@ -9,6 +9,8 @@ import { Subscription, VirtualTimeScheduler } from 'rxjs';
 import { RegisterService } from 'src/app/services/register.service';
 import { User } from 'src/app/interfaces/user';
 import { Comments } from 'src/app/interfaces/comments';
+import { CalendarComponent } from 'ionic2-calendar/calendar';
+
 
 
 @Component({
@@ -19,11 +21,24 @@ import { Comments } from 'src/app/interfaces/comments';
 export class ProfilePage implements OnInit {
 
   @ViewChild(IonSlides, { static: false }) slides: IonSlides;
+  @ViewChild(CalendarComponent,{static:false}) myCal: CalendarComponent;
+  event={
+    title:'',
+    desc:'',
+    startTime:'',
+    endTime:'',
+  }
+  minDate=new Date().toISOString();
+  eventSource=[];
+  calendar={
+    mode:'month',
+    currentDate: new Date(),
+  };
 
+  private showcalendar: string;
   public animalsPosition: number = 0;
   public animalsDifference: number = 100;
   private loading: any;
-  private Dateformat;
   private showaddanimals: number = 0;
   private animals = new Array<Animals>();
   private datauser = new Array<User>();
@@ -52,9 +67,8 @@ export class ProfilePage implements OnInit {
       });
     this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
       data => {
-       var a= data[0].dateofbirthday.split('T');
-       data[0].dateofbirthday = a[0];
         this.datauser = data
+        this.showcalendar= data[0].tipeuser;
       });
     this.CommentsSubscription = this.userServices.getComments(this.authServices.getAuth().currentUser.uid).subscribe(
       data => {
@@ -66,8 +80,9 @@ export class ProfilePage implements OnInit {
   }
 
   ngOnInit() {
- 
+ this.resetEvents();
   }
+
   ngOnDestroy() {
     this.animalsSubscription.unsubscribe();
     this.userSubscription.unsubscribe();
@@ -85,7 +100,7 @@ export class ProfilePage implements OnInit {
     }
   }
 
-  buttonadd(h: number) {
+  buttonaddanimal(h: number) {
     if (h == 1) {
       this.showaddanimals = 1;
     }
@@ -95,25 +110,13 @@ export class ProfilePage implements OnInit {
 
   }
 
-  formatedDate() {
-    var dateObjct = new Date();
-    var year = dateObjct.getFullYear().toString();
-    var month = dateObjct.getUTCMonth().toString();
-    var day = dateObjct.getUTCDay().toString();
-    var hours = dateObjct.getUTCHours();
-    var min = dateObjct.getMinutes();
-
-    this.Dateformat = year + '-' + month + '-' + day + ' ' + hours + ':' + min;
-  }
-
   async addcomment() {
     await this.presentLoading();
-    this.formatedDate();
     var to = this.router.url.split('/');
     try {
       if (this.AddComment.content !== undefined) {
         this.AddComment.from = this.authServices.getAuth().currentUser.uid;
-        this.AddComment.date = this.Dateformat;
+        this.AddComment.date = new Date();
         this.AddComment.to = to[3];
         await this.userServices.addComments(this.AddComment);
       }
@@ -178,4 +181,47 @@ export class ProfilePage implements OnInit {
     toast.present();
   }
 
+  addEvent(){
+  let eventCopy={
+    title:this.event.title,
+    desc:this.event.desc,
+    startTime: new Date(this.event.startTime),
+    endTime: new Date(this.event.endTime),
+    
+}
+  this.eventSource.push(eventCopy);
+  this.myCal.loadEvents();
+  this.resetEvents();
+  }
+
+  resetEvents(){
+    this.event={
+      title:'',
+    desc:'',
+    startTime: new Date().toISOString(),
+    endTime: new Date().toISOString()
+  
+    }
+    console.log(this.event.endTime);
+  }
+
+  onViewTitleChanged(title){
+    console.log(title);
+  }
+
+  onCurrentDateChanged(event:Date){
+    console.log('current date change : ' + event);
+  }
+
+  onRangeChanged(ev){
+    console.log('range changed starttime: ' + ev.startTime + ',endTime: ' + ev.endTime);
+  }
+ onEventSelected(event){
+  console.log('Event selected:'+event.startTime + '-'+ event.endTime + ','+event.title);
+  }
+              
+ onTimeSelected(ev){
+  console.log('Selected time: ' + ev.selectedTime+',hasEvents: '+
+  (ev.events !== undefined && ev.events.lenght !== 0) + ',disabled: ' + ev.disabled);
+ }
 }

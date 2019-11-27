@@ -23,6 +23,7 @@ import { LanguagePopoverPageModule } from './pages/language-popover/language-pop
 import { from } from 'rxjs';
 import { File } from '@ionic-native/file/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { NgCalendarModule} from 'ionic2-calendar';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http,'../assets/i18n/', '.json');
@@ -39,6 +40,7 @@ export function createTranslateLoader(http: HttpClient) {
     AngularFirestoreModule,
     HttpClientModule,
     AngularFireStorageModule,
+    NgCalendarModule,
     IonicStorageModule.forRoot(),
     TranslateModule.forRoot({
       loader: {

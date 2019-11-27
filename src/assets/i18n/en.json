@@ -61,6 +61,14 @@
          "title":"Comments",
          "label":"Insert comment...",
          "buttonadd":"ADD"
+      },
+      "Calendar":{
+         "header":"New Event",
+         "title":"Title",
+         "description":"Description",
+         "start":"Start",
+         "end":"End",
+         "buttonaddevent":" Add Event"
       }
 
  },

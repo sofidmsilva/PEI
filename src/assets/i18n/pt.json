@@ -60,6 +60,14 @@
       "title":"Comentários",
       "label":"Inserir Comentário...",
       "buttonadd":"Adicionar"
+   },
+   "Calendar":{
+      "header":"Novo Evento",
+      "title":"Título",
+      "description":"Descrição",
+      "start":"Começo",
+      "end":"Fim",
+      "buttonaddevent":" Adicionar Evento"
    }
 },
 "SearchServices":{

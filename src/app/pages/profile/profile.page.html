@@ -27,6 +27,48 @@
                             <h6><b>Experiencia:</b>{{ user.experience }} {{ 'UserRegister.years' | translate }}</h6>
                         </ion-label>
                     </ion-item>
+                    <div *ngIf="showcalendar == 2" padding>
+                            <ion-card >
+                                <ion-card-header tappable (click)="collapseCard = !collapseCard">
+                                    <ion-card-title>{{ 'Profile.Calendar.header' | translate }} <ion-icon name="arrow-round-up"></ion-icon></ion-card-title>
+                                    
+                                </ion-card-header>
+                                    <ion-card-content *ngIf="!collapseCard">
+    
+                                        <ion-item>
+                                            <ion-input type="text" placeholder="{{ 'Profile.Calendar.title' | translate }}" [(ngModel)]="event.title">
+                                            </ion-input>
+                                        </ion-item>
+                                        <ion-item>
+                                            <ion-input type="text" placeholder="{{ 'Profile.Calendar.description' | translate }}" [(ngModel)]="event.desc">
+                                            </ion-input>
+                                        </ion-item>
+                                        <ion-item>
+                                            <ion-label>{{ 'Profile.Calendar.start' | translate }}</ion-label>
+                                            <ion-datetime display="MM/DD/YYYY HH:mm" pickerFormat="MMM D:HH:mm"
+                                                [(ngModel)]="event.startTime" [min]="minDate"></ion-datetime>
+                                        </ion-item>
+                                        <ion-item>
+                                            <ion-label>{{ 'Profile.Calendar.end' | translate }}</ion-label>
+                                            <ion-datetime display="MM/DD/YYYY HH:mm" pickerFormat="MMM D:HH:mm"
+                                                [(ngModel)]="event.endTime" [min]="minDate"></ion-datetime>
+                                        </ion-item>
+                                            <ion-button fill="outline" expand="block" (click)="addEvent()" [disabled]="event.title == ''">{{ 'Profile.Calendar.buttonaddevent' | translate }}</ion-button>
+                                    </ion-card-content>
+                               
+                            </ion-card>
+                            <div class="calendar">
+                                    <calendar style="background: blanchedalmond;" [eventSource]="eventSource" [calendarMode]="calendar.mode"
+                                    [currentDate]="calendar.currentDate" (onCurrentDateChanged)="onCurrentDateChanged($event)"
+                                    (onRangeChanged)="reloadSource(startTime, endTime)"
+                                    (onEventSelected)="onEventSelected($event)" (onTitleChanged)="onViewTitleChanged($event)"
+                                    (onTimeSelected)="onTimeSelected($event)" step="30">
+        
+                                </calendar>
+                            </div>
+                           
+                        </div>
+    
                     <div class="coments">
                         <ion-item class="ion-margin-top" lines="none">
                             <ion-title style="font-size:20px; color:black">{{'Profile.Comment.title'| translate}}
@@ -34,25 +76,24 @@
                                 <ion-textarea [(ngModel)]="AddComment.content"
                                     placeholder="{{'Profile.Comment.label'| translate}}"> </ion-textarea>
                             </ion-title>
-                          
+
                         </ion-item>
                         <ion-button class="ion-margin-top" (click)="addcomment()" color="medium">
-                                {{'Profile.Comment.buttonadd'| translate}}
+                            {{'Profile.Comment.buttonadd'| translate}}
                         </ion-button>
-                        <ion-item  *ngFor="let comment of datacomment">
-                                <ion-avatar slot="start">
-                                        <img src="/assets/img/iconperfil.png">
-                                    </ion-avatar>
+                        <ion-item *ngFor="let comment of datacomment">
+                            <ion-avatar slot="start">
+                                <img src="/assets/img/iconperfil.png">
+                            </ion-avatar>
                             <ion-label>
                                 {{ comment.content }}
-                                <ion-button class="ion-margin-top"  (click)="deletecomment(comment.id)" size="small" shape="round" color="danger">
-                                        <ion-icon name="close"></ion-icon>
+                                <ion-button class="ion-margin-top" (click)="deletecomment(comment.id)" size="small"
+                                    shape="round" color="danger">
+                                    <ion-icon name="close"></ion-icon>
                                 </ion-button>
                             </ion-label>
                         </ion-item>
                     </div>
-
-
                 </div>
 
             </ion-slide>
@@ -94,7 +135,7 @@
                     </div>
 
                     <div class="addanimals" *ngIf="showaddanimals == 1">
-                        <ion-button class="ion-margin-top" (click)="buttonadd(0)" size="default" color="medium">
+                        <ion-button class="ion-margin-top" (click)="buttonaddanimal(0)" size="default" color="medium">
                             <ion-icon name="arrow-back"></ion-icon>
                         </ion-button>
                         <ion-item class="ion-margin-top" lines="none">
@@ -138,8 +179,8 @@
 
                                 <ion-item class="ion-margin-top" lines="none">
                                     <ion-label>{{ 'Profile.Yes' | translate }}</ion-label>
-                                    <ion-radio lines="none" slot="start" value="{{ 'Profile.Yes' }}"
-                                        checked></ion-radio>
+                                    <ion-radio lines="none" slot="start" value="{{ 'Profile.Yes' }}" checked>
+                                    </ion-radio>
                                 </ion-item>
                                 <ion-item class="ion-margin-top" lines="none">
                                     <ion-label>{{ 'Profile.No' | translate }}</ion-label>

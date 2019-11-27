@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonicModule } from '@ionic/angular';
+import { NgCalendarModule} from 'ionic2-calendar';
 
 import { ProfilePage } from './profile.page';
 
@@ -19,6 +20,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
+    NgCalendarModule,
     RouterModule.forChild(routes),
     TranslateModule
   ],
