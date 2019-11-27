@@ -103,7 +103,7 @@
                     <ion-title>{{ 'Profile.AddAnimal' | translate }}</ion-title>
                     <div *ngIf="showaddanimals == 0">
                         <ion-fab vertical="top" horizontal="end" slot="fixed">
-                            <ion-fab-button (click)="buttonadd(1)">
+                            <ion-fab-button (click)="buttonaddanimal(1)">
                                 <ion-icon name="add"></ion-icon>
                             </ion-fab-button>
                         </ion-fab><br>
@@ -217,7 +217,7 @@
                             <ion-textarea [(ngModel)]="AnimalsRegister.description"
                                 placeholder="{{'Profile.description'| translate}}"></ion-textarea>
                         </ion-item>
-                        <ion-button class="ion-margin-top" (click)="buttonadd(0)" color="medium">
+                        <ion-button class="ion-margin-top" (click)="buttonaddanimal(0)" color="medium">
                             <ion-icon name="arrow-back"></ion-icon>
                         </ion-button>
                         <ion-button class="ion-margin-top" (click)="addanimal()" color="medium">

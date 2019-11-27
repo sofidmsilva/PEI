@@ -67,7 +67,7 @@ export class ProfilePage implements OnInit {
       });
     this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
       data => {
-        this.datauser = data
+        this.datauser = data;
         this.showcalendar= data[0].tipeuser;
       });
     this.CommentsSubscription = this.userServices.getComments(this.authServices.getAuth().currentUser.uid).subscribe(
