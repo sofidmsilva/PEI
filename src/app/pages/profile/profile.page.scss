@@ -36,10 +36,41 @@ ion-slides{
         }
         .profile{
             color: #fff;
-            background: #add9a6;
+            background: #589150;
             border-radius: 10px;
             border-style: solid;
             border-color: black;
+        
+
+            .dataprofile{
+                ion-item{
+                    left: 0;
+                    right: 0;
+                    width: 243px;
+                    height: 35px;
+                    background: #add9a6;
+                    border-radius: 10px;
+                    border-style: solid;
+                    border-color: black;
+                    margin-top: 5%;
+                    ion-label{
+                        margin-top: -5px;
+                    }
+                    ion-input{
+                        margin-top: -15px;
+                        color: #121511;
+                        font-size: 16px;
+                        font-weight: bold;
+            
+                    }
+               
+                }
+                .buttonedit{
+                    text-align: center;
+                    margin-top: 4%;
+                }
+            
+            }
         }
         .coments{
             color: #fff;
@@ -104,4 +135,5 @@ ion-select {
     background: #405a86;
     
   }
+  
 

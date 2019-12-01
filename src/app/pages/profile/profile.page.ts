@@ -39,9 +39,12 @@ export class ProfilePage implements OnInit {
   public animalsPosition: number = 0;
   public animalsDifference: number = 100;
   private loading: any;
+  private disabled: string="true";
   private showaddanimals: number = 0;
   private animals = new Array<Animals>();
   private datauser = new Array<User>();
+  public  NewUser;
+  public userRegister: User = {};
   private datacomment = new Array<Comments>();
   private animalsSubscription: Subscription;
   private userSubscription: Subscription;
@@ -81,6 +84,7 @@ export class ProfilePage implements OnInit {
 
   ngOnInit() {
  this.resetEvents();
+ this.NewUser = this.authServices.getAuth().currentUser.uid;
   }
 
   ngOnDestroy() {
@@ -89,6 +93,30 @@ export class ProfilePage implements OnInit {
     this.CommentsSubscription.unsubscribe();
   }
 
+  editprofile(){
+    this.disabled = "false";
+  }
+  Canceledition(){
+    this.disabled = "true";
+    this.userRegister={};
+  }
+  async Updateprofile(){
+    await this.presentLoading();
+ 
+    try {      
+        await this.userServices.updateUser(this.userRegister,this.NewUser);
+        this.disabled = "true";
+        this.userRegister={};
+    }
+    catch (error) {
+      console.error(error);
+      this.presentToast(error);
+    } finally {
+      this.loading.dismiss();
+    }
+
+    this.loading.dismiss();
+  }
   segmentChanged(event: any) {
     if (event.detail.value === "profile") {
       this.slides.slidePrev();
@@ -152,13 +180,7 @@ export class ProfilePage implements OnInit {
 
       this.AnimalsRegister.userID = this.authServices.getAuth().currentUser.uid;
       await this.animalServices.addAnimal(this.AnimalsRegister);
-      this.AnimalsRegister.age = "";
-      this.AnimalsRegister.breed = "";
-      this.AnimalsRegister.description = "";
-      this.AnimalsRegister.deworming = null;
-      this.AnimalsRegister.medication = "";
-      this.AnimalsRegister.name = "";
-      this.AnimalsRegister.size = "";
+      this.AnimalsRegister={};
       this.showaddanimals = 0;
     }
     catch (error) {

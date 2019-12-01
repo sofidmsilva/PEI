@@ -72,14 +72,13 @@ export class UserregisterPage implements OnInit {
 
 
   uploadpicture(blob: Blob){
-     this.userId= this.authServices.getAuth().currentUser.uid;
     const ref= this.afStorage.ref('image/'+ this.NewUser+'/profile.jpg');
+    this.afStorage
 
     const task= ref.put(blob);
     this.currentImage = task.snapshotChanges().pipe(
       finalize(() => this.downloadUrl = ref.getDownloadURL())
     ).subscribe();
-    console.log(this.currentImage);
   }
 
   async uploadinformation() {

@@ -16,6 +16,7 @@ export interface User {
     dateofbirthday?:Date;
     location?:string;
     phonenumber?: number;
+    image?: string;
  
     
 
