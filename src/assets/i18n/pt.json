@@ -44,7 +44,8 @@
    "surface":"Superfície casa(m2):",
    "car":"Carro",
    "years":"Anos",
-   "continue":"Continuar"
+   "continue":"Continuar",
+   "uploadimage":"Escolha a imagem para upload"
 },
   "Profile":{
    "AddAnimal":"Adicionar Animal",
@@ -67,6 +68,8 @@
    "AnimalTypeservices":"Destina-se a estes animais",
    "caregiven":"Cuidado dado",
    "editprofile":"Editar Perfil",
+   "welcome":"Seja Bem Vindo",
+   "editphoto":"Editar Foto",
    "Comment":{
       "title":"Comentários",
       "label":"Inserir Comentário...",

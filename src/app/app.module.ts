@@ -21,10 +21,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {IonicStorageModule} from '@ionic/storage'
 import { LanguagePopoverPageModule } from './pages/language-popover/language-popover.module';
 import { from } from 'rxjs';
-import { File } from '@ionic-native/file/ngx';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { NgCalendarModule} from 'ionic2-calendar';
-
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http,'../assets/i18n/', '.json');
 }
@@ -55,8 +52,6 @@ export function createTranslateLoader(http: HttpClient) {
     StatusBar,
     SplashScreen,
     EmailComposer,
-    File,
-    Camera,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     NativeKeyboard
   ],

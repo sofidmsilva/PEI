@@ -9,8 +9,14 @@
         display: block;
         margin-left: auto;
         margin-right: auto;
-        width: 45%;
+        width:34%;
+        border-radius: 21%;
+        border-style: solid;
+        border-color: unset;
+        border-width: thick;
+        margin-bottom: 10px;;
     }
+
 }
 
 ion-segment{
@@ -79,7 +85,7 @@ ion-slides{
                         place-self: baseline;
                       }
                     ion-label{
-                        margin-top: 5px;
+                        margin-top: 7px;
                     }
                     ion-input{
                         margin-top: -15px;

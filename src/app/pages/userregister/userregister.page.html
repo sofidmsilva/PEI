@@ -1,14 +1,23 @@
 <ion-content>
   <div class="container">
     <p><b>{{ 'UserRegister.title' | translate }}</b></p>
+      <img class="center ion-margin-top"  *ngIf="alldatauser" [src]="alldatauser" >
+    <ion-card class="ion-text-center" *ngIf="!isUploading && !isUploaded">
+      <ion-card-header>
+        <ion-card-title>{{ 'UserRegister.uploadimage' | translate }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="fileUpload btn btn-primary">
+          <input
+            id="uploadBtn"
+            type="file"
+            class="upload"
+            (change)="uploadImage($event)"
+          />
+        </div>
+      </ion-card-content>
+    </ion-card>
 
-  
-        <img [src]="downloadUrl | async" *ngIf="downloadUrl | async" width="50%"/>
-    
-    <ion-button class="language" (click)="uploadimage()">
-      <ion-label> {{ 'UserRegister.uploadImage' | translate }}</ion-label>
-      <ion-icon name="cloud-upload" slot="end"></ion-icon>
-    </ion-button>
     <ion-item>
       <ion-label>{{ 'UserRegister.dateofbirth' | translate }}</ion-label>
       <ion-datetime [(ngModel)]="userRegister.dateofbirthday" displayFormat="MM/DD/YYYY" placeholder="Select Date">

@@ -16,7 +16,7 @@ export interface User {
     dateofbirthday?:Date;
     location?:string;
     phonenumber?: number;
-    image?: Observable<string>;
+    image?: string;
  
     
 

@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {File} from '@ionic-native/file/ngx';
-import { Camera,CameraOptions } from '@ionic-native/camera/ngx';
 import { TranslateService } from '@ngx-translate/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { AuthService } from 'src/app/services/auth.service';
@@ -9,7 +7,9 @@ import { Subscription, Observable } from 'rxjs';
 import { User } from 'src/app/interfaces/user';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { finalize } from 'rxjs/operators';
+import { Image } from 'src/app/interfaces/image';
+import { AngularFirestore } from '@angular/fire/firestore';
+
 
 @Component({
   selector: 'app-userregister',
@@ -21,23 +21,32 @@ export class UserregisterPage implements OnInit {
   private loading: any;
   private userId: string;
   private userSubscription: Subscription;
+  private alldatauser:string;
   private datauser: number;
   private experience: Array<string> = ["<1","<5",">5"];
   public userRegister: User = {};
   public  NewUser;
-  public downloadUrl: Observable<string>;
-  private currentImage;
-  constructor(private file: File, private camera: Camera,
+
+  
+  url: any;
+  newImage: Image = {
+    id: this.afs.createId(), image: ''
+  }
+  imageloading = false;
+
+  constructor(
     private afStorage: AngularFireStorage,
     private authServices: AuthService,
     private translationservice: TranslateService,
     private userServices: RegisterService,
     private loadingCtrl: LoadingController,
     private toastCrt: ToastController,
+    private afs: AngularFirestore,
     private registerServices: RegisterService,
     private router: Router) {
       this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
         data => {
+          this.alldatauser= data[0].image;
           this.datauser = data[0].tipeuser;
         });
     }
@@ -46,37 +55,48 @@ export class UserregisterPage implements OnInit {
     this.NewUser = this.authServices.getAuth().currentUser.uid;
   }
 
-  async uploadimage(){
-    await this.presentLoading();
-    const options: CameraOptions ={
-      quality:100,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      sourceType:this.camera.PictureSourceType.PHOTOLIBRARY,
-      correctOrientation:true
-    };
-    try{
-      const fileUri: string = await this.camera.getPicture(options);
-      let file: string;
-      file = fileUri.substring(fileUri.lastIndexOf('/') + 1, fileUri.indexOf('?'));
-      const path: string = fileUri.substring(0, fileUri.lastIndexOf('/'));
+  uploadImage(event) {
+    this.imageloading = true;
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+     
+      reader.readAsDataURL(event.target.files[0]);
+      // para visualisar imagem
+      reader.onload = (e:any) => {
+        this.url = e.target.result;
+      
+        // upload da imagem para firebase
+        const fileraw = event.target.files[0];
+        const filePath = "/image/"+ this.authServices.getAuth().currentUser.uid +"/profile/" ;
+        const result=this.SaveImageRef(filePath, fileraw);
+        const ref=result.ref;
 
-      const buffer: ArrayBuffer =await this.file.readAsArrayBuffer(path,file);
+       
+        //criar link para download 
 
-      const blob: Blob= new Blob([buffer],{type:'image/jpeg'});
-      this.uploadpicture(blob);
-      this.loading.dismiss();
-    }catch(error){
-      console.error(error);
+        result.task.then(a => {
+          ref.getDownloadURL().subscribe(a => {            
+            this.alldatauser = a;
+            this.UpdateRecord(this.alldatauser);
+          });        
+          
+        });
+      },error=>{
+        alert("Error");
+      }
     }
   }
+  UpdateRecord(user) {
+    let record = {};
+    record['image'] = user;
+    this.userServices.updateUser(record, this.authServices.getAuth().currentUser.uid);
+  }
 
-
-  uploadpicture(blob: Blob){
-    const ref= this.afStorage.ref('image/'+ this.NewUser+'/profile.jpg');
-    const task= ref.put(blob);
-    this.currentImage = task.snapshotChanges().pipe(
-      finalize(() => this.downloadUrl = ref.getDownloadURL())
-    ).subscribe();
+  SaveImageRef(filePath, file) {
+    return {
+      task: this.afStorage.upload(filePath, file)
+      , ref: this.afStorage.ref(filePath)
+    };
   }
 
   async uploadinformation() {
