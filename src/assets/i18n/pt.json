@@ -1,4 +1,9 @@
 {
+   "All":{
+      "Cancel":"Cancelar",
+      "continue":"Continuar",
+      "add":"Adicionar"
+   },
     "Home": {
        "Question":"Qual o serviço que precisa?",
        "PetWalking":"Passear os seus animais nunca fora tão fácil, venha conhecer quem pode facilitar a sua vida",
@@ -56,6 +61,11 @@
    "description":"Descrição",
    "myprofile":"Perfil",
    "myanimals":"Animais",
+   "services":"Serviços",
+   "typeservice":"Tipo de Serviço",
+   "addservice":"Adicionar Serviço",
+   "AnimalTypeservices":"Destina-se a estes animais",
+   "caregiven":"Cuidado dado",
    "Comment":{
       "title":"Comentários",
       "label":"Inserir Comentário...",

@@ -1,4 +1,9 @@
 {
+   "All":{
+      "Cancel":"Cancel",
+      "continue":"Continue",
+      "add":"ADD"
+   },
  "Home": {
    "Question":"What service  you need?",
     "PetWalking":"Walking your animals has never been easier, come see who can make your life easier",
@@ -57,6 +62,11 @@
       "description":"Description",
       "myprofile":"Profile",
       "myanimals":"Animals",
+      "services":"Services",
+      "typeservice":"Kind of service",
+      "addservice":"Add Service",
+      "AnimalTypeservices":"Intended for these animals",
+      "caregiven":"Care Given",
       "Comment":{
          "title":"Comments",
          "label":"Insert comment...",

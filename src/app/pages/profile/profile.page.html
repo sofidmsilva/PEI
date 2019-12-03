@@ -4,15 +4,18 @@
             <ion-segment-button checked value="profile">
                 <ion-label>{{ 'Profile.myprofile' | translate }}</ion-label>
             </ion-segment-button>
-            <ion-segment-button value="animals">
+            <ion-segment-button *ngIf="showuser == 1" value="animals">
                 <ion-label>{{ 'Profile.myanimals' | translate }}</ion-label>
+            </ion-segment-button>
+            <ion-segment-button *ngIf="showuser == 2" value="animals">
+                <ion-label>{{ 'Profile.services' | translate }}</ion-label>
             </ion-segment-button>
         </ion-segment>
 
         <ion-slides>
             <ion-slide>
                 <div class="slide-inner ion-padding">
-                        <img [src]="downloadUrl | async" *ngIf="downloadUrl | async"/>
+
                     <img class="center ion-margin-top" lines="none" src="/assets/img/iconperfil.png"><br>
                     <ion-item class="profile">
 
@@ -22,7 +25,8 @@
                             </ion-button>
                             <ion-row class="placeholdercolor">
                                 <ion-item>
-                                    <ion-label style="text-align: center;"><b>{{'Login.name'| translate}}: </b></ion-label>
+                                    <ion-label style="text-align: center;"><b>{{'Login.name'| translate}}: </b>
+                                    </ion-label>
                                     <ion-input [(ngModel)]="userRegister.name" placeholder="{{ user.name }}"
                                         readonly="{{disabled}}"></ion-input>
                                 </ion-item>
@@ -83,15 +87,15 @@
                             </ion-row>
                             <div class="buttonedit" *ngIf="disabled == 'false'">
                                 <ion-button color="danger" (click)="Canceledition()" size="small">
-                                    Cancelar
+                                    {{ 'All.Cancel' | translate }}
                                 </ion-button>
                                 <ion-button (click)="Updateprofile()" size="small" color="success">
-                                    Onfirmar
+                                    {{ 'All.continue' | translate }}
                                 </ion-button>
                             </div>
                         </ion-grid>
                     </ion-item>
-                    <div *ngIf="showcalendar == 2" ion-padding>
+                    <div *ngIf="showuser == 2" ion-padding>
                         <ion-card>
                             <ion-card-header tappable (click)="collapseCard = !collapseCard">
                                 <ion-card-title>{{ 'Profile.Calendar.header' | translate }} <ion-icon
@@ -172,7 +176,7 @@
             </ion-slide>
 
             <ion-slide>
-                <div class="slide-inner ion-padding">
+                <div *ngIf="showuser == 1" class="slide-inner ion-padding">
                     <ion-title>{{ 'Profile.AddAnimal' | translate }}</ion-title>
                     <div *ngIf="showaddanimals == 0">
                         <ion-fab vertical="top" horizontal="end" slot="fixed">
@@ -300,6 +304,106 @@
                     </div>
 
                 </div>
+
+                <div *ngIf="showuser == 2" class="slide-inner ion-padding">
+                    <ion-title>{{ 'Profile.services' | translate }}</ion-title>
+                    <div *ngIf="showaddanimals == 0">
+                        <ion-fab vertical="top" horizontal="end" slot="fixed">
+                            <ion-fab-button (click)="buttonaddanimal(1)">
+                                <ion-icon name="add"></ion-icon>
+                            </ion-fab-button>
+                        </ion-fab><br>
+                        <ion-grid *ngFor="let service of servicesPet" class="detailservice">
+                            <ion-row>
+                                <ion-item>
+                                    <ion-label>{{ 'Profile.typeservice' | translate }}:
+                                    </ion-label>
+                                    {{ service.typeservice | translate}}
+                                </ion-item>
+                            </ion-row>
+                            <ion-row>
+                                <ion-item>
+                                    <p style="color: white;text-align: start;">
+                                        {{ 'Profile.AnimalTypeservices' | translate }}:
+                                        <ion-label style="color: black;" *ngFor="let item of service.typeanimals">
+                                            {{ item | translate}}</ion-label>
+                                    </p>
+                                </ion-item>
+                            </ion-row>
+                            <ion-row>
+                                <ion-item>
+                                    <ion-label>{{'SearchServices.price'| translate}}:
+                                    </ion-label>
+                                    {{ service.price}} {{ service.typemoney}}
+                                </ion-item>
+                            </ion-row>
+                            <ion-row>
+                                <ion-item>
+                                    <ion-label>{{'UserRegister.location'| translate}}:
+                                    </ion-label>
+                                    {{ service.location | translate}}
+                                </ion-item>
+                            </ion-row>
+                            <ion-row *ngIf="service.typeservice=='Pet Care'" >
+                                    <ion-item>
+                                        <p style="color: white;">{{'Profile.caregiven'| translate}}:
+                                                <ion-label style="color: black;">{{ service.descriptioncare | translate}}</ion-label>   
+                                        </p>
+                                        
+                                    </ion-item>
+                                </ion-row>
+                        </ion-grid>
+                    </div>
+
+                    <div class="addservice" *ngIf="showaddanimals == 1">
+                        <ion-title>{{ 'Profile.addservice' | translate }}</ion-title>
+                        <ion-item class="ion-margin-top" lines="none">
+                            <ion-label>{{ 'Profile.typeservice' | translate }}</ion-label>
+                            <ion-select placeholder="Select" [(ngModel)]="Services.typeservice">
+                                <ion-select-option *ngFor="let servi of typeservices" lines="none" value="{{servi}}">
+                                    {{ servi}}
+                                </ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-item class="ion-margin-top" lines="none">
+                            <ion-label>{{ 'Profile.AnimalType' | translate }}</ion-label>
+                            <ion-select placeholder="Select" multiple="true" interface="alert"
+                                [(ngModel)]="Services.typeanimals">
+                                <ion-select-option *ngFor="let item of typeanimals" value="{{item}}">
+                                    {{ item | translate}}
+                                </ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-item class="ion-margin-top" lines="none">
+                            <ion-label>{{'SearchServices.price'| translate}}:</ion-label>
+                            <ion-input type="number" [(ngModel)]="Services.price"
+                                placeholder="{{'SearchServices.price'| translate}}"></ion-input>
+                            <ion-select placeholder="Select" [(ngModel)]="Services.typemoney">
+                                <ion-select-option value="euro">Euro</ion-select-option>
+                                <ion-select-option value="dolar">Dolar</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-item class="ion-margin-top" lines="none">
+                            <ion-label>{{'UserRegister.location'| translate}}:</ion-label>
+                            <ion-input type="text" [(ngModel)]="Services.location"
+                                placeholder="{{'UserRegister.location'| translate}}"></ion-input>
+                        </ion-item>
+                        <ion-item *ngIf="Services.typeservice=='Pet Care'" class="ion-margin-top" lines="none">
+                                <ion-label>{{'Profile.caregiven'| translate}}:</ion-label>
+                                <ion-textarea type="text" [(ngModel)]="Services.descriptioncare"
+                                    placeholder="..."></ion-textarea>
+                            </ion-item>
+                        <ion-button class="ion-margin-top" (click)="buttonaddanimal(0)" color="medium">
+                            <ion-icon name="arrow-back"></ion-icon>
+                        </ion-button>
+                        <ion-button class="ion-margin-top" (click)="addservice()" color="medium">
+                            {{ 'All.add' | translate }}
+                        </ion-button>
+
+                    </div>
+
+                </div>
+
             </ion-slide>
         </ion-slides>
     </div>

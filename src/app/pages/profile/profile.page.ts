@@ -10,6 +10,9 @@ import { RegisterService } from 'src/app/services/register.service';
 import { User } from 'src/app/interfaces/user';
 import { Comments } from 'src/app/interfaces/comments';
 import { CalendarComponent } from 'ionic2-calendar/calendar';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { Services } from 'src/app/interfaces/services';
+import { ServicespetService } from 'src/app/services/servicespet.service';
 
 
 
@@ -35,13 +38,15 @@ export class ProfilePage implements OnInit {
     currentDate: new Date(),
   };
 
-  private showcalendar: string;
+  private showuser: string;
   public animalsPosition: number = 0;
   public animalsDifference: number = 100;
+  public imagem;
   private loading: any;
   private disabled: string="true";
   private showaddanimals: number = 0;
   private animals = new Array<Animals>();
+  private servicesPet = new Array<Services>();
   private datauser = new Array<User>();
   public  NewUser;
   public userRegister: User = {};
@@ -49,12 +54,14 @@ export class ProfilePage implements OnInit {
   private animalsSubscription: Subscription;
   private userSubscription: Subscription;
   private CommentsSubscription: Subscription;
+  private ServicespetSubscription: Subscription;
   private typeanimals: Array<string> = ["TypeAnimals.cat", "TypeAnimals.dog", "TypeAnimals.turtle", "TypeAnimals.fish",
     "TypeAnimals.bird", "TypeAnimals.snake", "TypeAnimals.hamster"];
-
   private sizeanimals: Array<string> = ["SizeAnimals.verysmall", "SizeAnimals.small", "SizeAnimals.medium", "SizeAnimals.big"];
+  private typeservices: Array<string>=["Pet Walking","Pet Care","Pet Sitting"];
   private AnimalsRegister: Animals = {};
   private AddComment: Comments = {};
+  private Services: Services = {};
 
   constructor(private translationservice: TranslateService,
     private router: Router,
@@ -62,7 +69,9 @@ export class ProfilePage implements OnInit {
     private loadingCtrl: LoadingController,
     private toastCrt: ToastController,
     private animalServices: AnimalsService,
-    private userServices: RegisterService) {
+    private userServices: RegisterService,
+    private afStorage: AngularFireStorage,
+    private servicespetServices: ServicespetService) {
 
     this.animalsSubscription = this.animalServices.getAnimals(this.authServices.getAuth().currentUser.uid).subscribe(
       data => {
@@ -71,14 +80,20 @@ export class ProfilePage implements OnInit {
     this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
       data => {
         this.datauser = data;
-        this.showcalendar= data[0].tipeuser;
+        this.showuser= data[0].tipeuser;
       });
     this.CommentsSubscription = this.userServices.getComments(this.authServices.getAuth().currentUser.uid).subscribe(
       data => {
         this.datacomment = data
       });
+      this.ServicespetSubscription = this.servicespetServices.getServices(this.authServices.getAuth().currentUser.uid).subscribe(
+        data => {
+          this.servicesPet = data
+          console.log(this.servicesPet);
+        });
     this.typeanimals;
     this.sizeanimals;
+    this.typeservices;
 
   }
 
@@ -91,6 +106,7 @@ export class ProfilePage implements OnInit {
     this.animalsSubscription.unsubscribe();
     this.userSubscription.unsubscribe();
     this.CommentsSubscription.unsubscribe();
+    this.ServicespetSubscription.unsubscribe();
   }
 
   editprofile(){
@@ -193,6 +209,24 @@ export class ProfilePage implements OnInit {
     this.loading.dismiss();
   }
 
+  async addservice(){
+    await this.presentLoading();
+    try {
+      this.Services.userID = this.authServices.getAuth().currentUser.uid;
+      await this.servicespetServices.addservices(this.Services);
+      this.Services={};
+      this.showaddanimals = 0;
+    }
+    catch (error) {
+
+      this.presentToast('erro a guardar');
+    } finally {
+      this.loading.dismiss();
+    }
+
+    this.loading.dismiss();
+  }
+
   async presentLoading() {
     this.loading = await this.loadingCtrl.create({ message: 'Aguarde' });
     return this.loading.present();
@@ -238,7 +272,7 @@ export class ProfilePage implements OnInit {
   onRangeChanged(ev){
     console.log('range changed starttime: ' + ev.startTime + ',endTime: ' + ev.endTime);
   }
- onEventSelected(event){
+  onEventSelected(event){
   console.log('Event selected:'+event.startTime + '-'+ event.endTime + ','+event.title);
   }
               

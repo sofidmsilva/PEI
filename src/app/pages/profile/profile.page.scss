@@ -30,10 +30,23 @@ ion-slides{
             border-color: black;
             margin-top: 5%;
         }
-        b{
-            color: black;
-            font-size: 15px;
+        .detailservice{
+            background: #4ca53f;;
+            border-radius: 10px;
+            border-style: solid;
+            border-color: black;
+            margin-top: 5%;
+     
+            ion-item{
+                margin-top: 2%;
+                width: 100%;
+
+                ion-label{
+                    color: white;
+                }
+            }
         }
+ 
         .profile{
             color: #fff;
             background: #589150;
@@ -102,17 +115,25 @@ ion-slides{
     }
     .addanimals{
         color: #fff;
-        background: #0993a2;;
+        background: #0993a2;
         border-radius: 10px;
         border-style: solid;
         border-color: black;
 
         ion-list{
             color: #fff;
-            background: #0993a2;;
+            background: #0993a2;
             
         }
  
+    }
+    .addservice{
+        color: #480f0f;
+        background: #ac4a4a;
+        border-radius: 10px;
+        border-style: solid;
+        border-color: black;
+        margin-top: 5%;
     }
     
 }

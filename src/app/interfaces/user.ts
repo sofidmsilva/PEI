@@ -1,4 +1,4 @@
-import { Timestamp } from 'rxjs';
+import { Timestamp, Observable } from 'rxjs';
 
 export interface User {
     email?: string;
@@ -16,7 +16,7 @@ export interface User {
     dateofbirthday?:Date;
     location?:string;
     phonenumber?: number;
-    image?: string;
+    image?: Observable<string>;
  
     
 

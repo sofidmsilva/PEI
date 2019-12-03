@@ -2,7 +2,9 @@
   <div class="container">
     <p><b>{{ 'UserRegister.title' | translate }}</b></p>
 
-    <img [src]="downloadUrl | async" *ngIf="downloadUrl | async"/>
+  
+        <img [src]="downloadUrl | async" *ngIf="downloadUrl | async" width="50%"/>
+    
     <ion-button class="language" (click)="uploadimage()">
       <ion-label> {{ 'UserRegister.uploadImage' | translate }}</ion-label>
       <ion-icon name="cloud-upload" slot="end"></ion-icon>
