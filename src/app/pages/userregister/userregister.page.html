@@ -26,7 +26,7 @@
           [(ngModel)]="userRegister.phonenumber">
           <ion-select-option value="f">colocar os começos dos numeros</ion-select-option>
         </ion-select>
-        <ion-input [(ngModel)]="userRegister.garden" placeholder="{{ 'UserRegister.insertnumber' | translate }}">
+        <ion-input type="number"[(ngModel)]="userRegister.garden" placeholder="{{ 'UserRegister.insertnumber' | translate }}">
         </ion-input>
       </ion-item>
     </div>

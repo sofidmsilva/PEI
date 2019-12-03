@@ -53,6 +53,11 @@ ion-slides{
             border-radius: 10px;
             border-style: solid;
             border-color: black;
+
+            ion-title{
+                text-align: center;
+                color:black;
+            }
         
 
             .dataprofile{
@@ -66,8 +71,15 @@ ion-slides{
                     border-style: solid;
                     border-color: black;
                     margin-top: 5%;
+
+                     ion-textarea{
+                         height: 50px;
+                      }
+                      ion-select{
+                        place-self: baseline;
+                      }
                     ion-label{
-                        margin-top: -5px;
+                        margin-top: 5px;
                     }
                     ion-input{
                         margin-top: -15px;

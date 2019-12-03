@@ -67,6 +67,7 @@
       "addservice":"Add Service",
       "AnimalTypeservices":"Intended for these animals",
       "caregiven":"Care Given",
+      "editprofile":"Edit Profile",
       "Comment":{
          "title":"Comments",
          "label":"Insert comment...",

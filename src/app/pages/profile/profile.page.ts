@@ -44,6 +44,8 @@ export class ProfilePage implements OnInit {
   public imagem;
   private loading: any;
   private disabled: string="true";
+  private editshow: string="true";
+  private experience: Array<string> = ["<1","<5",">5"];
   private showaddanimals: number = 0;
   private animals = new Array<Animals>();
   private servicesPet = new Array<Services>();
@@ -79,7 +81,9 @@ export class ProfilePage implements OnInit {
       });
     this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
       data => {
+        data[0].dateofbirthday= data[0].dateofbirthday.split('T')[0];
         this.datauser = data;
+      
         this.showuser= data[0].tipeuser;
       });
     this.CommentsSubscription = this.userServices.getComments(this.authServices.getAuth().currentUser.uid).subscribe(
@@ -89,7 +93,6 @@ export class ProfilePage implements OnInit {
       this.ServicespetSubscription = this.servicespetServices.getServices(this.authServices.getAuth().currentUser.uid).subscribe(
         data => {
           this.servicesPet = data
-          console.log(this.servicesPet);
         });
     this.typeanimals;
     this.sizeanimals;
@@ -111,9 +114,11 @@ export class ProfilePage implements OnInit {
 
   editprofile(){
     this.disabled = "false";
+    this.editshow="false";
   }
   Canceledition(){
     this.disabled = "true";
+    this.editshow="true";
     this.userRegister={};
   }
   async Updateprofile(){
@@ -122,6 +127,7 @@ export class ProfilePage implements OnInit {
     try {      
         await this.userServices.updateUser(this.userRegister,this.NewUser);
         this.disabled = "true";
+        this.editshow="true";
         this.userRegister={};
     }
     catch (error) {
