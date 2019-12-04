@@ -71,13 +71,12 @@
                         </ion-item>
                   </ion-item>
                 </ion-list>
-                <ion-list *ngSwitchCase="'map'">
-                    <ion-item>
-                     Inserir mapa aqui
-                    </ion-item>
-                  </ion-list>
+                 <div [hidden]="option!='map'" #map id="map"></div>
         </div>
+       
     </div>
+
+  
 
 
 </ion-content>

@@ -3,6 +3,7 @@
     width: 100%;
     margin: 0 auto;
     z-index: 4;
+    height: 100%;
     ;
 
     ion-title{
@@ -17,6 +18,18 @@
     ion-label{
         font-size: 10px;;
     }
+
     }
+
+    div{
+        height: 100%;
+        }
+    #map {
+        height: 100%;
+    }
+    
 }
+
+
+
 
