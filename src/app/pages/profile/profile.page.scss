@@ -9,8 +9,14 @@
         display: block;
         margin-left: auto;
         margin-right: auto;
-        width: 45%;
+        width:34%;
+        border-radius: 21%;
+        border-style: solid;
+        border-color: unset;
+        border-width: thick;
+        margin-bottom: 10px;;
     }
+
 }
 
 ion-segment{
@@ -30,16 +36,34 @@ ion-slides{
             border-color: black;
             margin-top: 5%;
         }
-        b{
-            color: black;
-            font-size: 15px;
+        .detailservice{
+            background: #4ca53f;;
+            border-radius: 10px;
+            border-style: solid;
+            border-color: black;
+            margin-top: 5%;
+     
+            ion-item{
+                margin-top: 2%;
+                width: 100%;
+
+                ion-label{
+                    color: white;
+                }
+            }
         }
+ 
         .profile{
             color: #fff;
             background: #589150;
             border-radius: 10px;
             border-style: solid;
             border-color: black;
+
+            ion-title{
+                text-align: center;
+                color:black;
+            }
         
 
             .dataprofile{
@@ -53,8 +77,15 @@ ion-slides{
                     border-style: solid;
                     border-color: black;
                     margin-top: 5%;
+
+                     ion-textarea{
+                         height: 50px;
+                      }
+                      ion-select{
+                        place-self: baseline;
+                      }
                     ion-label{
-                        margin-top: -5px;
+                        margin-top: 7px;
                     }
                     ion-input{
                         margin-top: -15px;
@@ -102,17 +133,25 @@ ion-slides{
     }
     .addanimals{
         color: #fff;
-        background: #0993a2;;
+        background: #0993a2;
         border-radius: 10px;
         border-style: solid;
         border-color: black;
 
         ion-list{
             color: #fff;
-            background: #0993a2;;
+            background: #0993a2;
             
         }
  
+    }
+    .addservice{
+        color: #480f0f;
+        background: #ac4a4a;
+        border-radius: 10px;
+        border-style: solid;
+        border-color: black;
+        margin-top: 5%;
     }
     
 }

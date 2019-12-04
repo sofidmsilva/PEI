@@ -5,6 +5,16 @@
     margin: 0 auto;
     z-index: 2;
     background: #a38712;
+    .center{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width:26%;
+        height:13%;
+    }
+    ion-card{
+        background: lightgray;
+    }
         ion-item{
             top:10px;
             border-radius: 10px;

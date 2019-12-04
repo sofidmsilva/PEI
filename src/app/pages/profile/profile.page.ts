@@ -10,6 +10,11 @@ import { RegisterService } from 'src/app/services/register.service';
 import { User } from 'src/app/interfaces/user';
 import { Comments } from 'src/app/interfaces/comments';
 import { CalendarComponent } from 'ionic2-calendar/calendar';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { Services } from 'src/app/interfaces/services';
+import { ServicespetService } from 'src/app/services/servicespet.service';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Image } from 'src/app/interfaces/image';
 
 
 
@@ -34,14 +39,25 @@ export class ProfilePage implements OnInit {
     mode:'month',
     currentDate: new Date(),
   };
+  url: any;
+  newImage: Image = {
+    id: this.afs.createId(), image: ''
+  }
+  imageloading = false;
 
-  private showcalendar: string;
+  private showuser: string;
   public animalsPosition: number = 0;
   public animalsDifference: number = 100;
+  public imagem;
+  private alldatauser:string;
   private loading: any;
   private disabled: string="true";
+  private editshow: string="true";
+  private editimage: string="true";
+  private experience: Array<string> = ["<1","<5",">5"];
   private showaddanimals: number = 0;
   private animals = new Array<Animals>();
+  private servicesPet = new Array<Services>();
   private datauser = new Array<User>();
   public  NewUser;
   public userRegister: User = {};
@@ -49,12 +65,14 @@ export class ProfilePage implements OnInit {
   private animalsSubscription: Subscription;
   private userSubscription: Subscription;
   private CommentsSubscription: Subscription;
+  private ServicespetSubscription: Subscription;
   private typeanimals: Array<string> = ["TypeAnimals.cat", "TypeAnimals.dog", "TypeAnimals.turtle", "TypeAnimals.fish",
     "TypeAnimals.bird", "TypeAnimals.snake", "TypeAnimals.hamster"];
-
   private sizeanimals: Array<string> = ["SizeAnimals.verysmall", "SizeAnimals.small", "SizeAnimals.medium", "SizeAnimals.big"];
+  private typeservices: Array<string>=["Pet Walking","Pet Care","Pet Sitting"];
   private AnimalsRegister: Animals = {};
   private AddComment: Comments = {};
+  private Services: Services = {};
 
   constructor(private translationservice: TranslateService,
     private router: Router,
@@ -62,7 +80,10 @@ export class ProfilePage implements OnInit {
     private loadingCtrl: LoadingController,
     private toastCrt: ToastController,
     private animalServices: AnimalsService,
-    private userServices: RegisterService) {
+    private userServices: RegisterService,
+    private afStorage: AngularFireStorage,
+    private servicespetServices: ServicespetService,
+    private afs: AngularFirestore) {
 
     this.animalsSubscription = this.animalServices.getAnimals(this.authServices.getAuth().currentUser.uid).subscribe(
       data => {
@@ -70,15 +91,22 @@ export class ProfilePage implements OnInit {
       });
     this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
       data => {
+        data[0].dateofbirthday= data[0].dateofbirthday.split('T')[0];
         this.datauser = data;
-        this.showcalendar= data[0].tipeuser;
+        this.alldatauser= data[0].image;
+        this.showuser= data[0].tipeuser;
       });
     this.CommentsSubscription = this.userServices.getComments(this.authServices.getAuth().currentUser.uid).subscribe(
       data => {
         this.datacomment = data
       });
+      this.ServicespetSubscription = this.servicespetServices.getServices(this.authServices.getAuth().currentUser.uid).subscribe(
+        data => {
+          this.servicesPet = data
+        });
     this.typeanimals;
     this.sizeanimals;
+    this.typeservices;
 
   }
 
@@ -91,13 +119,22 @@ export class ProfilePage implements OnInit {
     this.animalsSubscription.unsubscribe();
     this.userSubscription.unsubscribe();
     this.CommentsSubscription.unsubscribe();
+    this.ServicespetSubscription.unsubscribe();
   }
 
   editprofile(){
     this.disabled = "false";
+    this.editshow="false";
+  }
+  editPhoto(){
+    this.editimage="false";
+  }
+  cancelphoto(){
+    this.editimage="true";
   }
   Canceledition(){
     this.disabled = "true";
+    this.editshow="true";
     this.userRegister={};
   }
   async Updateprofile(){
@@ -106,6 +143,7 @@ export class ProfilePage implements OnInit {
     try {      
         await this.userServices.updateUser(this.userRegister,this.NewUser);
         this.disabled = "true";
+        this.editshow="true";
         this.userRegister={};
     }
     catch (error) {
@@ -193,6 +231,24 @@ export class ProfilePage implements OnInit {
     this.loading.dismiss();
   }
 
+  async addservice(){
+    await this.presentLoading();
+    try {
+      this.Services.userID = this.authServices.getAuth().currentUser.uid;
+      await this.servicespetServices.addservices(this.Services);
+      this.Services={};
+      this.showaddanimals = 0;
+    }
+    catch (error) {
+
+      this.presentToast('erro a guardar');
+    } finally {
+      this.loading.dismiss();
+    }
+
+    this.loading.dismiss();
+  }
+
   async presentLoading() {
     this.loading = await this.loadingCtrl.create({ message: 'Aguarde' });
     return this.loading.present();
@@ -227,6 +283,55 @@ export class ProfilePage implements OnInit {
     console.log(this.event.endTime);
   }
 
+
+  async uploadImage(event) {
+    await this.presentLoading();
+    this.imageloading = true;
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+     
+      reader.readAsDataURL(event.target.files[0]);
+      // para visualisar imagem
+      reader.onload = (e:any) => {
+        this.url = e.target.result;
+      
+        // upload da imagem para firebase
+        const fileraw = event.target.files[0];
+        const filePath = "/image/"+ this.authServices.getAuth().currentUser.uid +"/profile/" ;
+        const result=this.SaveImageRef(filePath, fileraw);
+        const ref=result.ref;
+
+       
+        //criar link para download 
+
+        result.task.then(a => {
+          ref.getDownloadURL().subscribe(a => {            
+            this.alldatauser = a;
+            this.UpdateRecord(this.alldatauser);
+          });        
+          
+        });
+      },error=>{
+        alert("Error");
+      }
+    }
+    this.editimage="true";
+    this.loading.dismiss();
+  }
+  UpdateRecord(user) {
+    let record = {};
+    record['image'] = user;
+    this.userServices.updateUser(record, this.authServices.getAuth().currentUser.uid);
+  }
+
+  SaveImageRef(filePath, file) {
+    return {
+      task: this.afStorage.upload(filePath, file)
+      , ref: this.afStorage.ref(filePath)
+    };
+  }
+
+
   onViewTitleChanged(title){
     console.log(title);
   }
@@ -238,7 +343,7 @@ export class ProfilePage implements OnInit {
   onRangeChanged(ev){
     console.log('range changed starttime: ' + ev.startTime + ',endTime: ' + ev.endTime);
   }
- onEventSelected(event){
+  onEventSelected(event){
   console.log('Event selected:'+event.startTime + '-'+ event.endTime + ','+event.title);
   }
               

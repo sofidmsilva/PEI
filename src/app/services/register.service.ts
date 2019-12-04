@@ -4,6 +4,7 @@ import { User } from '../interfaces/user';
 import { map } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { Comments } from '../interfaces/comments';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })

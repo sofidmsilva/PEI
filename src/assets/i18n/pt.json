@@ -1,4 +1,9 @@
 {
+   "All":{
+      "Cancel":"Cancelar",
+      "continue":"Continuar",
+      "add":"Adicionar"
+   },
     "Home": {
        "Question":"Qual o serviço que precisa?",
        "PetWalking":"Passear os seus animais nunca fora tão fácil, venha conhecer quem pode facilitar a sua vida",
@@ -39,7 +44,8 @@
    "surface":"Superfície casa(m2):",
    "car":"Carro",
    "years":"Anos",
-   "continue":"Continuar"
+   "continue":"Continuar",
+   "uploadimage":"Escolha a imagem para upload"
 },
   "Profile":{
    "AddAnimal":"Adicionar Animal",
@@ -56,6 +62,14 @@
    "description":"Descrição",
    "myprofile":"Perfil",
    "myanimals":"Animais",
+   "services":"Serviços",
+   "typeservice":"Tipo de Serviço",
+   "addservice":"Adicionar Serviço",
+   "AnimalTypeservices":"Destina-se a estes animais",
+   "caregiven":"Cuidado dado",
+   "editprofile":"Editar Perfil",
+   "welcome":"Seja Bem Vindo",
+   "editphoto":"Editar Foto",
    "Comment":{
       "title":"Comentários",
       "label":"Inserir Comentário...",

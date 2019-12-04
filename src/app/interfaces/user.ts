@@ -1,4 +1,4 @@
-import { Timestamp } from 'rxjs';
+import { Timestamp, Observable } from 'rxjs';
 
 export interface User {
     email?: string;
