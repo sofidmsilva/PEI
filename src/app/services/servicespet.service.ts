@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Services } from '../interfaces/services';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
+import { Calendar } from '../interfaces/calendar';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import { map } from 'rxjs/operators';
 export class ServicespetService {
 
   private servicesCollection;
+  private calendarCollection;
 
   constructor(private afs: AngularFirestore) { }
 
@@ -30,5 +32,17 @@ export class ServicespetService {
         .filter(item => (item.userID == newUser))
       ));
     return this.servicesCollection;
+  }
+  addevents(calendar: Calendar){
+    return this.afs.collection('CalendarPet').add(calendar);
+  }
+  getevents(newUser){
+    this.calendarCollection = this.afs.collection('CalendarPet').snapshotChanges()
+      .pipe(map(action => action.map(
+        this.documentToDomainObject
+      )
+        .filter(item => (item.userID == newUser))
+      ));
+    return this.calendarCollection;
   }
 }

@@ -161,12 +161,6 @@
                                     </ion-input>
                                 </ion-item>
                                 <ion-item>
-                                    <ion-input type="text"
-                                        placeholder="{{ 'Profile.Calendar.description' | translate }}"
-                                        [(ngModel)]="event.desc">
-                                    </ion-input>
-                                </ion-item>
-                                <ion-item>
                                     <ion-label>{{ 'Profile.Calendar.start' | translate }}</ion-label>
                                     <ion-datetime display="MM/DD/YYYY HH:mm" pickerFormat="MMM D:HH:mm"
                                         [(ngModel)]="event.startTime" [min]="minDate"></ion-datetime>
