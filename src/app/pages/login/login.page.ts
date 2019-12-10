@@ -26,6 +26,11 @@ export class LoginPage implements OnInit {
   private loading: any;
   public position : number=0;
   public guardposition: number=0;
+  isItemAvailable = false;
+  items:any
+  value:any
+  cidades:string[]=[];
+  cityselectedvar:string
 
 
   constructor(
@@ -39,8 +44,57 @@ export class LoginPage implements OnInit {
     public composer: EmailComposer,
     private router: Router ) { }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    this.initializeItems()
+  }
 
+  initializeItems(){ 
+    this.registerServices.getLocalFile().subscribe((res)=>{
+      this.items=res
+      
+    }); 
+  }
+
+  getItems(ev: any) {
+    // Reset items back to all of the items
+   this.initializeItems();
+   this.cidades=[];
+ 
+    // set val to the value of the searchbar
+    const val = ev.target.value;
+
+    //if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      this.isItemAvailable = true;
+      this.items = this.items.filter((item) => {
+        return (item.city.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+
+      for (var x in this.items){
+        if(this.cidades.length<5){
+            this.cidades.push(this.items[x].city)
+        }
+      }
+      
+    }
+  }
+
+  cityselected(cityselected:any){
+  
+    this.isItemAvailable=false
+    this.cityselectedvar=cityselected;
+   
+    this.value = this.items.filter((item) => {
+      return (item.city.toLowerCase()===(this.cityselectedvar.toLocaleLowerCase()));
+    })
+
+    console.log(this.value)
+    for (var x in this.value){
+          console.log("latitude:",this.value[x].lat)
+          console.log("latitude:",this.value[x].lng)
+      
+    }
+  }
   segmentChanged(event: any) {
     if (event.detail.value === "login") {
      if(this.guardposition===2){

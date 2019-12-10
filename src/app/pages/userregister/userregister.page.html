@@ -25,7 +25,10 @@
     </ion-item>
     <ion-item>
       <ion-label position="floating">{{ 'UserRegister.location' | translate }}</ion-label>
-      <ion-input [(ngModel)]="userRegister.location"></ion-input>
+      <!-- <ion-input [(ngModel)]="userRegister.location"></ion-input> -->
+      <!-- <ion-auto-complete [dataProvider]="completeTestService"></ion-auto-complete> -->
+      <!-- Animated Searchbar -->
+          <ion-searchbar animated></ion-searchbar>
     </ion-item>
 
     <div class="phone">

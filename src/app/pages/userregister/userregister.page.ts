@@ -11,6 +11,7 @@ import { Image } from 'src/app/interfaces/image';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 
+
 @Component({
   selector: 'app-userregister',
   templateUrl: './userregister.page.html',
@@ -26,7 +27,9 @@ export class UserregisterPage implements OnInit {
   private experience: Array<string> = ["<1","<5",">5"];
   public userRegister: User = {};
   public  NewUser;
-
+  public objects:any[];
+  // public labelAttribute:string;
+  searchbar = document.querySelector('ion-searchbar');
   
   url: any;
   newImage: Image = {
@@ -52,8 +55,23 @@ export class UserregisterPage implements OnInit {
     }
 
   ngOnInit() {
+    // this.searchbar.addEventListener('ion-searchbar',this.handleInput);
+    this.getLocalFile();
     this.NewUser = this.authServices.getAuth().currentUser.uid;
   }
+  // handleInput(event) {
+  //     const keyword = event.target.value.toLowerCase();
+  //     console.log("ENTROU AQUI")
+  //     return this.objects.filter(
+  //       (object) => {
+  //         const value = object[this.labelAttribute].toLowerCase();
+  
+  //         return value.includes(keyword);
+  //       }
+  //     );
+    
+  //   throw new Error("Method not implemented.");
+  // }
 
   uploadImage(event) {
     this.imageloading = true;
@@ -127,4 +145,13 @@ export class UserregisterPage implements OnInit {
     const toast = await this.toastCrt.create({ message, duration: 2000 });
     toast.present();
   }
+
+  getLocalFile(){
+     this.registerServices.getLocalFile().subscribe((res)=>{
+        console.log(res);
+    })
+  }
+
+
+  
 }

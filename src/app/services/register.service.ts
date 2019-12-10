@@ -5,6 +5,8 @@ import { map } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { Comments } from '../interfaces/comments';
 import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,7 +14,7 @@ export class RegisterService {
 
   private usersCollection;
   private userCommentCollection;
-  constructor(private afs: AngularFirestore, private authServices: AuthService) {
+  constructor(private afs: AngularFirestore, private authServices: AuthService, private http: HttpClient) {
 
   }
 
@@ -59,6 +61,28 @@ export class RegisterService {
 
   deleteComment(id: string) {
     return this.afs.collection('Comentarios').doc(id).delete();
+  }
+
+  getCurrentUserPosition(): Promise<any>
+  {
+    return new Promise((resolve, reject) => {
+
+      navigator.geolocation.getCurrentPosition(resp => {
+
+          resolve({lng: resp.coords.longitude, lat: resp.coords.latitude});
+          // console.log("longitude =", resp.coords.longitude)
+          // console.log("latitude =", resp.coords.latitude)
+        },
+        err => {
+          reject(err);
+        },{enableHighAccuracy:true} );
+    });
+
+  }
+
+  getLocalFile(){
+    return this.http.get('assets/pt.json').pipe(
+        map(res => res));
   }
 
 

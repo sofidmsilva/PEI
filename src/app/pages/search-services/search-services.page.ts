@@ -6,8 +6,8 @@ import Map from 'ol/Map'
 import Tile from 'ol/layer/Tile';
 import OSM from "ol/source/OSM";
 import View from "ol/View";
+import {fromLonLat} from 'ol/proj';
 
-declare var google;
 @Component({
   selector: 'app-search-services',
   templateUrl: './search-services.page.html',
@@ -16,9 +16,9 @@ declare var google;
 export class SearchServicesPage implements OnInit {
 
   @ViewChild(IonSlides, { static: false }) slides: IonSlides;
-  map;
-  @ViewChild('map', {static: false}) mapElement: ElementRef;
-
+  // map;
+  // @ViewChild('map', {static: false}) mapElement: ElementRef;
+   @ViewChild('map', {static: false}) map;
   public animalsPosition: number = 0;
   public animalsDifference: number = 100;
   public option: string;
@@ -28,19 +28,18 @@ export class SearchServicesPage implements OnInit {
 
   ngOnInit() {
     this.option="relevance";
+    // this.getPosition().then((val)=>{
+    //   console.log(val.lat);
+    //   console.log(val.lng);
+    // });
+    
+  }
+
+  ngAfterViewInit(): void {
     this.initializeMap()
   }
 
-  // ngAfterViewInit(): void {
-  //   this.map = new google.maps.Map(
-  //       this.mapElement.nativeElement,
-  //       {
-  //         center: {lat: -34.397, lng: 150.644},
-  //         zoom: 8
-  //       });
-  // }
-
-  initializeMap(){
+  public initializeMap(){
     this.map=new Map({
       target:'map',
       layers:[
@@ -49,8 +48,8 @@ export class SearchServicesPage implements OnInit {
         })
       ],
       view:new View({
-        center:[37.41,8.82],
-        zoom:4
+        center:fromLonLat([-8.3634059,41.2359759]),
+        zoom:10
       })
 
     })
@@ -59,4 +58,6 @@ export class SearchServicesPage implements OnInit {
   searchprofile() {
     this.router.navigate(['tabs/profile/:id']);
   }
+
+  
 }
