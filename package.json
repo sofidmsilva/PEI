@@ -31,6 +31,7 @@
     "@ionic/storage": "^2.2.0",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
+    "@types/ol": "^5.3.6",
     "cordova-android": "^8.1.0",
     "cordova-browser": "^6.0.0",
     "cordova-plugin-camera": "^4.1.0",
@@ -40,6 +41,7 @@
     "core-js": "^2.5.4",
     "firebase": "^7.3.0",
     "ionic2-calendar": "^0.5.7",
+    "ol": "^6.1.1",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
