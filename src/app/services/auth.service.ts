@@ -22,4 +22,9 @@ export class AuthService {
   getAuth() {
     return this.afa.auth;
   }
+
+  getCurrentActiveUserToken(){
+    var token = 
+     this.afa.currentUser().getIdToken();
+  }
 }

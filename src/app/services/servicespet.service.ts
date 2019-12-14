@@ -25,14 +25,16 @@ export class ServicespetService {
     return object;
   }
 
+
+  // this.servicesCollection = this.afs.collection('Utilizador').snapshotChanges()
+  //   .pipe(map(action => action.map(
+  //     this.documentToDomainObject
+  //   )
+  //     .filter(item => (item == newUser))
+  //   ));
+  // return this.servicesCollection;
   addservices(service: Services){
-    this.servicesCollection = this.afs.collection('Utilizador').snapshotChanges()
-    .pipe(map(action => action.map(
-      this.documentToDomainObject
-    )
-      .filter(item => (item == newUser))
-    ));
-  return this.servicesCollection;
+    return this.afs.collection('Services').add(service);
   }
 
   getServices(newUser) {
