@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonSlides, LoadingController, ToastController, PopoverController } from '@ionic/angular';
+import { IonSlides, LoadingController, ToastController, PopoverController, NavController } from '@ionic/angular';
 import { NativeKeyboard } from '@ionic-native/native-keyboard/ngx';
 import { User } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -37,10 +37,13 @@ export class LoginPage implements OnInit {
     private translationservice:TranslateService,
     private registerServices: RegisterService,
     public composer: EmailComposer,
-    private router: Router ) { }
+    private router: Router,
+    public navCtrl: NavController ) { }
 
   ngOnInit() { }
-
+  ngAfterViewInit() {
+    this.navCtrl.pop();
+    }
   segmentChanged(event: any) {
     if (event.detail.value === "login") {
      if(this.guardposition===2){

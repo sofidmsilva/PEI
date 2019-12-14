@@ -25,6 +25,7 @@ requestS=[];
   private requestSubscription: Subscription;
   private showuser: number;
   private requestservices: Array<RequestService>;
+
   constructor(private translateService: TranslateService,
     private router: Router,
     private userServices: RegisterService,
@@ -40,6 +41,7 @@ requestS=[];
             this.getPieChart();
           }
         });
+        
         this.requestSubscription = this.servicespetServices.getrequestservice(this.authServices.getAuth().currentUser.uid).subscribe(
           data => {
             for(let i = 0; i <= data.length-1; i++){
@@ -50,13 +52,10 @@ requestS=[];
             this.requestservices = data;
 
           });
-
-    
-     }
-
-     
+     }  
 
   ngOnInit() {
+console.log("ola")
   }
 
   ngOnDestroy() {

@@ -31,6 +31,14 @@ export class RegisterService {
     return this.usersCollection;
   }
 
+  getAllUser() {
+    this.usersCollection = this.afs.collection('Utilizador').snapshotChanges()
+      .pipe(map(action => action.map(
+        this.documentToDomainObject
+      )));
+    return this.usersCollection;
+  }
+
 
   getComments(newUser) {
     this.userCommentCollection = this.afs.collection('Comentarios').snapshotChanges()

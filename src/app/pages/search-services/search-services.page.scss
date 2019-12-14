@@ -17,6 +17,25 @@
     ion-label{
         font-size: 10px;;
     }
+
+    }
+
+    ion-list{
+        ion-item{
+            background: #d8ddf7;
+            margin-left: 8px;
+            margin-right: 8px;
+            border-radius: 4%;
+            border-style: solid;
+            height: 103px;
+
+            ion-label{
+                h2{
+                    color: #192567;
+                }
+            }
+        }
+
     }
 }
 
