@@ -31,7 +31,7 @@
                                     </ion-col>
                                 </ion-row>
                             </ion-grid>
-                   <ion-title *ngIf="ispremium">{{ 'Profile.welcome' | translate }} <ion-icon name="happy"></ion-icon></ion-title>
+                   <ion-title *ngIf="ispremium || showuser == 1 ">{{ 'Profile.welcome' | translate }} <ion-icon name="happy"></ion-icon></ion-title>
                     <div class="photoprofile" *ngIf="editimage == 'true'">
                             <img class="center ion-margin-top" *ngIf="alldatauser" [src]="alldatauser">
                         <ion-button *ngIf="showuser == 2" (click)="editdata(2)" slot="end" size="small">

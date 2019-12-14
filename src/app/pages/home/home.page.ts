@@ -35,6 +35,7 @@ requestS=[];
       this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
         data => {
           this.showuser = data[0].tipeuser;
+          console.log(this.showuser)
           if(this.showuser==2){
             this.getPieChart();
           }
@@ -56,16 +57,17 @@ requestS=[];
      
 
   ngOnInit() {
+  }
 
-
+  ngOnDestroy() {
+    this.requestSubscription.unsubscribe();
+    this.userSubscription.unsubscribe();
   }
 
   slidesDidLoad(slides) {
     slides.startAutoplay();
   }
-  ngOnDestroy() {
-    this.userSubscription.unsubscribe();
-  }
+
   searchServices(){
     this.router.navigate(['tabs/home/search-services']);
   }
