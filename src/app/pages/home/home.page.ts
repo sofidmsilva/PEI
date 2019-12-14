@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { TouchSequence } from 'selenium-webdriver';
 import { TranslateService } from '@ngx-translate/core';
@@ -18,7 +18,7 @@ declare var google;
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, OnDestroy {
 
 requestS=[];
   private userSubscription: Subscription;
@@ -61,6 +61,7 @@ console.log("ola")
   ngOnDestroy() {
     this.requestSubscription.unsubscribe();
     this.userSubscription.unsubscribe();
+    this.showuser = null;
   }
 
   slidesDidLoad(slides) {

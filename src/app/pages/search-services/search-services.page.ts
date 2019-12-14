@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { IonSlides } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -10,7 +10,7 @@ import { User } from 'firebase';
   templateUrl: './search-services.page.html',
   styleUrls: ['./search-services.page.scss'],
 })
-export class SearchServicesPage implements OnInit {
+export class SearchServicesPage implements OnInit,OnDestroy {
 
   @ViewChild(IonSlides, { static: false }) slides: IonSlides;
 
@@ -27,13 +27,14 @@ export class SearchServicesPage implements OnInit {
     this.userSubscription = this.userServices.getAllUser().subscribe(
       data => {
         this.alluser = data;
-        console.log(this.alluser);
-  
       });
    }
 
   ngOnInit() {
     this.option="relevance";
+  }
+  ngOnDestroy() {
+    this.userSubscription.unsubscribe();
   }
 
   searchprofile(event) {
