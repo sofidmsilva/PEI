@@ -9,8 +9,13 @@ import { Calendar } from '../interfaces/calendar';
 })
 export class ServicespetService {
 
+  getCoordsLocationOfAUser(currentEmail: string) {
+    throw new Error("Method not implemented.");
+  }
+
   private servicesCollection;
   private calendarCollection;
+  private coords;
 
   constructor(private afs: AngularFirestore) { }
 
@@ -21,7 +26,13 @@ export class ServicespetService {
   }
 
   addservices(service: Services){
-    return this.afs.collection('Services').add(service);
+    this.servicesCollection = this.afs.collection('Utilizador').snapshotChanges()
+    .pipe(map(action => action.map(
+      this.documentToDomainObject
+    )
+      .filter(item => (item == newUser))
+    ));
+  return this.servicesCollection;
   }
 
   getServices(newUser) {

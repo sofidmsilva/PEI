@@ -7,6 +7,9 @@ import Tile from 'ol/layer/Tile';
 import OSM from "ol/source/OSM";
 import View from "ol/View";
 import {fromLonLat} from 'ol/proj';
+import { ServicespetService } from 'src/app/services/servicespet.service';
+import { Storage } from '@ionic/storage';
+
 
 @Component({
   selector: 'app-search-services',
@@ -22,17 +25,13 @@ export class SearchServicesPage implements OnInit {
   public animalsPosition: number = 0;
   public animalsDifference: number = 100;
   public option: string;
+  public currentEmail:string;
   
-  constructor(private router: Router) {
+  constructor(private router: Router, private service:ServicespetService, private storage: Storage) {
    }
 
   ngOnInit() {
-    this.option="relevance";
-    // this.getPosition().then((val)=>{
-    //   console.log(val.lat);
-    //   console.log(val.lng);
-    // });
-    
+    this.option="relevance";  
   }
 
   ngAfterViewInit(): void {
@@ -57,6 +56,13 @@ export class SearchServicesPage implements OnInit {
 
   searchprofile() {
     this.router.navigate(['tabs/profile/:id']);
+  }
+
+  getCoordsLocationOfAUser(){
+    this.storage.get('currentActiveUser').then((val)=>{
+      this.currentEmail=val
+  })
+    this.service.getCoordsLocationOfAUser(this.currentEmail);
   }
 
   

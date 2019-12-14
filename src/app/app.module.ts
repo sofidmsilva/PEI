@@ -22,6 +22,8 @@ import {IonicStorageModule} from '@ionic/storage'
 import { LanguagePopoverPageModule } from './pages/language-popover/language-popover.module';
 import { from } from 'rxjs';
 import { NgCalendarModule} from 'ionic2-calendar';
+
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http,'../assets/i18n/', '.json');
 }

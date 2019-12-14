@@ -9,6 +9,7 @@ import { LoadingController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Image } from 'src/app/interfaces/image';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { ThrowStmt } from '@angular/compiler';
 
 
 
@@ -27,9 +28,15 @@ export class UserregisterPage implements OnInit {
   private experience: Array<string> = ["<1","<5",">5"];
   public userRegister: User = {};
   public  NewUser;
-  public objects:any[];
+
   // public labelAttribute:string;
-  searchbar = document.querySelector('ion-searchbar');
+  public isItemAvailable = false;
+  public items:any
+  public value:any
+  public cidades:string[]=[];
+  public cityselectedvar:string
+  public lat:string
+  public long:string
   
   url: any;
   newImage: Image = {
@@ -58,20 +65,57 @@ export class UserregisterPage implements OnInit {
     // this.searchbar.addEventListener('ion-searchbar',this.handleInput);
     this.getLocalFile();
     this.NewUser = this.authServices.getAuth().currentUser.uid;
+    this.initializeItems()
   }
-  // handleInput(event) {
-  //     const keyword = event.target.value.toLowerCase();
-  //     console.log("ENTROU AQUI")
-  //     return this.objects.filter(
-  //       (object) => {
-  //         const value = object[this.labelAttribute].toLowerCase();
+
+  initializeItems(){ 
+    this.registerServices.getLocalFile().subscribe((res)=>{
+      this.items=res
+      
+    }); 
+  }
+
+  getItems(ev: any) {
+    // Reset items back to all of the items
+   this.initializeItems();
+   this.cidades=[];
+ 
+    // set val to the value of the searchbar
+    const val = ev.target.value;
+
+    //if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      this.isItemAvailable = true;
+      this.items = this.items.filter((item) => {
+        return (item.city.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+
+      for (var x in this.items){
+        if(this.cidades.length<5){
+            this.cidades.push(this.items[x].city)
+        }
+      }
+      
+    }
+  }
+
+  cityselected(cityselected:any){
   
-  //         return value.includes(keyword);
-  //       }
-  //     );
+    this.isItemAvailable=false
+    this.cityselectedvar=cityselected;
+   
+    this.value = this.items.filter((item) => {
+      return (item.city.toLowerCase()===(this.cityselectedvar.toLocaleLowerCase()));
+    })
+
+    for (var x in this.value){
+          this.cityselectedvar=cityselected;
+          this.lat=this.value[x].lat;
+          this.long=this.value[x].lng;
+      
+    }
     
-  //   throw new Error("Method not implemented.");
-  // }
+  }
 
   uploadImage(event) {
     this.imageloading = true;
@@ -119,7 +163,9 @@ export class UserregisterPage implements OnInit {
 
   async uploadinformation() {
     await this.presentLoading();
- 
+    this.userRegister.locationCity=this.cityselectedvar;
+    this.userRegister.locationCords={latitude:this.lat, longitude:this.long};
+
     try {      
         await this.registerServices.updateUser(this.userRegister,this.NewUser);
         this.router.navigate(["tabs/home"]);
@@ -148,7 +194,6 @@ export class UserregisterPage implements OnInit {
 
   getLocalFile(){
      this.registerServices.getLocalFile().subscribe((res)=>{
-        console.log(res);
     })
   }
 

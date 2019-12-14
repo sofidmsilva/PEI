@@ -38,6 +38,7 @@
     "cordova-plugin-email-composer": "^0.9.2",
     "cordova-plugin-file": "^6.0.2",
     "cordova-plugin-native-keyboard": "^2.0.5",
+    "cordova-sqlite-storage": "^4.0.0",
     "core-js": "^2.5.4",
     "firebase": "^7.3.0",
     "ionic2-calendar": "^0.5.7",
@@ -97,7 +98,8 @@
       "cordova-plugin-file": {},
       "cordova-plugin-camera": {
         "ANDROID_SUPPORT_V4_VERSION": "27.+"
-      }
+      },
+      "cordova-sqlite-storage": {}
     },
     "platforms": [
       "browser",

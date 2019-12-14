@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { PopoverController, IonTabs } from '@ionic/angular';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import {   Router } from '@angular/router';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-all-tabs',
@@ -14,7 +15,8 @@ export class AllTabsPage implements OnInit {
   public userId: string;
   constructor(private authService: AuthService, 
     private popoverCtr:PopoverController,
-    private route: Router) { 
+    private route: Router,
+    private storage: Storage) { 
 
   }
 
@@ -28,6 +30,7 @@ export class AllTabsPage implements OnInit {
   async logout() {
     try {
       await this.authService.logout();
+      this.storage.remove('currentActiveUser')
     } catch (error) {
       console.error(error);
     }

@@ -24,11 +24,13 @@
       </ion-datetime>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">{{ 'UserRegister.location' | translate }}</ion-label>
-      <!-- <ion-input [(ngModel)]="userRegister.location"></ion-input> -->
-      <!-- <ion-auto-complete [dataProvider]="completeTestService"></ion-auto-complete> -->
-      <!-- Animated Searchbar -->
-          <ion-searchbar animated></ion-searchbar>
+      <!-- <ion-label position="floating">{{ 'UserRegister.location' | translate }}</ion-label> -->
+      <ion-list> 
+        <ion-searchbar class="searchBar" type="text" debounce="500" (ionInput)="getItems($event)"  [(ngModel)]="this.cityselectedvar" [placeholder]="Search"></ion-searchbar>
+      </ion-list>
+      <ion-list *ngIf="isItemAvailable">
+          <ion-button class="citybutton" *ngFor="let item of cidades" (click)="cityselected(item)" > {{ item }}</ion-button>
+      </ion-list>
     </ion-item>
 
     <div class="phone">

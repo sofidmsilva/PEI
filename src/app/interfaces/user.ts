@@ -14,7 +14,11 @@ export interface User {
     surface?:string;
     car?:string;
     dateofbirthday?:Date;
-    location?:string;
+    locationCity?:string;
+    locationCords?:{
+        latitude:string
+        longitude:string
+    }
     phonenumber?: number;
     image?: string;
  

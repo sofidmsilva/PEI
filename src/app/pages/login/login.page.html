@@ -35,12 +35,6 @@
           <ion-input type="password" placeholder="Password" [(ngModel)]="userLogin.password"></ion-input>
         </ion-item>
 
-        <ion-searchbar type="text" debounce="500" (ionInput)="getItems($event)"  [(ngModel)]="this.cityselectedvar" [placeholder]="Search"></ion-searchbar>
-        <ion-list *ngIf="isItemAvailable">
-            <ion-button *ngFor="let item of cidades" (click)="cityselected(item)" > {{ item }}</ion-button>
-        </ion-list>
-
-
         <ion-button class="ion-margin-top" (click)="login()" color="medium" expand="block">
           {{ 'Login.signIn' | translate }}
         </ion-button>

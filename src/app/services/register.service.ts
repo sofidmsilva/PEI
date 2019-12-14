@@ -45,11 +45,13 @@ export class RegisterService {
   }
 
   updateUser(user: User,newUser) {
+    console.log(user)
     return this.afs.collection('Utilizador').doc(newUser).update(user);
   }
 
   addUser(user: User, newUser) {
     const newUserObject = Object.assign({}, user);
+    console.log("PASSOU AQUI")
     delete newUserObject.email;
     delete newUserObject.password;
     return this.afs.collection('Utilizador').doc(newUser.user.uid).set(newUserObject);
@@ -63,25 +65,8 @@ export class RegisterService {
     return this.afs.collection('Comentarios').doc(id).delete();
   }
 
-  getCurrentUserPosition(): Promise<any>
-  {
-    return new Promise((resolve, reject) => {
-
-      navigator.geolocation.getCurrentPosition(resp => {
-
-          resolve({lng: resp.coords.longitude, lat: resp.coords.latitude});
-          // console.log("longitude =", resp.coords.longitude)
-          // console.log("latitude =", resp.coords.latitude)
-        },
-        err => {
-          reject(err);
-        },{enableHighAccuracy:true} );
-    });
-
-  }
-
   getLocalFile(){
-    return this.http.get('assets/pt.json').pipe(
+    return this.http.get('assets/cidades.json').pipe(
         map(res => res));
   }
 
