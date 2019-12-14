@@ -5,10 +5,28 @@
       "add":"ADD"
    },
  "Home": {
-   "Question":"What service  you need?",
+   "Question":"What service do you need?",
+   "Services":"Services to Do:",
+   "hello":"Hi!",
     "PetWalking":"Walking your animals has never been easier, come see who can make your life easier",
     "PetCare":"All the care your pet needs can be found here.",
-    "PetSitting":"Your pet will never need to be alone. Come find out who can take care of him when you are not in home."
+    "PetSitting":"Your pet will never need to be alone. Come find out who can take care of him when you are not in home.",
+    "january":"January",
+    "february":"February",
+    "march":"March",	
+    "april":"April",
+    "may":"May",	
+    "june":"June",
+    "july":"July",
+    "august":"August",
+    "september":"September",	
+    "october":"October",	
+    "november":"November",
+    "december":"December",
+    "months":"Months",
+    "numberservices": "Number Services",
+    "totalservices":"Total de Serviços efetuados",
+    "consult":"See the calendar for more details"
  },
  "Login": {
      "register":"Register",
@@ -78,12 +96,26 @@
       },
       "Calendar":{
          "header":"New Event",
+         "header2":"Request Service",
          "title":"Title",
          "description":"Description",
          "start":"Start",
          "end":"End",
-         "buttonaddevent":" Add Event"
-      }
+         "buttonaddevent":" Add Event",
+         "begindate":"Begin Date"
+      },
+      "Service":{
+         "title":"Confirm please!",
+         "messageconfirm":"Do you really want to delete the service?",
+         "editservice":"Edit Service"
+    },
+    "premium":{
+      "becomepremium":"Become",
+      "becomepremium2":"Premium",
+      "title":"Hi!",
+      "message1":"Becoming Premium ensures that you are one of the top Pet Sitters to appear in customer survey relevance! ",
+      "message2":"Pay only 11.99$ by year!"
+   }
 
  },
  "SearchServices":{

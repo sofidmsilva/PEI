@@ -1,115 +1,143 @@
 {
-   "All":{
-      "Cancel":"Cancelar",
-      "continue":"Continuar",
-      "add":"Adicionar"
+   "All": {
+      "Cancel": "Cancelar",
+      "continue": "Continuar",
+      "add": "Adicionar"
    },
-    "Home": {
-       "Question":"Qual o serviço que precisa?",
-       "PetWalking":"Passear os seus animais nunca fora tão fácil, venha conhecer quem pode facilitar a sua vida",
-       "PetCare":"Todos os cuidados que o seu animal precise pode ser encontrado aqui.",
-       "PetSitting":" O seu animal jamais precisará de estar sozinho. Venha descobrir quem possa tomar conta dele quando não está em casa."
-    },
-    "Login": {
-      "register":"Registar",
+   "Home": {
+      "Question": "Qual o serviço que precisa?",
+      "Services": "Serviços a Fazer:",
+      "hello": "Olá!",
+      "PetWalking": "Passear os seus animais nunca fora tão fácil, venha conhecer quem pode facilitar a sua vida",
+      "PetCare": "Todos os cuidados que o seu animal precise pode ser encontrado aqui.",
+      "PetSitting": " O seu animal jamais precisará de estar sozinho. Venha descobrir quem possa tomar conta dele quando não está em casa.",
+      "january": "Janeiro",
+      "february": "Feveveiro",
+      "march": "Março",
+      "april": "Abril",
+      "may": "Maio",
+      "june": "Junho",
+      "july": "Julho",
+      "august": "Agosto",
+      "september": "Setembro",
+      "october": "Outubro",
+      "november": "Novembro",
+      "december": "Dezembro",
+      "months":"Meses",
+      "numberservices": "Número de Serviços",
+      "totalservices":"Total de Serviços efetuados",
+      "consult":"Consultar o calendário para mais detalhes"
+   },
+   "Login": {
+      "register": "Registar",
       "name": "Nome",
       "signIn": "Entrar",
       "buttonnext": "Próximo",
       "buttonprev": "Anterior",
       "Gender": "Género",
       "Male": "Masculino",
-      "Female":"Feminio",
-      "BirthdayDate":"Data Nascimento",
+      "Female": "Feminio",
+      "BirthdayDate": "Data Nascimento",
       "ConfirmPass": "Confirma Password",
       "finality": "Finalidade",
-      "owner":"Dono Animal",
-      "errormessage":{
+      "owner": "Dono Animal",
+      "errormessage": {
          "invalidemail": "E-mail Inválido!",
          "emailalreadyinuse": "E-mail já em uso!",
          "differentpasswords": "As passswords não coincidem",
-         "argument-error":"É necessário preencher os campos!"
- 
+         "argument-error": "É necessário preencher os campos!"
       }
-  },
-  "UserRegister":{
-   "title":"Dei nos mais informações acerca de si",
-   "dateofbirth":"Data de Nascimento",
-   "location":"Localização",
-   "insertnumber":"Inserir número",
-   "uploadImage":"Inserir Imagem",
-   "phonenumber":"Numbero de Telemóvel:",
-   "drivinglicense":"Carta de Condução",
-   "experience": "Experiência",
-   "garden":"Jardim",
-   "surface":"Superfície casa(m2):",
-   "car":"Carro",
-   "years":"Anos",
-   "continue":"Continuar",
-   "uploadimage":"Escolha a imagem para upload"
-},
-  "Profile":{
-   "AddAnimal":"Adicionar Animal",
-   "AnimalType":"Tipo de Animal",
-   "Breed":"Raça",
-   "Size":"Tamanho do animal",
-   "Yes":"Sim",
-   "No": "Não",
-   "dewormed":"Está desparatizado",
-   "vaccinated":"Está vacinado",
-   "Age1":"Idade (Ex: 2anos or 2meses)",
-   "Age2":"Idade",
-   "medication":"Medicação",
-   "description":"Descrição",
-   "myprofile":"Perfil",
-   "myanimals":"Animais",
-   "services":"Serviços",
-   "typeservice":"Tipo de Serviço",
-   "addservice":"Adicionar Serviço",
-   "AnimalTypeservices":"Destina-se a estes animais",
-   "caregiven":"Cuidado dado",
-   "editprofile":"Editar Perfil",
-   "welcome":"Seja Bem Vindo",
-   "editphoto":"Editar Foto",
-   "Comment":{
-      "title":"Comentários",
-      "label":"Inserir Comentário...",
-      "buttonadd":"Adicionar"
    },
-   "Calendar":{
-      "header":"Novo Evento",
-      "title":"Título",
-      "description":"Descrição",
-      "start":"Começo",
-      "end":"Fim",
-      "buttonaddevent":" Adicionar Evento"
+   "UserRegister": {
+      "title": "Dei nos mais informações acerca de si",
+      "dateofbirth": "Data de Nascimento",
+      "location": "Localização",
+      "insertnumber": "Inserir número",
+      "uploadImage": "Inserir Imagem",
+      "phonenumber": "Numbero de Telemóvel:",
+      "drivinglicense": "Carta de Condução",
+      "experience": "Experiência",
+      "garden": "Jardim",
+      "surface": "Superfície casa(m2):",
+      "car": "Carro",
+      "years": "Anos",
+      "continue": "Continuar",
+      "uploadimage": "Escolha a imagem para upload"
+   },
+   "Profile": {
+      "AddAnimal": "Adicionar Animal",
+      "AnimalType": "Tipo de Animal",
+      "Breed": "Raça",
+      "Size": "Tamanho do animal",
+      "Yes": "Sim",
+      "No": "Não",
+      "dewormed": "Está desparatizado",
+      "vaccinated": "Está vacinado",
+      "Age1": "Idade (Ex: 2anos or 2meses)",
+      "Age2": "Idade",
+      "medication": "Medicação",
+      "description": "Descrição",
+      "myprofile": "Perfil",
+      "myanimals": "Animais",
+      "services": "Serviços",
+      "typeservice": "Tipo de Serviço",
+      "addservice": "Adicionar Serviço",
+      "AnimalTypeservices": "Destina-se a estes animais",
+      "caregiven": "Cuidado dado",
+      "editprofile": "Editar Perfil",
+      "welcome": "Seja Bem Vindo",
+      "editphoto": "Editar Foto",
+      "Comment": {
+         "title": "Comentários",
+         "label": "Inserir Comentário...",
+         "buttonadd": "Adicionar"
+      },
+      "Calendar": {
+         "header": "Novo Evento",
+         "header2":"Solicitar serviço",
+         "title": "Título",
+         "description": "Descrição",
+         "start": "Começo",
+         "end": "Fim",
+         "buttonaddevent": " Adicionar Evento",
+         "begindate":"Data Início"
+      },
+      "Service": {
+         "title": "Confirm please!",
+         "messageconfirm": "Quer mesmo apagar o serviço?",
+         "editservice": "Editar Serviço"
+      },
+      "premium":{
+         "becomepremium":"Tornar-se",
+         "becomepremium2":"Premium",
+         "title":"Olá",
+         "message1":"Ao tornar-se Premium garante que seja dos principais Pet Sitters a aparecer em relevância na pesquisa dos clientes!",
+         "message2":"Pague só 11.99 euros por ano!"
+      }
+   },
+   "SearchServices": {
+      "title": "Procurar por serviços",
+      "relevance": "Relevância",
+      "distance": "Distância",
+      "price": "Preço"
+   },
+   "Favorites": {
+      "title": "Favoritos"
+   },
+   "TypeAnimals": {
+      "cat": "Gato",
+      "dog": "Cão",
+      "turtle": "Tartaruga",
+      "fish": "Peixe",
+      "bird": "Pássaro",
+      "snake": "Cobra",
+      "hamster": "Hamster",
+      "other": "Outro"
+   },
+   "SizeAnimals": {
+      "verysmall": "Muito Pequeno(<15cm)",
+      "small": "Pequeno(<25cm)",
+      "medium": "Médio(<50cm)",
+      "big": "Grande(>50 cm)"
    }
-},
-"SearchServices":{
-   "title":"Procurar por serviços",
-   "relevance":"Relevância",
-   "distance":"Distância",
-   "price":"Preço"
-} ,
-"Favorites":{
-   "title":"Favoritos"
-
-},
-"TypeAnimals":{
-   "cat":"Gato",
-   "dog": "Cão",
-   "turtle":"Tartaruga",
-   "fish":"Peixe",
-   "bird":"Pássaro",
-   "snake":"Cobra",
-   "hamster":"Hamster",
-   "other":"Outro"
-},
-"SizeAnimals":{
-   "verysmall":"Muito Pequeno(<15cm)",
-   "small":"Pequeno(<25cm)",
-   "medium":"Médio(<50cm)",
-   "big":"Grande(>50 cm)"
 }
-
-   
-   }

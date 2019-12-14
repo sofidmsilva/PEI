@@ -1,5 +1,21 @@
 <ion-content>
-        <div class="container">
+        <ion-item>
+                <ion-slides #mySlider class="slides" (ionSlidesDidLoad)="slidesDidLoad(mySlider)">
+                        <ion-slide>
+                                <img src="assets/img/adverts/Imagem1.png" />
+                        </ion-slide>
+                        <ion-slide>
+                                <img src="assets/img/adverts/Imagem2.png" />
+                        </ion-slide>
+                        <ion-slide>
+                                <img src="assets/img/adverts/Imagem3.png" />
+                        </ion-slide>
+                        <ion-slide>
+                                <img src="assets/img/adverts/Imagem4.png" />
+                        </ion-slide>
+                </ion-slides>
+        </ion-item>
+        <div class="container" *ngIf="showuser == 1">
                 <ion-title class="ion-text-center" color="dark">{{ 'Home.Question' | translate }}</ion-title>
                 <ion-card color="tertiary">
                         <img src="assets/img/petwalking.png" />
@@ -53,4 +69,33 @@
                         </ion-row>
                 </ion-card>
         </div>
+        <div class="homepetsitter" *ngIf="showuser == 2">
+                <ion-title>{{ 'Home.hello' | translate }}</ion-title>
+                <ion-list>
+                        <ion-list-header>
+                                {{'Home.Services'| translate}}<br>
+                               
+                        </ion-list-header>
+                        <ion-note class="subtitle" > {{'Home.consult'| translate}}</ion-note> 
+                        <ion-item-sliding *ngFor="let servi of requestservices">
+                                <ion-item color="Warning"*ngIf="servi.accept == true" >
+                                        <ion-note> {{'Profile.typeservice'| translate}} {{ servi.type }}  </ion-note>
+                                         <ion-note>{{'Profile.Calendar.begindate'| translate}} {{ servi.datebegin }}</ion-note> 
+                                        </ion-item>
+
+                                <ion-item-options side="start">
+                                        <ion-item-option color="primary" (click)="test()">Mark Unread</ion-item-option>
+                                </ion-item-options>
+
+                                <ion-item-options side="end">
+                                        <ion-item-option color="danger" (click)="test()">Delete</ion-item-option>
+                                </ion-item-options>
+                        </ion-item-sliding>
+                </ion-list>
+        </div>
+
+        <div id="barchart_values"></div>
+
+        
+
 </ion-content>

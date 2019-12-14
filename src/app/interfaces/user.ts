@@ -17,6 +17,7 @@ export interface User {
     location?:string;
     phonenumber?: number;
     image?: string;
+    premium?:boolean;
  
     
 
