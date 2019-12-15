@@ -53,34 +53,7 @@ export class SearchServicesPage implements OnInit {
   public initializeMap() {
     this.storage.get('currentActiveUser').then((userToken) => {
       this.service.getCoordsLocationOfAUser(userToken).then((resolve) => {
-        // this.currentLocation=new Feature({
-        //   geometry:new Point(fromLonLat([resolve.longitude, resolve.latitude ]))
-        // })
-        // this.currentLocation.setStyle(new Style({
-        //   image:new Icon(({
-        //     color:'#8959A8',
-        //     crossOrigin:'anonymous',
-        //     src: '../../../assets/img/point-png-1.png',
-        //     imgSize:[20,20]
-        //   }))
-        // }));
-
-        // this.vectorSource=new VectorSource({
-        //   features:[this.currentLocation]
-        // })
-
-        // this.vectorLayer=new VectorLayer({
-        //   source:this.vectorSource
-        // })
-
-        // this.rasterLayer=new TileLayer({
-        //  source: new TileJSON({
-        //    url:'https://api.tiles.mapbox.com/v3/mapbox.geography-class.json?secure',
-        //    crossOrigin:''
-
-        //  })
-        // })
-
+       
         console.log("latitude :", resolve.latitude)
         console.log("longitude :", resolve.longitude)
 
