@@ -72,8 +72,7 @@ export class LoginPage implements OnInit {
   
     try {
       await this.authServices.login(this.userLogin);
-      
-      this.storage.set('currentActiveUser', this.userLogin.email);
+      this.storage.set('currentActiveUser', this.authServices.getAuth().currentUser.uid);
      
 
     }

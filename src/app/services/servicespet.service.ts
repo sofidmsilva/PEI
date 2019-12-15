@@ -9,13 +9,12 @@ import { Calendar } from '../interfaces/calendar';
 })
 export class ServicespetService {
 
-  getCoordsLocationOfAUser(currentEmail: string) {
-    throw new Error("Method not implemented.");
-  }
+  
 
   private servicesCollection;
   private calendarCollection;
-  private coords;
+  
+  coords:Object={};
 
   constructor(private afs: AngularFirestore) { }
 
@@ -59,5 +58,23 @@ export class ServicespetService {
     return this.calendarCollection;
   }
 
-  
+  getCoordsLocationOfAUser(token: string): Promise<any> {
+    return new Promise((resolve,reject) => {
+    var docRef = this.afs.collection("Utilizador").doc(token);
+
+    docRef.get().subscribe(
+      doc => {
+        if (doc.exists) {
+          var data=doc.data();
+          var coords= {latitude:data.locationCords.latitude, longitude:data.locationCords.longitude};
+          resolve(coords)
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+        },
+        (error) => reject(error)
+    );
+  });
+}
 }
