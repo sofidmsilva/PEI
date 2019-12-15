@@ -1,15 +1,13 @@
-import { Component, OnInit, ViewChild, AfterContentInit, ElementRef, AfterViewInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { IonSlides } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import Map from 'ol/Map'
+import { IonSlides } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 import Tile from 'ol/layer/Tile';
+import Map from 'ol/Map';
+import { fromLonLat } from 'ol/proj';
 import OSM from "ol/source/OSM";
 import View from "ol/View";
-import { fromLonLat } from 'ol/proj';
 import { ServicespetService } from 'src/app/services/servicespet.service';
-import { Storage } from '@ionic/storage';
-import { resolve } from 'url';
 
 
 @Component({

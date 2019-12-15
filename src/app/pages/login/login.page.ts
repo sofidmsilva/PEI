@@ -7,7 +7,7 @@ import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription, VirtualTimeScheduler } from 'rxjs';
 import { RegisterService } from 'src/app/services/register.service';
-import { EmailComposer} from '@ionic-native/email-composer/ngx';
+import { EmailComposer } from '@ionic-native/email-composer/ngx';
 import { send } from 'q';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
@@ -23,11 +23,11 @@ export class LoginPage implements OnInit {
   public allanimalsDifference: number = 100;
   public userLogin: User = {};
   public userRegister: User = {};
-  public confirmpassword: string ="";
+  public confirmpassword: string = "";
   private loading: any;
-  public position : number=0;
-  public guardposition: number=0;
-  
+  public position: number = 0;
+  public guardposition: number = 0;
+
 
 
   constructor(
@@ -35,24 +35,24 @@ export class LoginPage implements OnInit {
     private loadingCtrl: LoadingController,
     private toastCrt: ToastController,
     private authServices: AuthService,
-    private popoverCtr:PopoverController,
-    private translationservice:TranslateService,
+    private popoverCtr: PopoverController,
+    private translationservice: TranslateService,
     private registerServices: RegisterService,
     public composer: EmailComposer,
     private router: Router,
-    private storage: Storage ) { }
+    private storage: Storage) { }
 
   ngOnInit() { }
 
   segmentChanged(event: any) {
     if (event.detail.value === "login") {
-     if(this.guardposition===2){
-      this.slides.slidePrev();
-     }else{
-      this.slides.slidePrev();
-      this.slides.slidePrev();
-     }
-    
+      if (this.guardposition === 2) {
+        this.slides.slidePrev();
+      } else {
+        this.slides.slidePrev();
+        this.slides.slidePrev();
+      }
+
       this.allanimalsPosition += this.allanimalsDifference;
     }
     else {
@@ -60,20 +60,20 @@ export class LoginPage implements OnInit {
       this.allanimalsPosition -= this.allanimalsDifference;
     }
   }
-  NextChanged(position){
-    this.guardposition=position;
+  NextChanged(position) {
+    this.guardposition = position;
     this.slides.slideNext();
   }
-  PrevChanged(){
+  PrevChanged() {
     this.slides.slidePrev();
   }
- async login() {
-  await this.presentLoading();
-  
+  async login() {
+    await this.presentLoading();
+
     try {
       await this.authServices.login(this.userLogin);
       this.storage.set('currentActiveUser', this.authServices.getAuth().currentUser.uid);
-     
+
 
     }
     catch (error) {
@@ -96,24 +96,24 @@ export class LoginPage implements OnInit {
 
   async register() {
     await this.presentLoading();
- 
+
     try {
-      if(this.confirmpassword !== this.userRegister.password){
+      if (this.confirmpassword !== this.userRegister.password) {
         this.presentToast(this.translationservice.instant('Login.errormessage.differentpasswords'));
         return console.error("Passwords diferentes!");
-        
-      }else{
-       const NewUser= await this.authServices.register(this.userRegister);
-       this.userRegister.verifycode=Math.floor(Math.random() * 3000); 
-        await this.registerServices.addUser(this.userRegister,NewUser);
+
+      } else {
+        const NewUser = await this.authServices.register(this.userRegister);
+        this.userRegister.verifycode = Math.floor(Math.random() * 3000);
+        await this.registerServices.addUser(this.userRegister, NewUser);
 
 
       }
-  
+
     }
     catch (error) {
       let message: string;
-  
+
       switch (error.code) {
         case 'auth/email-already-in-use':
           message = this.translationservice.instant('Login.errormessage.emailalreadyinuse');
@@ -142,10 +142,10 @@ export class LoginPage implements OnInit {
     toast.present();
   }
 
-  async openlanguages(ev) { 
-    const popover=await this.popoverCtr.create({
+  async openlanguages(ev) {
+    const popover = await this.popoverCtr.create({
       component: LanguagePopoverPage,
-      event:ev
+      event: ev
     });
     await popover.present();
   }
