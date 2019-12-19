@@ -14,6 +14,7 @@ export class RegisterService {
 
   private usersCollection;
   private userCommentCollection;
+  coords: any;
   constructor(private afs: AngularFirestore, private authServices: AuthService, private http: HttpClient) {
 
   }
@@ -31,6 +32,13 @@ export class RegisterService {
         .filter(item => (item.id == newUser))
       ));
     return this.usersCollection;
+  }
+
+  getCityCoords(morada){
+    console.log(morada)
+    var url=`https://eu1.locationiq.com/v1/search.php?key=82087a057eb819&q=${morada}&format=json`
+    console.log(url)
+        return this.coords=this.http.get(url);
   }
 
 

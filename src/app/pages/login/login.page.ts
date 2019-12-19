@@ -11,7 +11,7 @@ import { EmailComposer } from '@ionic-native/email-composer/ngx';
 import { send } from 'q';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
-
+declare var H: any;  
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -27,7 +27,10 @@ export class LoginPage implements OnInit {
   private loading: any;
   public position: number = 0;
   public guardposition: number = 0;
-
+  platform: any;
+  private _appId: string = 'cZhsObl98cbkEcgYHrwn';  
+  private _appCode: string = 'JAkuOIaFZ4x_Zer-IbR0noK9ma5MO3BAQLfXC8wbz7s';  
+  search: any;
 
 
   constructor(
@@ -40,9 +43,25 @@ export class LoginPage implements OnInit {
     private registerServices: RegisterService,
     public composer: EmailComposer,
     private router: Router,
-    private storage: Storage) { }
+    private storage: Storage) {
+    
+     }
+    
+   
 
-  ngOnInit() { }
+  ngOnInit() {
+    
+    var searchText = 'Travessa de Marcos, 44, Cristelo, Paredes, Porto, Portugal'
+   
+  
+     var response=this.registerServices.getCityCoords(searchText).subscribe((response)=>{
+       console.log("Reponse:", response[0].lat)
+     })
+     
+
+   }
+
+ 
 
   segmentChanged(event: any) {
     if (event.detail.value === "login") {
@@ -103,6 +122,7 @@ export class LoginPage implements OnInit {
         return console.error("Passwords diferentes!");
 
       } else {
+        console.log("passou aqui")
         const NewUser = await this.authServices.register(this.userRegister);
         this.userRegister.verifycode = Math.floor(Math.random() * 3000);
         await this.registerServices.addUser(this.userRegister, NewUser);

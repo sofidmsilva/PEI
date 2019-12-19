@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { Image } from 'src/app/interfaces/image';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ThrowStmt } from '@angular/compiler';
+import { Morada } from 'src/app/interfaces/morada';
 
 
 
@@ -26,7 +27,7 @@ export class UserregisterPage implements OnInit {
   private alldatauser:string;
   private datauser: number;
   private experience: Array<string> = ["<1","<5",">5"];
-  public userRegister: User = {};
+  public userRegister: User = <User>{};
   public  NewUser;
 
   // public labelAttribute:string;
@@ -37,6 +38,8 @@ export class UserregisterPage implements OnInit {
   public cityselectedvar:string
   public lat:string
   public long:string
+  public morada:Morada =<Morada>{}
+  
   
   url: any;
   newImage: Image = {
@@ -63,59 +66,59 @@ export class UserregisterPage implements OnInit {
 
   ngOnInit() {
     // this.searchbar.addEventListener('ion-searchbar',this.handleInput);
-    this.getLocalFile();
+    // this.getLocalFile();
     this.NewUser = this.authServices.getAuth().currentUser.uid;
-    this.initializeItems()
+  //  this.initializeItems()
   }
 
-  initializeItems(){ 
-    this.registerServices.getLocalFile().subscribe((res)=>{
-      this.items=res
+  // initializeItems(){ 
+  //   this.registerServices.getLocalFile().subscribe((res)=>{
+  //     this.items=res
       
-    }); 
-  }
+  //   }); 
+  // }
 
-  getItems(ev: any) {
-    // Reset items back to all of the items
-   this.initializeItems();
-   this.cidades=[];
+  // getItems(ev: any) {
+  //   // Reset items back to all of the items
+  //  this.initializeItems();
+  //  this.cidades=[];
  
-    // set val to the value of the searchbar
-    const val = ev.target.value;
+  //   // set val to the value of the searchbar
+  //   const val = ev.target.value;
 
-    //if the value is an empty string don't filter the items
-    if (val && val.trim() != '') {
-      this.isItemAvailable = true;
-      this.items = this.items.filter((item) => {
-        return (item.city.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
+  //   //if the value is an empty string don't filter the items
+  //   if (val && val.trim() != '') {
+  //     this.isItemAvailable = true;
+  //     this.items = this.items.filter((item) => {
+  //       return (item.city.toLowerCase().indexOf(val.toLowerCase()) > -1);
+  //     })
 
-      for (var x in this.items){
-        if(this.cidades.length<5){
-            this.cidades.push(this.items[x].city)
-        }
-      }
+  //     for (var x in this.items){
+  //       if(this.cidades.length<5){
+  //           this.cidades.push(this.items[x].city)
+  //       }
+  //     }
       
-    }
-  }
+  //   }
+  // }
 
-  cityselected(cityselected:any){
+  // cityselected(cityselected:any){
   
-    this.isItemAvailable=false
-    this.cityselectedvar=cityselected;
+  //   this.isItemAvailable=false
+  //   this.cityselectedvar=cityselected;
    
-    this.value = this.items.filter((item) => {
-      return (item.city.toLowerCase()===(this.cityselectedvar.toLocaleLowerCase()));
-    })
+  //   this.value = this.items.filter((item) => {
+  //     return (item.city.toLowerCase()===(this.cityselectedvar.toLocaleLowerCase()));
+  //   })
 
-    for (var x in this.value){
-          this.cityselectedvar=cityselected;
-          this.lat=this.value[x].lat;
-          this.long=this.value[x].lng;
+  //   for (var x in this.value){
+  //         this.cityselectedvar=cityselected;
+  //         this.lat=this.value[x].lat;
+  //         this.long=this.value[x].lng;
       
-    }
+  //   }
     
-  }
+  // }
 
   uploadImage(event) {
     this.imageloading = true;
@@ -163,12 +166,18 @@ export class UserregisterPage implements OnInit {
 
   async uploadinformation() {
     await this.presentLoading();
-    this.userRegister.locationCity=this.cityselectedvar;
-    this.userRegister.locationCords={latitude:this.lat, longitude:this.long};
+    let address=`${this.morada.Rua}, ${this.morada.Cidade}, ${this.morada.Distrito}, ${this.morada.Pais}`
+    this.registerServices.getCityCoords(address).subscribe((response)=>{
+      
+      let address=<Morada>{}
 
-    try {      
-        await this.registerServices.updateUser(this.userRegister,this.NewUser);
-        this.router.navigate(["tabs/home"]);
+      this.userRegister.morada=this.morada;
+      this.userRegister.morada.Coordenadas={ latitude: response[0].lat, longitude: response[0].lon};
+     
+      console.log(this.userRegister)
+      try {      
+        //await this.registerServices.updateUser(this.userRegister,this.NewUser);
+        //this.router.navigate(["tabs/home"]);
 
 
     }
@@ -178,6 +187,10 @@ export class UserregisterPage implements OnInit {
     } finally {
       this.loading.dismiss();
     }
+
+
+    })
+   
 
     this.loading.dismiss();
   }
@@ -192,10 +205,10 @@ export class UserregisterPage implements OnInit {
     toast.present();
   }
 
-  getLocalFile(){
-     this.registerServices.getLocalFile().subscribe((res)=>{
-    })
-  }
+  // getLocalFile(){
+  //    this.registerServices.getLocalFile().subscribe((res)=>{
+  //   })
+  // }
 
 
   
