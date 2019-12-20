@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { IonSlides, LoadingController, ToastController } from '@ionic/angular';
+import { IonSlides, LoadingController, ToastController, AlertController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Animals } from 'src/app/interfaces/animals';
 import { AuthService } from 'src/app/services/auth.service';
@@ -16,6 +16,8 @@ import { ServicespetService } from 'src/app/services/servicespet.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Image } from 'src/app/interfaces/image';
 import { Calendar } from 'src/app/interfaces/calendar';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { RequestService } from 'src/app/interfaces/request-service';
 
 
 
@@ -42,7 +44,8 @@ export class ProfilePage implements OnInit {
   }
   imageloading = false;
 
-  private showuser: string;
+  private showuser: number;
+  private ispremium: boolean;
   public animalsPosition: number = 0;
   public animalsDifference: number = 100;
   public imagem;
@@ -51,6 +54,7 @@ export class ProfilePage implements OnInit {
   private loading: any;
   private disabled: string = "true";
   private editshow: string = "true";
+  private enableeditservice: string="true";
   private editimage: string = "true";
   private experience: Array<string> = ["<1", "<5", ">5"];
   private showaddanimals: number = 0;
@@ -69,7 +73,9 @@ export class ProfilePage implements OnInit {
     "TypeAnimals.bird", "TypeAnimals.snake", "TypeAnimals.hamster"];
   private sizeanimals: Array<string> = ["SizeAnimals.verysmall", "SizeAnimals.small", "SizeAnimals.medium", "SizeAnimals.big"];
   private typeservices: Array<string> = ["Pet Walking", "Pet Care", "Pet Sitting"];
+  private typeservicefromuser =[];
   private AnimalsRegister: Animals = {};
+  private requestservice: RequestService={};
   private AddComment: Comments = {};
   private Services: Services = {};
   private event: Calendar = {startTime: '',endTime:''};
@@ -83,7 +89,9 @@ export class ProfilePage implements OnInit {
     private userServices: RegisterService,
     private afStorage: AngularFireStorage,
     private servicespetServices: ServicespetService,
-    private afs: AngularFirestore) {
+    private afs: AngularFirestore,
+    private alertController: AlertController,
+    public modalController: ModalController) {
 
     this.animalsSubscription = this.animalServices.getAnimals(this.authServices.getAuth().currentUser.uid).subscribe(
       data => {
@@ -95,6 +103,7 @@ export class ProfilePage implements OnInit {
         this.datauser = data;
         this.alldatauser = data[0].image;
         this.showuser = data[0].tipeuser;
+        this.ispremium= data[0].premium;
       });
     this.CommentsSubscription = this.userServices.getComments(this.authServices.getAuth().currentUser.uid).subscribe(
       data => {
@@ -103,20 +112,27 @@ export class ProfilePage implements OnInit {
     this.ServicespetSubscription = this.servicespetServices.getServices(this.authServices.getAuth().currentUser.uid).subscribe(
       data => {
         this.servicesPet = data
+        for(let i = 0; i <= this.servicesPet.length-1; i++){
+          this.typeservicefromuser[i]=this.servicesPet[i].typeservice;
+        }
       });
+      
     this.CalendarPetSubscription = this.servicespetServices.getevents(this.authServices.getAuth().currentUser.uid).subscribe(
       data => {this.eventSource=[];
         this.calendarevent = data
         for(let i = 0; i <= this.calendarevent.length - 1; i++){
+          
           let eventCopy = {
             title: this.calendarevent[i].title,
             startTime: new Date(this.calendarevent[i].startTime),
-            endTime: new Date(this.calendarevent[i].endTime)      
+            endTime: new Date(this.calendarevent[i].endTime),   
+            
           }
-  console.log( this.calendarevent,"dd");
+          console.log(eventCopy);
         this.eventSource.push(eventCopy);
         this.myCal.loadEvents();
-  }      
+       
+      }      
       
       });
 
@@ -139,21 +155,38 @@ export class ProfilePage implements OnInit {
     this.CalendarPetSubscription.unsubscribe();
   }
 
-  editprofile() {
-    this.disabled = "false";
-    this.editshow = "false";
+  editdata(id:number) {
+    if(id==1){
+      this.disabled = "false";
+      this.editshow = "false";
+    }
+    else{
+      if(id==2){
+        this.editimage = "false";
+      }
+      else{
+        this.enableeditservice="false";
+      }
+    }
+    
   }
-  editPhoto() {
-    this.editimage = "false";
-  }
-  cancelphoto() {
-    this.editimage = "true";
-  }
-  Canceledition() {
+
+  Canceledition(id:number) {
+    if(id==1){
     this.disabled = "true";
     this.editshow = "true";
     this.userRegister = {};
+  }else{
+    if(id==2){
+      this.editimage = "true";
+    }
+    else{
+      this.enableeditservice="true";
+    }
   }
+
+  }
+
   async Updateprofile() {
     await this.presentLoading();
 
@@ -247,7 +280,31 @@ export class ProfilePage implements OnInit {
 
     this.loading.dismiss();
   }
+  async addrequestservice() {
+    await this.presentLoading();
+    var to = this.router.url.split('/');
+    try {
 
+      this.requestservice.from = this.authServices.getAuth().currentUser.uid;
+      this.requestservice.to=to[3];
+      this.requestservice.datebegin= this.event.startTime;
+      this.requestservice.dateend=this.event.endTime;
+  
+      await this.servicespetServices.addrequestservice(this.requestservice);
+      console.log(this.requestservice);
+      this.requestservice = {};
+      this.resetEvents();
+      
+    }
+    catch (error) {
+
+      this.presentToast('erro a guardar');
+    } finally {
+      this.loading.dismiss();
+    }
+
+    this.loading.dismiss();
+  }
   async addservice() {
     await this.presentLoading();
     try {
@@ -265,7 +322,52 @@ export class ProfilePage implements OnInit {
 
     this.loading.dismiss();
   }
+  async deleteservice(id: string){
+    const alert = await this.alertController.create({
+      header:  this.translationservice.instant('Profile.Service.title'),
+      message: this.translationservice.instant('Profile.Service.messageconfirm'),
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+          }
+        }, {
+          text: 'Ok',
+          handler:async  () => {
+            try {
+              await this.servicespetServices.deleteService(id);
+            }
+            catch (error) {
+              this.presentToast('erro ao apagar');
+            } finally {
+              
+            }
+          }
+        }
+      ]
+    });
 
+    await alert.present();
+  }
+  async editservice(id: string){
+   
+    await this.presentLoading();
+
+    try {
+      await this.servicespetServices.editservice(this.Services, id);
+      this.Services = {};
+    }
+    catch (error) {
+      console.error(error);
+      this.presentToast(error);
+    } finally {
+      this.loading.dismiss();
+    }
+    this.enableeditservice="true";
+    this.loading.dismiss();
+  }
   async presentLoading() {
     this.loading = await this.loadingCtrl.create({ message: 'Aguarde' });
     return this.loading.present();
@@ -298,8 +400,39 @@ export class ProfilePage implements OnInit {
       endTime: new Date().toISOString()
     }
   }
+  async presentAlertPrompt() {
+    const alert = await this.alertController.create({
+      header: this.translationservice.instant('Profile.premium.title'),
+      subHeader:this.translationservice.instant('Profile.premium.message1'),
+      message:this.translationservice.instant('Profile.premium.message2'),
+      inputs: [
+        {
+          name: 'name1',
+          type: 'number',
+          placeholder: 'Dados do Cartão'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Pagar',
+          handler:async () => {
+            this.userRegister.premium=true;
+            await this.userServices.updateUser(this.userRegister, this.NewUser);
+            console.log('Confirm Ok');
+          }
+        }
+      ]
+    });
 
-
+    await alert.present();
+  }
   async uploadImage(event) {
     await this.presentLoading();
     this.imageloading = true;
@@ -359,8 +492,36 @@ export class ProfilePage implements OnInit {
   onRangeChanged(ev) {
     console.log('range changed starttime: ' + ev.startTime + ',endTime: ' + ev.endTime);
   }
-  onEventSelected(event) {
-    console.log('Event selected:' + event.startTime + '-' + event.endTime + ',' + event.title);
+
+  async onEventSelected(event,id:string) {
+    console.log(id,event);
+    const alert = await this.alertController.create({
+      header:  "Apagar evento",
+      message: "Quer apagar este evento ?",
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+          }
+        }, {
+          text: 'Ok',
+          handler:async  () => {
+            try {
+              await this.servicespetServices.deleteevent(event.id);
+            }
+            catch (error) {
+              this.presentToast('erro ao apagar');
+            } finally {
+              
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   onTimeSelected(ev) {

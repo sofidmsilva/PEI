@@ -21,6 +21,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {IonicStorageModule} from '@ionic/storage'
 import { LanguagePopoverPageModule } from './pages/language-popover/language-popover.module';
 import { from } from 'rxjs';
+import {ChartsModule} from 'ng2-charts';
 import { NgCalendarModule} from 'ionic2-calendar';
 
 
@@ -40,6 +41,7 @@ export function createTranslateLoader(http: HttpClient) {
     HttpClientModule,
     AngularFireStorageModule,
     NgCalendarModule,
+    ChartsModule,
     IonicStorageModule.forRoot(),
     TranslateModule.forRoot({
       loader: {

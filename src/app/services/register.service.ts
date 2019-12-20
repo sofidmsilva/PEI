@@ -40,6 +40,13 @@ export class RegisterService {
     console.log(url)
         return this.coords=this.http.get(url);
   }
+  getAllUser() {
+    this.usersCollection = this.afs.collection('Utilizador').snapshotChanges()
+      .pipe(map(action => action.map(
+        this.documentToDomainObject
+      )));
+    return this.usersCollection;
+  }
 
 
   getComments(newUser) {

@@ -16,8 +16,10 @@ import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import TileLayer from 'ol/layer/Tile';
 import TileJSON from 'ol/source/TileJSON';
-
-
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
+import { RegisterService } from 'src/app/services/register.service';
+import { User } from 'firebase';
 @Component({
   selector: 'app-search-services',
   templateUrl: './search-services.page.html',
@@ -29,6 +31,10 @@ export class SearchServicesPage implements OnInit {
   // map;
   // @ViewChild('map', {static: false}) mapElement: ElementRef;
   @ViewChild('map', { static: false }) map;
+
+  private userSubscription: Subscription;
+  private alluser: Array<User>;
+  private orderprice: Array<number>;
   public animalsPosition: number = 0;
   public animalsDifference: number = 100;
   public option: string;
@@ -39,8 +45,14 @@ export class SearchServicesPage implements OnInit {
   vectorLayer;
   rasterLayer;
 
-  constructor(private router: Router, private service: ServicespetService, private storage: Storage) {
-  }
+  constructor(private router: Router,
+    private userServices: RegisterService, private service: ServicespetService, private storage: Storage) {
+
+    this.userSubscription = this.userServices.getAllUser().subscribe(
+      data => {
+        this.alluser = data;
+      });
+   }
 
   ngOnInit() {
     this.option = "relevance";
@@ -97,9 +109,13 @@ export class SearchServicesPage implements OnInit {
    })
    
   }
+  ngOnDestroy() {
+    this.userSubscription.unsubscribe();
+  }
 
-  searchprofile() {
-    this.router.navigate(['tabs/profile/:id']);
+  searchprofile(event) {
+    console.log(event);
+    this.router.navigate(['/tabs/profile', event]);
   }
 
 }

@@ -19,6 +19,7 @@ export interface User {
     morada?:Morada
     phonenumber?: number;
     image?: string;
+    premium?:boolean;
  
     
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { PopoverController, IonTabs } from '@ionic/angular';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
@@ -10,7 +10,8 @@ import { Storage } from '@ionic/storage';
   templateUrl: './all-tabs.page.html',
   styleUrls: ['./all-tabs.page.scss'],
 })
-export class AllTabsPage implements OnInit {
+export class AllTabsPage implements OnInit,OnDestroy {
+
 
   public userId: string;
   constructor(private authService: AuthService, 
@@ -42,5 +43,7 @@ export class AllTabsPage implements OnInit {
     });
     await popover.present();
   }
+
+  ngOnDestroy(){}
 
 }

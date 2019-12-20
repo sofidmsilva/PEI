@@ -23,44 +23,41 @@
         </ion-toolbar>
   
         <div [ngSwitch]="option">
-            <ion-list *ngSwitchCase="'relevance'">
-                <ion-item (click)="searchprofile()">
-                    <ion-avatar slot="start">
-                      <img src="/assets/img/iconperfil.png">
-                    </ion-avatar>
-                    <ion-label>
-                      Avatar Start, Button Item
-                    </ion-label>
-                  </ion-item>
-                  <ion-item (click)="searchprofile()">
+         
+              <ion-list *ngSwitchCase="'relevance'" >
+                  <div  *ngFor="let users of alluser">
+                  <ion-item color="Warning"(click)="searchprofile(users.id)"  *ngIf="users.premium == true " >
                       <ion-avatar slot="start">
-                        <img src="/assets/img/petCare.png">
+                          <img  class="center ion-margin-top" [src]="users.image">
                       </ion-avatar>
                       <ion-label>
-                        Avatar Start, Button Item
+                          <h2>{{'Login.name'| translate}}: {{ users.name}}</h2>
+                          <h3>{{ 'UserRegister.experience' | translate }}:{{ users.experience}}</h3>
+                          <h3>{{ 'UserRegister.location' | translate }}: {{ users.location}}</h3>
                       </ion-label>
                     </ion-item>
-            </ion-list>
-            <ion-list *ngSwitchCase="'distance'">
-                <ion-item (click)="searchprofile()">
-                    <ion-avatar slot="start">
-                      <img src="/assets/img/petSitting.png">
-                    </ion-avatar>
-                    <ion-label>
-                      Avatar Start, Button Item
-                    </ion-label>
-                  </ion-item>
-                  <ion-item (click)="searchprofile()">
-                      <ion-avatar slot="start">
-                        <img src="/assets/img/petwalking.png">
-                      </ion-avatar>
-                      <ion-label>
-                        Avatar Start, Button Item
-                      </ion-label>
-                    </ion-item>
+                  </div>
               </ion-list>
+          
+         
+                <ion-list *ngSwitchCase="'distance'">
+                    <div *ngFor="let users of alluser">
+                    <ion-item color="Warning" (click)="searchprofile()" *ngIf="users.location == 'Braga' ">
+                        <ion-avatar slot="start">
+                            <img  class="center ion-margin-top" [src]="users.image">
+                        </ion-avatar>
+                        <ion-label>
+                            <h2>{{'Login.name'| translate}}: {{ users.name}}</h2>
+                            <h3>{{ 'UserRegister.experience' | translate }}:{{ users.experience}}</h3>
+                            <h3>{{ 'UserRegister.location' | translate }}: {{ users.location}}</h3>
+                        </ion-label>
+                      </ion-item>
+                      </div>
+                  </ion-list>
+           
+         
               <ion-list *ngSwitchCase="'price'">
-                  <ion-item>
+                  <div *ngFor="let users of alluser">
                       <ion-item (click)="searchprofile()">
                           <ion-avatar slot="start">
                             <img src="/assets/img/flags/pt.png">
@@ -69,7 +66,7 @@
                             Avatar Start, Button Item
                           </ion-label>
                         </ion-item>
-                  </ion-item>
+                      </div>
                 </ion-list>
                  <div [hidden]="option!='map'" #map id="map"></div>
         </div>
