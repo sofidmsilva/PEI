@@ -46,23 +46,9 @@ export class LoginPage implements OnInit {
     private storage: Storage) {
     
      }
-    
-   
-
   ngOnInit() {
-    
-    var searchText = 'Travessa de Marcos, 44, Cristelo, Paredes, Porto, Portugal'
-   
-  
-     var response=this.registerServices.getCityCoords(searchText).subscribe((response)=>{
-       console.log("Reponse:", response[0].lat)
-     })
-     
 
    }
-
- 
-
   segmentChanged(event: any) {
     if (event.detail.value === "login") {
       if (this.guardposition === 2) {
@@ -122,7 +108,6 @@ export class LoginPage implements OnInit {
         return console.error("Passwords diferentes!");
 
       } else {
-        console.log("passou aqui")
         const NewUser = await this.authServices.register(this.userRegister);
         this.userRegister.verifycode = Math.floor(Math.random() * 3000);
         await this.registerServices.addUser(this.userRegister, NewUser);

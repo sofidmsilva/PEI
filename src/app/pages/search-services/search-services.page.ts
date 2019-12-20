@@ -53,16 +53,11 @@ export class SearchServicesPage implements OnInit {
   public initializeMap() {
     this.storage.get('currentActiveUser').then((userToken) => {
       this.service.getCoordsLocationOfAUser(userToken).then((resolve) => {
-       
-        console.log("latitude :", resolve.latitude)
-        console.log("longitude :", resolve.longitude)
-
         var marker = new Feature({
           geometry: new Point(
             fromLonLat([resolve.longitude,resolve.latitude])
           ),  
         });
-
 
 
         marker.setStyle(new Style({
@@ -96,8 +91,6 @@ export class SearchServicesPage implements OnInit {
           })
     
         })
-
-        console.log("passou aqui")
         this.map.addLayer(markerVectorLayer);
      });
 
