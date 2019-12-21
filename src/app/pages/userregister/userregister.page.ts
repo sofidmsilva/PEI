@@ -167,17 +167,15 @@ export class UserregisterPage implements OnInit {
   async uploadinformation() {
     await this.presentLoading();
     let address=`${this.morada.Rua}, ${this.morada.Cidade}, ${this.morada.Distrito}, ${this.morada.Pais}`
-    this.registerServices.getCityCoords(address).subscribe((response)=>{
+    this.registerServices.getCityCoords(address).subscribe(async (response)=>{
       
       let address=<Morada>{}
 
       this.userRegister.morada=this.morada;
       this.userRegister.morada.Coordenadas={ latitude: response[0].lat, longitude: response[0].lon};
-     
-      console.log(this.userRegister)
-      try {      
-        //await this.registerServices.updateUser(this.userRegister,this.NewUser);
-        //this.router.navigate(["tabs/home"]);
+      try {
+        await this.registerServices.updateUser(this.userRegister,this.NewUser);
+        this.router.navigate(["tabs/home"]);
 
 
     }

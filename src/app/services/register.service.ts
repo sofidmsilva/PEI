@@ -29,7 +29,7 @@ export class RegisterService {
       .pipe(map(action => action.map(
         this.documentToDomainObject
       )
-        .filter(item => (item.id == newUser))
+        .filter(item => (item.id === newUser))
       ));
     return this.usersCollection;
   }

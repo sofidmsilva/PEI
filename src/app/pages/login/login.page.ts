@@ -11,7 +11,7 @@ import { EmailComposer } from '@ionic-native/email-composer/ngx';
 import { send } from 'q';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
-declare var H: any;  
+declare var H: any;
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -51,7 +51,7 @@ export class LoginPage implements OnInit {
     this.navCtrl.pop();
     }
   segmentChanged(event: any) {
-    if (event.detail.value === "login") {
+    if (event.detail.value === 'login') {
       if (this.guardposition === 2) {
         this.slides.slidePrev();
       } else {
@@ -77,7 +77,11 @@ export class LoginPage implements OnInit {
     await this.presentLoading();
 
     try {
-      await this.authServices.login(this.userLogin);
+      await this.authServices.login(this.userLogin).then((res)=>{
+        console.log("res",res)
+      })
+      console.log("passou aqui",  this.authServices.getAuth().currentUser.uid)
+      
       this.storage.set('currentActiveUser', this.authServices.getAuth().currentUser.uid);
 
 

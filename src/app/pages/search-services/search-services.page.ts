@@ -65,6 +65,8 @@ export class SearchServicesPage implements OnInit {
   public initializeMap() {
     this.storage.get('currentActiveUser').then((userToken) => {
       this.service.getCoordsLocationOfAUser(userToken).then((resolve) => {
+
+        console.log("resolve", resolve)
         var marker = new Feature({
           geometry: new Point(
             fromLonLat([resolve.longitude,resolve.latitude])
