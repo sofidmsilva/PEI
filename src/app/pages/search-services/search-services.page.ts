@@ -58,15 +58,16 @@ export class SearchServicesPage implements OnInit {
     this.option = "relevance";
   }
 
-  ngAfterViewInit(): void {
-    this.initializeMap()
+  ionViewWillEnter(): void {
+    // console.log("PASSOU AQUI")
+    // this.initializeMap()
   }
 
   public initializeMap() {
+    console.log("passsou aqui")
     this.storage.get('currentActiveUser').then((userToken) => {
       this.service.getCoordsLocationOfAUser(userToken).then((resolve) => {
 
-        console.log("resolve", resolve)
         var marker = new Feature({
           geometry: new Point(
             fromLonLat([resolve.longitude,resolve.latitude])

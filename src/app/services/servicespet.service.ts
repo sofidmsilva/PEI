@@ -87,12 +87,13 @@ export class ServicespetService {
   getCoordsLocationOfAUser(token: string): Promise<any> {
     return new Promise((resolve,reject) => {
     var docRef = this.afs.collection("Utilizador").doc(token);
-    console.log("docRef", docRef)
+    
 
     docRef.get().subscribe(
       doc => {
         if (doc.exists) {
           var data=doc.data();
+          console.log("data",data);
           var coords= {latitude:data.morada.Coordenadas.latitude, longitude:data.morada.Coordenadas.longitude};
           resolve(coords)
         } else {

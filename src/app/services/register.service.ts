@@ -35,7 +35,6 @@ export class RegisterService {
   }
 
   getCityCoords(morada){
-    console.log(morada)
     var url=`https://eu1.locationiq.com/v1/search.php?key=82087a057eb819&q=${morada}&format=json`
     console.log(url)
         return this.coords=this.http.get(url);
@@ -66,7 +65,6 @@ export class RegisterService {
 
   addUser(user: User, newUser) {
     const newUserObject = Object.assign({}, user);
-    console.log("PASSOU AQUI")
     delete newUserObject.email;
     delete newUserObject.password;
     return this.afs.collection('Utilizador').doc(newUser.user.uid).set(newUserObject);

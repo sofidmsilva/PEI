@@ -78,14 +78,9 @@ export class LoginPage implements OnInit {
 
     try {
       await this.authServices.login(this.userLogin).then((res)=>{
-        console.log("res",res)
-      })
-      console.log("passou aqui",  this.authServices.getAuth().currentUser.uid)
-      
-      this.storage.set('currentActiveUser', this.authServices.getAuth().currentUser.uid);
-
-
-    }
+        this.storage.set('currentActiveUser', this.authServices.getAuth().currentUser.uid);
+    });
+}
     catch (error) {
       let message: string;
       switch (error.code) {

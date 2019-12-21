@@ -11,6 +11,7 @@ import { Image } from 'src/app/interfaces/image';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ThrowStmt } from '@angular/compiler';
 import { Morada } from 'src/app/interfaces/morada';
+import { Storage } from '@ionic/storage';
 
 
 
@@ -56,7 +57,8 @@ export class UserregisterPage implements OnInit {
     private toastCrt: ToastController,
     private afs: AngularFirestore,
     private registerServices: RegisterService,
-    private router: Router) {
+    private router: Router,
+    private storage: Storage) {
       this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
         data => {
           this.alldatauser= data[0].image;
@@ -165,6 +167,7 @@ export class UserregisterPage implements OnInit {
   }
 
   async uploadinformation() {
+    console.log("Passou no upload information")
     await this.presentLoading();
     let address=`${this.morada.Rua}, ${this.morada.Cidade}, ${this.morada.Distrito}, ${this.morada.Pais}`
     this.registerServices.getCityCoords(address).subscribe(async (response)=>{
@@ -175,6 +178,7 @@ export class UserregisterPage implements OnInit {
       this.userRegister.morada.Coordenadas={ latitude: response[0].lat, longitude: response[0].lon};
       try {
         await this.registerServices.updateUser(this.userRegister,this.NewUser);
+        this.storage.set('currentActiveUser', this.authServices.getAuth().currentUser.uid);
         this.router.navigate(["tabs/home"]);
 
 

@@ -15,7 +15,7 @@
                 <ion-icon name="cash"></ion-icon>
                 <ion-label>{{ 'SearchServices.price' | translate }}</ion-label>
             </ion-segment-button>
-            <ion-segment-button value="map">
+            <ion-segment-button value="map"  (ionSelect)="initializeMap()">
                 <ion-icon name="map"></ion-icon>
             <ion-label>Map</ion-label>
             </ion-segment-button>
