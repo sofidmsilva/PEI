@@ -52,7 +52,7 @@ export class SearchServicesPage implements OnInit {
       data => {
         this.alluser = data;
       });
-   }
+  }
 
   ngOnInit() {
     this.option = "relevance";
@@ -64,36 +64,11 @@ export class SearchServicesPage implements OnInit {
   }
 
   public initializeMap() {
-    console.log("passsou aqui")
     this.storage.get('currentActiveUser').then((userToken) => {
       this.service.getCoordsLocationOfAUser(userToken).then((resolve) => {
 
-        var marker = new Feature({
-          geometry: new Point(
-            fromLonLat([resolve.longitude,resolve.latitude])
-          ),  
-        });
 
-
-        marker.setStyle(new Style({
-            image:new Icon(({
-              color:'#8959A8',
-              crossOrigin:'anonymous',
-              src: 'assets/img/point-png-1.png',
-              imgSize:[500,500],
-              scale: 0.09
-            }))
-          }))
-
-        var vectorSource = new VectorSource({
-          features: [marker]
-        });
-
-        var markerVectorLayer = new VectorLayer({
-          source: vectorSource,
-        });
-        
-
+        //---------------------------------------MAIN MARKER---------------------------------
         this.map = new Map({
           target: 'map',
           layers: [new Tile({
@@ -101,16 +76,89 @@ export class SearchServicesPage implements OnInit {
           })
           ],
           view: new View({
-            center: fromLonLat([resolve.longitude, resolve.latitude ]),
+            center: fromLonLat([resolve.longitude, resolve.latitude]),
             zoom: 10
           })
-    
-        })
-        this.map.addLayer(markerVectorLayer);
-     });
 
-   })
-   
+        })
+
+        var marker = new Feature({
+          geometry: new Point(
+            fromLonLat([resolve.longitude, resolve.latitude])
+          ),
+        });
+
+
+        marker.setStyle(new Style({
+          image: new Icon(({
+            color: '#8959A8',
+            crossOrigin: 'anonymous',
+            src: 'assets/img/point-png-1.png',
+            imgSize: [500, 500],
+            scale: 0.09
+          }))
+        }))
+
+        var vectorSource = new VectorSource({
+          features: [marker]
+        });
+
+
+        var markerVectorLayer = new VectorLayer({
+          source: vectorSource,
+        });
+
+
+
+        this.map.addLayer(markerVectorLayer);
+
+
+
+        //---------------------------------------ALL THE OTHER MARKERS---------------------------------
+
+        this.service.getCoordsLocationOfAllNearPetSitters(resolve.cidade).subscribe(snapshot => {
+          if (snapshot.empty) {
+            console.log('No matching documents.');
+            return;
+          }
+          snapshot.forEach(doc => {
+            console.log(doc.id, '=>',doc.data());
+
+            var marker = new Feature({
+              geometry: new Point(
+                fromLonLat([doc.data().morada.Coordenadas.longitude, doc.data().morada.Coordenadas.latitude])
+              ),
+            });
+            marker.setStyle(new Style({
+              image: new Icon(({
+                crossOrigin: 'anonymous',
+                src: 'assets/img/Map-Marker.png',
+                imgSize: [500, 500],
+                scale: 0.08
+              }))
+            }))
+
+            var vectorSource = new VectorSource({
+              features: [marker]
+            });
+
+
+            var markerVectorLayer = new VectorLayer({
+              source: vectorSource,
+            });
+
+
+
+            this.map.addLayer(markerVectorLayer);
+          });
+        });
+
+
+
+      });
+
+    })
+
   }
   ngOnDestroy() {
     this.userSubscription.unsubscribe();

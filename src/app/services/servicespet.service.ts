@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
 import { Calendar } from '../interfaces/calendar';
 import { RequestService } from '../interfaces/request-service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -93,8 +94,8 @@ export class ServicespetService {
       doc => {
         if (doc.exists) {
           var data=doc.data();
-          console.log("data",data);
-          var coords= {latitude:data.morada.Coordenadas.latitude, longitude:data.morada.Coordenadas.longitude};
+          // console.log("data",data);
+          var coords= {latitude:data.morada.Coordenadas.latitude, longitude:data.morada.Coordenadas.longitude, cidade:data.morada.Cidade};
           resolve(coords)
         } else {
             // doc.data() will be undefined in this case
@@ -105,4 +106,10 @@ export class ServicespetService {
     );
   });
 }
+
+  getCoordsLocationOfAllNearPetSitters(cidade: string ):Observable<any>{
+          // Create a reference to the cities collection
+      return this.afs.collection('Utilizador',ref=>ref.where('morada.Cidade', '==', cidade).where('tipeuser', '==' , '2')).get()
+  }
+   
 }
