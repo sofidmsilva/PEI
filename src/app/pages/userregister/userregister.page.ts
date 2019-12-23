@@ -169,7 +169,7 @@ export class UserregisterPage implements OnInit {
   async uploadinformation() {
     console.log("Passou no upload information")
     await this.presentLoading();
-    let address=`${this.morada.Rua}, ${this.morada.Cidade}, ${this.morada.Distrito}, ${this.morada.Pais}`
+    let address=`${this.morada.Rua}, ${this.morada.NumPorta}, ${this.morada.CodigoPostal}, ${this.morada.Cidade}, ${this.morada.Distrito}, ${this.morada.Pais}`
     this.registerServices.getCityCoords(address).subscribe(async (response)=>{
       
       let address=<Morada>{}

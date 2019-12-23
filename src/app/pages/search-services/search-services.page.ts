@@ -58,11 +58,6 @@ export class SearchServicesPage implements OnInit {
     this.option = "relevance";
   }
 
-  ionViewWillEnter(): void {
-    // console.log("PASSOU AQUI")
-    // this.initializeMap()
-  }
-
   public initializeMap() {
     this.storage.get('currentActiveUser').then((userToken) => {
       this.service.getCoordsLocationOfAUser(userToken).then((resolve) => {
@@ -132,9 +127,9 @@ export class SearchServicesPage implements OnInit {
             marker.setStyle(new Style({
               image: new Icon(({
                 crossOrigin: 'anonymous',
-                src: 'assets/img/Map-Marker.png',
-                imgSize: [500, 500],
-                scale: 0.08
+                src: 'assets/img/petsitter_icon.png',
+                imgSize: [700, 800],
+                scale: 0.05
               }))
             }))
 

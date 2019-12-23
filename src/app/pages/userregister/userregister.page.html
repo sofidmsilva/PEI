@@ -23,30 +23,17 @@
       <ion-datetime [(ngModel)]="userRegister.dateofbirthday" displayFormat="MM/DD/YYYY" placeholder="Select Date">
       </ion-datetime>
     </ion-item>
-    <!-- <ion-item> -->
-      <!-- <ion-label position="floating">{{ 'UserRegister.location' | translate }}</ion-label> -->
-      <!-- <ion-list> 
-        <ion-searchbar class="searchBar" type="text" debounce="500" (ionInput)="getItems($event)"  [(ngModel)]="this.cityselectedvar" [placeholder]="Search"></ion-searchbar>
-      </ion-list>
-      <ion-list *ngIf="isItemAvailable">
-          <ion-button class="citybutton" *ngFor="let item of cidades" (click)="cityselected(item)" > {{ item }}</ion-button>
-      </ion-list>
-    </ion-item> -->
 
     <ion-item>
       <ion-label position="stacked">Address</ion-label>
       <ion-input [(ngModel)]="morada.Rua" placeholder="Rua"></ion-input>
+      <ion-input [(ngModel)]="morada.NumPorta" type="number" placeholder="Numero de Porta"></ion-input>
+      <ion-input [(ngModel)]="morada.CodigoPostal"  placeholder="Codigo-Postal"></ion-input>
       <ion-input [(ngModel)]="morada.Cidade" placeholder="Cidade"></ion-input>
       <ion-input [(ngModel)]="morada.Distrito" placeholder="Distrito"></ion-input>
       <ion-input [(ngModel)]="morada.Pais" placeholder="Pais"></ion-input>
     </ion-item>
-    
-
-    <ion-item>
-      <ion-label>{{ 'UserRegister.dateofbirth' | translate }}</ion-label>
-      <ion-datetime [(ngModel)]="userRegister.dateofbirthday" displayFormat="MM/DD/YYYY" placeholder="Select Date">
-      </ion-datetime>
-    </ion-item>
+  
 
     <div class="phone">
       <p style="font-size: 15px; text-align: left; margin-left: 10px;">{{ 'UserRegister.phonenumber' | translate }}</p>

@@ -3,6 +3,8 @@ export interface Morada {
     Cidade?:'';
     Distrito?: '';
     Pais?:'';
+    CodigoPostal?:''
+    NumPorta?:''
     Coordenadas?:{
         latitude:''
         longitude:''
