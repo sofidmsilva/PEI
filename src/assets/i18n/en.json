@@ -64,7 +64,13 @@
       "car":"Car",
       "years":"Years",
       "continue":"Continue",
-      "uploadimage":"Choose Images to Upload"
+      "uploadimage":"Choose Images to Upload",
+      "doornumber":"Numero de porta",
+      "street":"Street",
+      "postalcode":"Postal Code",
+      "city": "City",
+      "state": "State",
+      "country": "Country"
  },
  "Profile":{
       "AddAnimal":"Add Animal",
