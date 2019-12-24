@@ -35,6 +35,7 @@ export class SearchServicesPage implements OnInit,OnDestroy {
   }
   ngOnDestroy() {
     this.userSubscription.unsubscribe();
+    this.option;
   }
 
   searchprofile(event) {
