@@ -41,4 +41,6 @@ export class AllTabsPage implements OnInit {
     await popover.present();
   }
 
+  ngOnDestroy(){}
+
 }

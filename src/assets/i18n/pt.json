@@ -139,5 +139,8 @@
       "small": "Pequeno(<25cm)",
       "medium": "Médio(<50cm)",
       "big": "Grande(>50 cm)"
+   },
+   "Filters":{
+      "title" : "Filtros"
    }
 }

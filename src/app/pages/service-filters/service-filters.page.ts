@@ -6,11 +6,11 @@ import { Subscription } from 'rxjs';
 import { RegisterService } from 'src/app/services/register.service';
 import { User } from 'firebase';
 @Component({
-  selector: 'app-search-services',
-  templateUrl: './search-services.page.html',
-  styleUrls: ['./search-services.page.scss'],
+  selector: 'app-service-filters',
+  templateUrl: './service-filters.page.html',
+  styleUrls: ['./service-filters.page.scss'],
 })
-export class SearchServicesPage implements OnInit,OnDestroy {
+export class ServiceFiltersPage implements OnInit,OnDestroy {
 
   @ViewChild(IonSlides, { static: false }) slides: IonSlides;
 
@@ -35,14 +35,10 @@ export class SearchServicesPage implements OnInit,OnDestroy {
   }
   ngOnDestroy() {
     this.userSubscription.unsubscribe();
-    this.option;
   }
 
   searchprofile(event) {
+    console.log(event);
     this.router.navigate(['/tabs/profile', event]);
-  }
-
-  openFilters(){
-    this.router.navigate(['tabs/service-filters']);
   }
 }

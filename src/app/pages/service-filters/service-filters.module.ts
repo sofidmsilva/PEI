@@ -4,12 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonicModule } from '@ionic/angular';
-import { SearchServicesPage } from './search-services.page';
+import { ServiceFiltersPage } from './service-filters.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: SearchServicesPage
+    component: ServiceFiltersPage
   }
 ];
 
@@ -21,6 +21,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     TranslateModule
   ],
-  declarations: [SearchServicesPage]
+  declarations: [ServiceFiltersPage]
 })
-export class SearchServicesPageModule {}
+export class ServiceFiltersPageModule {}

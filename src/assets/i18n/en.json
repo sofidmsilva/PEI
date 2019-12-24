@@ -143,7 +143,8 @@
    "small":"Small(<25cm)",
    "medium":"Medium(<50cm)",
    "big":"Big(>50 cm)"
+},
+"Filters":{
+      "title" : "Filters"
 }
-
-
 }
