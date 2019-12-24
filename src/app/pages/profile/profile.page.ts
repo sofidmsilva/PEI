@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { IonSlides, LoadingController, ToastController, AlertController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -26,7 +26,7 @@ import { RequestService } from 'src/app/interfaces/request-service';
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
-export class ProfilePage implements OnInit {
+export class ProfilePage implements OnInit,OnDestroy {
 
   @ViewChild(IonSlides, { static: false }) slides: IonSlides;
   @ViewChild(CalendarComponent, { static: false }) myCal: CalendarComponent;
@@ -110,7 +110,7 @@ export class ProfilePage implements OnInit {
         this.datacomment = data
       });
     this.ServicespetSubscription = this.servicespetServices.getServices(this.authServices.getAuth().currentUser.uid).subscribe(
-      data => {
+      data => { this.typeservicefromuser=[];
         this.servicesPet = data
         for(let i = 0; i <= this.servicesPet.length-1; i++){
           this.typeservicefromuser[i]=this.servicesPet[i].typeservice;
@@ -139,6 +139,7 @@ export class ProfilePage implements OnInit {
     this.typeanimals;
     this.sizeanimals;
     this.typeservices;
+    console.log("passou aqui");
 
   }
 
@@ -153,6 +154,14 @@ export class ProfilePage implements OnInit {
     this.CommentsSubscription.unsubscribe();
     this.ServicespetSubscription.unsubscribe();
     this.CalendarPetSubscription.unsubscribe();
+    this.animals=[];
+    this.datauser = [];
+    this.alldatauser = null;
+    this.showuser = null;
+    this.ispremium= null;
+    this.datacomment=[];
+    this.servicesPet = [];
+    this.typeservicefromuser=[];
   }
 
   editdata(id:number) {

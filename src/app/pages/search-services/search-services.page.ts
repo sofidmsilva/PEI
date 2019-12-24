@@ -38,7 +38,6 @@ export class SearchServicesPage implements OnInit,OnDestroy {
   }
 
   searchprofile(event) {
-    console.log(event);
     this.router.navigate(['/tabs/profile', event]);
   }
 }

@@ -9,7 +9,7 @@ import {   Router } from '@angular/router';
   templateUrl: './all-tabs.page.html',
   styleUrls: ['./all-tabs.page.scss'],
 })
-export class AllTabsPage implements OnInit,OnDestroy {
+export class AllTabsPage implements OnInit {
 
 
   public userId: string;

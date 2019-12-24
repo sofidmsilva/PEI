@@ -41,9 +41,7 @@ export class LoginPage implements OnInit {
     public navCtrl: NavController ) { }
 
   ngOnInit() { }
-  ngAfterViewInit() {
-    this.navCtrl.pop();
-    }
+
   segmentChanged(event: any) {
     if (event.detail.value === "login") {
      if(this.guardposition===2){
