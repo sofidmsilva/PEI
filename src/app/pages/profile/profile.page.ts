@@ -10,7 +10,6 @@ import { RegisterService } from 'src/app/services/register.service';
 import { User } from 'src/app/interfaces/user';
 import { Comments } from 'src/app/interfaces/comments';
 import { CalendarComponent } from 'ionic2-calendar/calendar';
-import { AngularFireStorage } from '@angular/fire/storage';
 import { Services } from 'src/app/interfaces/services';
 import { ServicespetService } from 'src/app/services/servicespet.service';
 
@@ -72,7 +71,6 @@ export class ProfilePage implements OnInit {
     private toastCrt: ToastController,
     private animalServices: AnimalsService,
     private userServices: RegisterService,
-    private afStorage: AngularFireStorage,
     private servicespetServices: ServicespetService) {
 
     this.animalsSubscription = this.animalServices.getAnimals(this.authServices.getAuth().currentUser.uid).subscribe(

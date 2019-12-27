@@ -4,6 +4,7 @@ import { User } from '../interfaces/user';
 import { map } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { Comments } from '../interfaces/comments';
+import { Chat } from '../interfaces/chat';
 import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
@@ -61,5 +62,12 @@ export class RegisterService {
     return this.afs.collection('Comentarios').doc(id).delete();
   }
 
+  sendMessage(message: Chat){
+    return this.afs.collection('Chat').add(message);
+  }
+
+  getMessage(){
+    
+  }
 
 }
