@@ -11,4 +11,5 @@ export interface Animals {
     type?: string;
     description?: string;
     userID?:string;
+    image?: string;
 }

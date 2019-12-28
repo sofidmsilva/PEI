@@ -47,18 +47,21 @@ export class ProfilePage implements OnInit,OnDestroy {
   imageloading = false;
 
   private showuser: number;
+  private showwiconfav: boolean;
   private showusertabs: number;
   private ispremium: boolean;
   public animalsPosition: number = 0;
   public animalsDifference: number = 100;
   public imagem;
   private alldatauser: string;
+  private allanimalsphoto: string;
   private calendarevent = new Array<Calendar>();
   private loading: any;
-  private disabled: string = "true";
-  private editshow: string = "true";
-  private enableeditservice: string="true";
-  private editimage: string = "true";
+  private disabled: boolean = true;
+  private editshow: boolean = true;
+  private enableeditservice: boolean=true;
+  private enableeditanimal: boolean=true;
+  private editimage: boolean = true;
   private experience: Array<string> = ["<1", "<5", ">5"];
   private showaddanimals: number = 0;
   private animals = new Array<Animals>();
@@ -113,13 +116,16 @@ export class ProfilePage implements OnInit,OnDestroy {
         if(this.profileid[3]==this.authServices.getAuth().currentUser.uid){
           this.showuser = data[0].tipeuser;
           this.showusertabs= data[0].tipeuser;
+          this.showwiconfav=false;
         }else{
           if(data[0].tipeuser==1){
             this.showuser= 2;
             this.showusertabs= data[0].tipeuser;
+            this.showwiconfav=true;
           }else{
             this.showuser=1;
             this.showusertabs= data[0].tipeuser;
+            this.showwiconfav=true;
           }
         }
         this.ispremium= data[0].premium;
@@ -167,6 +173,9 @@ export class ProfilePage implements OnInit,OnDestroy {
     this.typeanimals;
     this.sizeanimals;
     this.typeservices;
+    console.log(this.sizeanimals)
+    console.log(this.typeanimals)
+  
   }
 
   ngOnInit() {
@@ -194,15 +203,21 @@ export class ProfilePage implements OnInit,OnDestroy {
 
   editdata(id:number) {
     if(id==1){
-      this.disabled = "false";
-      this.editshow = "false";
+      this.disabled = false;
+      this.editshow = false;
     }
     else{
       if(id==2){
-        this.editimage = "false";
+        this.editimage = false;
       }
       else{
-        this.enableeditservice="false";
+        if(id==3){
+          this.enableeditservice=false;
+        }
+        else{
+          this.enableeditanimal=false;
+        }
+       
       }
     }
     
@@ -210,15 +225,20 @@ export class ProfilePage implements OnInit,OnDestroy {
 
   Canceledition(id:number) {
     if(id==1){
-    this.disabled = "true";
-    this.editshow = "true";
+    this.disabled = true;
+    this.editshow = true;
     this.userRegister = {};
   }else{
     if(id==2){
-      this.editimage = "true";
+      this.editimage = true;
     }
     else{
-      this.enableeditservice="true";
+      if(id==3){
+        this.enableeditservice=true;
+      }else{
+        this.enableeditanimal=true;
+      }
+
     }
   }
 
@@ -229,8 +249,8 @@ export class ProfilePage implements OnInit,OnDestroy {
 
     try {
       await this.userServices.updateUser(this.userRegister, this.NewUser);
-      this.disabled = "true";
-      this.editshow = "true";
+      this.disabled = true;
+      this.editshow = true;
       this.userRegister = {};
     }
     catch (error) {
@@ -333,11 +353,12 @@ export class ProfilePage implements OnInit,OnDestroy {
     await this.presentLoading();
     console.log(this.AnimalsRegister);
     try {
-
+      this.AnimalsRegister.image=this.allanimalsphoto;
       this.AnimalsRegister.userID = this.authServices.getAuth().currentUser.uid;
       await this.animalServices.addAnimal(this.AnimalsRegister);
       this.AnimalsRegister = {};
       this.showaddanimals = 0;
+      this.allanimalsphoto="";
     }
     catch (error) {
 
@@ -347,6 +368,59 @@ export class ProfilePage implements OnInit,OnDestroy {
     }
 
     this.loading.dismiss();
+  }
+   delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+}
+  async updateanimal(id: string){
+   
+    await this.presentLoading();
+    await this.delay(1000);
+    try {
+      if(this.allanimalsphoto!=undefined){
+        this.AnimalsRegister.image= this.allanimalsphoto;
+      }
+      
+      await this.animalServices.updateanimal(this.AnimalsRegister, id);
+      this.AnimalsRegister = {};
+    }
+    catch (error) {
+      console.error(error);
+      this.presentToast(error);
+    } finally {
+      this.loading.dismiss();
+    }
+    this.enableeditanimal=true;
+    this.loading.dismiss();
+  }
+  async deleteanimal(id:string){
+    const alert = await this.alertController.create({
+      header:  this.translationservice.instant('Profile.Service.title'),
+      message: this.translationservice.instant('Profile.Animals.messageconfirm'),
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+          }
+        }, {
+          text: 'Ok',
+          handler:async  () => {
+            try {
+              await this.animalServices.deleteAnimal(id);
+            }
+            catch (error) {
+              this.presentToast('erro ao apagar');
+            } finally {
+              
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
   async addrequestservice() {
     await this.presentLoading();
@@ -433,7 +507,7 @@ export class ProfilePage implements OnInit,OnDestroy {
     } finally {
       this.loading.dismiss();
     }
-    this.enableeditservice="true";
+    this.enableeditservice=true;
     this.loading.dismiss();
   }
   async presentLoading() {
@@ -501,7 +575,7 @@ export class ProfilePage implements OnInit,OnDestroy {
 
     await alert.present();
   }
-  async uploadImage(event) {
+  async uploadImage(event,i?:number) {
     await this.presentLoading();
     this.imageloading = true;
     if (event.target.files && event.target.files[0]) {
@@ -511,28 +585,47 @@ export class ProfilePage implements OnInit,OnDestroy {
       // para visualisar imagem
       reader.onload = (e: any) => {
         this.url = e.target.result;
+      if(i==1){
+     // upload da imagem para firebase
+     const fileraw = event.target.files[0];
+     const filePath = "/image/" + this.authServices.getAuth().currentUser.uid +"/animals"+ "/Photo/";
+     const result = this.SaveImageRef(filePath, fileraw);
+     const ref = result.ref;
 
-        // upload da imagem para firebase
-        const fileraw = event.target.files[0];
-        const filePath = "/image/" + this.authServices.getAuth().currentUser.uid + "/profile/";
-        const result = this.SaveImageRef(filePath, fileraw);
-        const ref = result.ref;
+     //criar link para download 
+     result.task.then(a => {
+       ref.getDownloadURL().subscribe(a => {
+         this.allanimalsphoto = a;
+       });
+
+     });
+        }else{
+             // upload da imagem para firebase
+     const fileraw = event.target.files[0];
+     const filePath = "/image/" + this.authServices.getAuth().currentUser.uid + "/profile/";
+     const result = this.SaveImageRef(filePath, fileraw);
+     const ref = result.ref;
 
 
-        //criar link para download 
+     //criar link para download 
 
-        result.task.then(a => {
-          ref.getDownloadURL().subscribe(a => {
-            this.alldatauser = a;
-            this.UpdateRecord(this.alldatauser);
-          });
+     result.task.then(a => {
+       ref.getDownloadURL().subscribe(a => {
+         this.alldatauser = a;
+         this.UpdateRecord(this.alldatauser);
+       });
 
-        });
+     });
+        }
+   
       }, error => {
         alert("Error");
       }
     }
-    this.editimage = "true";
+    if(i!=1){
+      this.editimage = true;
+    }
+
     this.loading.dismiss();
   }
   UpdateRecord(user) {

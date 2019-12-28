@@ -60,7 +60,7 @@ requestS=[];
     this.requestSubscription.unsubscribe();
     this.userSubscription.unsubscribe();
     this.showuser = null;
-
+    console.log("ola")
   }
 
   slidesDidLoad(slides) {

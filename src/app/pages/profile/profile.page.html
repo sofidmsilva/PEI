@@ -31,28 +31,28 @@
                             </ion-col>
                         </ion-row>
                     </ion-grid>
-                    <div align="right">
-                            <ion-button *ngIf="liked"   color="warning" (click)="RemoveFavorites()">
-                                    <ion-icon  color="danger" name="heart"></ion-icon>
-                                  </ion-button>
-                                  <ion-button *ngIf="!liked"   color="warning" (click)="AddFavorites()">
-                                        <ion-icon name="heart"></ion-icon>
-                                      </ion-button>
+                    <div align="right" *ngIf="showwiconfav">
+                        <ion-button *ngIf="liked" color="warning" (click)="RemoveFavorites()">
+                            <ion-icon color="danger" name="heart"></ion-icon>
+                        </ion-button>
+                        <ion-button *ngIf="!liked" color="warning" (click)="AddFavorites()">
+                            <ion-icon name="heart"></ion-icon>
+                        </ion-button>
                     </div>
-                    
+
                     <ion-title *ngIf="ispremium || showuser == 1 ">{{ 'Profile.welcome' | translate }} <ion-icon
                             name="happy"></ion-icon>&nbsp;
                     </ion-title>
-                    <div class="photoprofile" *ngIf="editimage == 'true'">
+                    <div class="photoprofile" *ngIf="editimage">
                         <img class="center ion-margin-top" *ngIf="alldatauser" [src]="alldatauser">
                         <ion-button *ngIf="showuser == showusertabs" (click)="editdata(2)" slot="end" size="small">
                             <ion-label>{{ 'Profile.editphoto' | translate }}</ion-label>
                         </ion-button>
                     </div>
-                    <ion-button *ngIf="editimage == 'false'" (click)="Canceledition(2)" size="small">
+                    <ion-button *ngIf="!editimage " (click)="Canceledition(2)" size="small">
                         <ion-icon name="close-circle"></ion-icon>
                     </ion-button>
-                    <div *ngIf="datauser.image =='' || editimage == 'false' ">
+                    <div *ngIf="datauser.image =='' || !editimage">
                         <img class="center ion-margin-top" *ngIf="alldatauser" [src]="alldatauser">
                         <ion-item>
                             <input id="uploadBtn" type="file" class="upload" (change)="uploadImage($event)" />
@@ -63,11 +63,11 @@
                     <ion-item class="profile">
 
                         <ion-grid class="dataprofile" *ngFor="let user of datauser">
-                            <ion-button *ngIf="editshow == 'true' && showusertabs == showuser" (click)="editdata(1)"
+                            <ion-button *ngIf="editshow && showusertabs == showuser" (click)="editdata(1)"
                                 size="small" color="tertiary">
                                 <ion-icon name="create"></ion-icon>
                             </ion-button>
-                            <ion-title *ngIf="editshow == 'false'">{{'Profile.editprofile'| translate}}</ion-title>
+                            <ion-title *ngIf="!editshow">{{'Profile.editprofile'| translate}}</ion-title>
                             <ion-row class="placeholdercolor">
                                 <ion-item>
                                     <ion-label><b>{{'Login.name'| translate}}: </b>
@@ -93,10 +93,10 @@
                             <ion-row>
                                 <ion-item *ngIf="showusertabs == 2">
                                     <ion-label><b>{{ 'UserRegister.car' | translate }}: </b></ion-label>
-                                    <ion-input *ngIf="editshow == 'true'" [(ngModel)]="userRegister.car"
+                                    <ion-input *ngIf="editshow" [(ngModel)]="userRegister.car"
                                         placeholder="{{ user.car | translate }}" readonly="true">
                                     </ion-input>
-                                    <ion-select *ngIf="editshow == 'false'" placeholder="{{ user.car | translate }}"
+                                    <ion-select *ngIf="!editshow" placeholder="{{ user.car | translate }}"
                                         interface="popover" [(ngModel)]="userRegister.car">
                                         <ion-select-option value="{{ 'Profile.Yes'}}">{{ 'Profile.Yes' | translate }}
                                         </ion-select-option>
@@ -108,7 +108,7 @@
                             <ion-row *ngIf="showusertabs == 2">
                                 <ion-item style="height: auto;">
                                     <ion-textarea><b>{{ 'UserRegister.drivinglicense' | translate }}: </b>
-                                        <ion-select *ngIf="editshow == 'false'"
+                                        <ion-select *ngIf="!editshow"
                                             placeholder="{{ user.drivinglicense | translate }}" interface="popover"
                                             [(ngModel)]="userRegister.drivinglicense">
                                             <ion-select-option value="{{ 'Profile.Yes'}}">
@@ -117,7 +117,7 @@
                                             </ion-select-option>
                                         </ion-select>
                                     </ion-textarea>
-                                    <ion-input *ngIf="editshow == 'true'" [(ngModel)]="userRegister.drivinglicense"
+                                    <ion-input *ngIf="editshow" [(ngModel)]="userRegister.drivinglicense"
                                         placeholder="{{ user.drivinglicense | translate }}" readonly="true">
                                     </ion-input>
 
@@ -133,7 +133,7 @@
                             </ion-row>
                             <ion-item *ngIf="showusertabs == 2" style="height: auto;">
                                 <ion-textarea><b>{{ 'UserRegister.garden' | translate }}: </b>
-                                    <ion-select *ngIf="editshow == 'false'" placeholder="{{ user.garden | translate }}"
+                                    <ion-select *ngIf="!editshow" placeholder="{{ user.garden | translate }}"
                                         interface="popover" [(ngModel)]="userRegister.garden">
                                         <ion-select-option value="{{ 'Profile.Yes'}}">
                                             {{ 'Profile.Yes' | translate }}</ion-select-option>
@@ -141,7 +141,7 @@
                                         </ion-select-option>
                                     </ion-select>
                                 </ion-textarea>
-                                <ion-input *ngIf="editshow == 'true'" [(ngModel)]="userRegister.garden"
+                                <ion-input *ngIf="editshow" [(ngModel)]="userRegister.garden"
                                     placeholder="{{ user.garden | translate }}" readonly="true">
                                 </ion-input>
 
@@ -149,12 +149,12 @@
                             <ion-row>
                                 <ion-item style="height: auto;">
                                     <ion-textarea><b>{{ 'Login.BirthdayDate' | translate }}:</b>
-                                        <ion-datetime *ngIf="editshow == 'false'"
+                                        <ion-datetime *ngIf="!editshow"
                                             [(ngModel)]="userRegister.dateofbirthday" displayFormat="MM/DD/YYYY"
                                             placeholder="{{ user.dateofbirthday }}">
                                         </ion-datetime>
                                     </ion-textarea>
-                                    <ion-input *ngIf="editshow == 'true'" [(ngModel)]="userRegister.dateofbirthday"
+                                    <ion-input *ngIf="editshow" [(ngModel)]="userRegister.dateofbirthday"
                                         placeholder="{{ user.dateofbirthday }}" readonly="{{disabled}}">
                                     </ion-input>
                                 </ion-item>
@@ -162,21 +162,21 @@
                             <ion-row *ngIf="showusertabs == 2">
                                 <ion-item style="height: auto;">
                                     <ion-textarea><b>{{ 'UserRegister.experience' | translate }}: </b>
-                                        <ion-select *ngIf="editshow == 'false'"
+                                        <ion-select *ngIf="!editshow"
                                             placeholder="{{ user.experience }} {{ 'UserRegister.years' | translate }}"
                                             interface="alert" [(ngModel)]="userRegister.experience">
                                             <ion-select-option *ngFor="let item of experience" value="{{item}}">{{item}}
                                                 {{ 'UserRegister.years' | translate }} </ion-select-option>
                                         </ion-select>
                                     </ion-textarea>
-                                    <ion-input *ngIf="editshow == 'true'" [(ngModel)]="userRegister.experience"
+                                    <ion-input *ngIf="editshow" [(ngModel)]="userRegister.experience"
                                         placeholder="{{ user.experience }} {{ 'UserRegister.years' | translate }}"
                                         readonly="{{disabled}}">
                                     </ion-input>
 
                                 </ion-item>
                             </ion-row>
-                            <div class="buttonedit" *ngIf="disabled == 'false'">
+                            <div class="buttonedit" *ngIf="!disabled">
                                 <ion-button color="danger" (click)="Canceledition(1)" size="small">
                                     {{ 'All.Cancel' | translate }}
                                 </ion-button>
@@ -256,7 +256,7 @@
                             </ion-title>
 
                         </ion-item>
-                        <ion-button *ngIf="showuser == 1" class="ion-margin-top" (click)="addcomment()" color="medium">
+                        <ion-button *ngIf="showusertabs!=showuser" class="ion-margin-top" (click)="addcomment()" color="medium">
                             {{'Profile.Comment.buttonadd'| translate}}
                         </ion-button>
                         <ion-item *ngFor="let comment of datacomment">
@@ -265,7 +265,7 @@
                             </ion-avatar>
                             <ion-label>
                                 {{ comment.content }}
-                                <ion-button *ngIf="showuser == 2" class="ion-margin-top"
+                                <ion-button *ngIf="showusertabs == showuser" class="ion-margin-top"
                                     (click)="deletecomment(comment.id)" size="small" shape="round" color="danger">
                                     <ion-icon name="close"></ion-icon>
                                 </ion-button>
@@ -287,31 +287,117 @@
                         </ion-fab><br>
                         <ion-item *ngFor="let animal of animals" class="detailsanimals">
                             <ion-avatar slot="start">
-                                    <img class="center ion-margin-top" *ngIf="alldatauser" [src]="alldatauser">
+                                <img class="center ion-margin-top" *ngIf="animal.image" [src]="animal.image">
                             </ion-avatar>
-                            <ion-label style="color: black" class="ion-text-wrap"
-                                style="font-family: Verdana, Geneva, Tahoma, sans-serif;">
-                                <h6><b style="color: #222428;">{{'Login.name'| translate}}:</b>
-                                    {{ animal.name | translate}} &nbsp;
-                                    <b style="color: #222428;">{{'Profile.Age2'| translate}}:</b> {{ animal.age}}
-                                </h6>
-                                <h6><b style="color: #222428;">{{ 'Profile.Size' | translate }}:</b>
-                                    {{ animal.size | translate}}</h6>
-                                <h6><b style="color: #222428;">{{ 'Profile.vaccinated' | translate }}:</b>
-                                    {{ animal.vaccination | translate}}</h6>
-                                <h6><b style="color: #222428;">{{ 'Profile.dewormed' | translate }}:</b>
-                                    {{ animal.deworming | translate}}</h6>
-                                <h6><b style="color: #222428;">{{'Profile.medication'| translate}}:</b>
-                                    {{ animal.medication}}</h6>
-                                <h6><b style="color: #222428;">{{ 'Profile.AnimalType' | translate }}:</b>
-                                    {{ animal.type}}</h6>
-                                <h6><b style="color: #222428;">{{'Profile.description'| translate}}:</b>
-                                    {{ animal.description}}</h6>
-                            </ion-label>
+                            <ion-grid style="margin-left: -2px;">
+                                <ion-row>
+                                    <div *ngIf="enableeditanimal" style="margin-left: 100px;">
+                                        <ion-button class="ion-margin-top" (click)="editdata(4)" size="small"
+                                            shape="round" color="dark">
+                                            <ion-icon name="create"></ion-icon>
+                                        </ion-button>
+                                        <ion-button class="ion-margin-top" (click)="deleteanimal(animal.id)"
+                                            size="small" shape="round" color="danger">
+                                            <ion-icon name="close"></ion-icon>
+                                        </ion-button>
+                                    </div>
+                                    <ion-title style="margin-bottom: 14px;" *ngIf="!enableeditanimal">
+                                            {{ 'Profile.Animals.editanimal' | translate }}</ion-title>
+                                </ion-row>
+                                <ion-row style="width: 105%;">
+                                    <div  class="ion-text-wrap"
+                                        style="color: black;font-family: Verdana, Geneva, Tahoma, sans-serif;">
+                                        <b style="color: #222428;" *ngIf="!enableeditanimal">Editar foto</b><br>
+                                        <div style="margin-top: 6px;" *ngIf="!enableeditanimal">
+                                            <ion-item style="width: 169px;">
+                                                <input style="width: 139px;" id="uploadBtn" type="file" class="upload" (change)="uploadImage($event,1)" />
+                                            </ion-item>
+                    
+                                        </div>
+                                        <b style="color: #222428; font-size: 15px;">{{'Login.name'| translate}}:</b>
+                                        <b *ngIf="enableeditanimal">{{ animal.name | translate}}</b><br>
+                                        <ion-input *ngIf="!enableeditanimal" type="text"
+                                            [(ngModel)]="AnimalsRegister.name"
+                                            placeholder=" {{ animal.name | translate}}"></ion-input>
+                                        <b style="color: #222428;">{{'Profile.Age2'| translate}}:</b>
+                                        <b *ngIf="enableeditanimal">{{ animal.age}}</b><br>
+                                        <ion-input *ngIf="!enableeditanimal" type="text"
+                                            [(ngModel)]="AnimalsRegister.age" placeholder=" {{ animal.age}}">
+                                        </ion-input>
+                                        <b style="color: #222428;">{{ 'Profile.Size' | translate }}:</b>
+                                        <b *ngIf="enableeditanimal">{{ animal.size | translate}}</b><br>
+                                       <ion-item style="width: 92%;"  *ngIf="!enableeditanimal">
+                                            <ion-select  placeholder="{{ animal.size | translate}}"
+                                            interface="popover" [(ngModel)]="AnimalsRegister.size">
+                                            <ion-select-option style="font-size: 12px;" *ngFor="let size of sizeanimals" lines="none"
+                                                value="{{size}}">
+                                                {{ size | translate}}
+                                            </ion-select-option>
+                                        </ion-select>
+                                       </ion-item> 
+                                        <b style="color: #222428;">{{ 'Profile.vaccinated' | translate }}:</b>
+                                        <b *ngIf="enableeditanimal">{{ animal.vaccination | translate}} </b><br>
+                                        <ion-item *ngIf="!enableeditanimal" style="width: 69%;">
+                                                <ion-select 
+                                                placeholder=" {{ animal.vaccination | translate}}" interface="popover"
+                                                [(ngModel)]="AnimalsRegister.vaccinated">
+                                                <ion-select-option value="{{ 'Profile.Yes'}}">
+                                                    {{ 'Profile.Yes' | translate }}
+                                                </ion-select-option>
+                                                <ion-select-option value="{{ 'Profile.No'}}">{{ 'Profile.No' | translate }}
+                                                </ion-select-option>
+                                            </ion-select>
+                                        </ion-item>
+                                        <b style="color: #222428;">{{ 'Profile.dewormed' | translate }}:</b>
+                                        <b *ngIf="enableeditanimal">{{ animal.deworming | translate}}</b><br>
+                                        <ion-item *ngIf="!enableeditanimal" style="width: 69%;">
+                                                <ion-select 
+                                                placeholder=" {{ animal.vaccination | translate}}" interface="popover"
+                                                [(ngModel)]="AnimalsRegister.dewormed">
+                                                <ion-select-option value="{{ 'Profile.Yes'}}">
+                                                    {{ 'Profile.Yes' | translate }}
+                                                </ion-select-option>
+                                                <ion-select-option value="{{ 'Profile.No'}}">{{ 'Profile.No' | translate }}
+                                                </ion-select-option>
+                                            </ion-select>
+                                        </ion-item>
+                                        <b style="color: #222428;">{{'Profile.medication'| translate}}:</b>
+                                        <b *ngIf="enableeditanimal">{{ animal.medication}}</b><br>
+                                        <ion-textarea *ngIf="!enableeditanimal" [(ngModel)]="AnimalsRegister.medication"
+                                            placeholder="{{ animal.medication}}"></ion-textarea>
+                                        <b style="color: #222428;">{{ 'Profile.AnimalType' | translate }}:</b>
+                                        <b *ngIf="enableeditanimal"> {{ animal.type | translate}}</b><br>
+                                        <ion-item *ngIf="!enableeditanimal" style="width: 85%;">
+                                                <ion-select placeholder="{{ animal.type | translate}}"
+                                                interface="alert" [(ngModel)]="AnimalsRegister.type">
+                                                <ion-select-option *ngFor="let type of typeanimals" value="{{type}}">
+                                                    {{ type | translate}}
+                                                </ion-select-option>
+                                            </ion-select>
+                                        </ion-item>
+                                        <b style="color: #222428;">{{'Profile.description'| translate}}:</b>
+                                        <b *ngIf="enableeditanimal"> {{ animal.description}}</b>
+                                        <ion-textarea *ngIf="!enableeditanimal"
+                                            [(ngModel)]="AnimalsRegister.description"
+                                            placeholder=" {{ animal.description}}"></ion-textarea>
+
+                                      
+                                    </div>
+
+                                    <div style="margin-top: 10px;" class="buttonedit" *ngIf="!enableeditanimal">
+                                        <ion-button color="danger" (click)="Canceledition(4)" size="small">
+                                            {{ 'All.Cancel' | translate }}
+                                        </ion-button>
+                                        <ion-button style="width: 100px;" (click)="updateanimal(animal.id)" size="small" color="success">
+                                            {{ 'All.continue' | translate }}
+                                        </ion-button>
+                                    </div>
+                                </ion-row>
+
+                            </ion-grid>
 
                         </ion-item>
                     </div>
-
                     <div class="addanimals" *ngIf="showaddanimals == 1">
                         <ion-button class="ion-margin-top" (click)="buttonaddanimal(0)" size="default" color="medium">
                             <ion-icon name="arrow-back"></ion-icon>
@@ -343,7 +429,8 @@
                         <ion-item class="ion-margin-top" lines="none">
                             <ion-label>{{ 'Profile.Breed' | translate }}</ion-label>
                             <ion-select placeholder="Select" interface="popover" [(ngModel)]="AnimalsRegister.breed">
-                                <ion-select-option *ngFor="let item of typeanimals" value="{{item}}">{{item}}
+                                <ion-select-option *ngFor="let item of typeanimals" value="{{item}}">
+                                    {{item}}
                                 </ion-select-option>
                             </ion-select>
                         </ion-item>
@@ -384,13 +471,15 @@
                         </ion-list>
 
                         <ion-item class="ion-margin-top" lines="none">
-                                        <img class="center ion-margin-top" src="assets/img/uploadimage.png" />
-                                        <ion-item >
-                                            <input id="uploadBtn" type="file" class="upload" (change)="uploadImage($event)" />
-                                        </ion-item>
-                
-                            <ion-input type="text" [(ngModel)]="AnimalsRegister.photo" placeholder="Imagens">
-                            </ion-input>
+
+                            <img class="center ion-margin-top" *ngIf="allanimalsphoto == null"
+                                src="assets/img/uploadimage.png" />
+                            <img class="center ion-margin-top" *ngIf="allanimalsphoto != null"
+                                [src]="allanimalsphoto" />
+
+                            <ion-item style="margin-right: 0px;">
+                                <input id="uploadBtn" type="file" class="upload" (change)="uploadImage($event,1)" />
+                            </ion-item>
                         </ion-item>
                         <ion-item class="ion-margin-top" lines="none">
                             <ion-textarea [(ngModel)]="AnimalsRegister.medication"
@@ -421,23 +510,23 @@
                         </ion-fab><br>
                         <ion-grid *ngFor="let service of servicesPet" class="detailservice">
                             <div align="right">
-                                <ion-button *ngIf="enableeditservice=='true'&& showuser == 2 " class="ion-margin-top"
+                                <ion-button *ngIf="enableeditservice&& showuser == 2 " class="ion-margin-top"
                                     (click)="deleteservice(service.id)" size="small" shape="round" color="danger">
                                     <ion-icon name="close"></ion-icon>
                                 </ion-button>
-                                <ion-button *ngIf="enableeditservice=='true' && showuser == 2" class="ion-margin-top"
+                                <ion-button *ngIf="enableeditservice && showuser == 2" class="ion-margin-top"
                                     (click)="editdata(3)" size="small" shape="round" color="dark">
                                     <ion-icon name="create"></ion-icon>
                                 </ion-button>
 
                             </div>
-                            <ion-title *ngIf="enableeditservice=='false' ">
+                            <ion-title *ngIf="!enableeditservice ">
                                 {{ 'Profile.Service.editservice' | translate }}</ion-title>
                             <ion-row>
                                 <ion-item>
                                     <ion-label>{{ 'Profile.typeservice' | translate }}:
                                     </ion-label>
-                                    <div *ngIf="enableeditservice=='false'" align="right">
+                                    <div *ngIf="!enableeditservice" align="right">
                                         <ion-select style="color: black;"
                                             placeholder="{{ service.typeservice | translate}}"
                                             [(ngModel)]="Services.typeservice">
@@ -447,7 +536,7 @@
                                             </ion-select-option>
                                         </ion-select>
                                     </div>
-                                    <ion-label align="right" style="color: black;" *ngIf="enableeditservice=='true'">
+                                    <ion-label align="right" style="color: black;" *ngIf="enableeditservice">
                                         {{ service.typeservice | translate}}</ion-label>
                                 </ion-item>
                             </ion-row>
@@ -455,7 +544,7 @@
                                 <ion-item>
                                     <ion-textarea style="color: white;text-align: start;">
                                         {{ 'Profile.AnimalTypeservices' | translate }}:
-                                        <div *ngIf="enableeditservice=='false'">
+                                        <div *ngIf="!enableeditservice">
                                             <ion-select style="color: black;" placeholder="Animals" multiple="true"
                                                 interface="alert" [(ngModel)]="Services.typeanimals">
                                                 <ion-select-option *ngFor="let item of typeanimals" value="{{item}}">
@@ -463,7 +552,7 @@
                                                 </ion-select-option>
                                             </ion-select>
                                         </div>
-                                        <div *ngIf="enableeditservice=='true'">
+                                        <div *ngIf="enableeditservice">
                                             <ion-label style="color: black;" *ngFor="let item of service.typeanimals">
                                                 {{ item | translate}}</ion-label>
                                         </div>
@@ -478,7 +567,7 @@
 
                                     </ion-label>
 
-                                    <div *ngIf="enableeditservice=='false'">
+                                    <div *ngIf="!enableeditservice">
                                         <ion-input type="number" [(ngModel)]="Services.price"
                                             placeholder="{{ service.price}}"></ion-input>
                                         <ion-select size="small" placeholder="{{ service.typemoney}}"
@@ -487,7 +576,7 @@
                                             <ion-select-option value="dolar">Dolar</ion-select-option>
                                         </ion-select>
                                     </div>
-                                    <ion-label align="right" style="color: black;" *ngIf="enableeditservice=='true'">
+                                    <ion-label align="right" style="color: black;" *ngIf="enableeditservice">
                                         {{ service.price}} {{ service.typemoney}}</ion-label>
                                 </ion-item>
                             </ion-row>
@@ -495,10 +584,10 @@
                                 <ion-item>
                                     <ion-label>{{'UserRegister.location'| translate}}:
                                     </ion-label>
-                                    <ion-input *ngIf="enableeditservice=='false'" type="text"
+                                    <ion-input *ngIf="!enableeditservice" type="text"
                                         [(ngModel)]="Services.location" placeholder="{{ service.location | translate}}">
                                     </ion-input>
-                                    <ion-label style="color: black;" align="right" *ngIf="enableeditservice=='true'">
+                                    <ion-label style="color: black;" align="right" *ngIf="enableeditservice">
                                         {{ service.location | translate}}
                                     </ion-label>
                                 </ion-item>
@@ -507,18 +596,18 @@
                                 <ion-item>
                                     <p style="color: white;">{{'Profile.caregiven'| translate}}:
 
-                                        <ion-textarea *ngIf="enableeditservice=='false'" type="text"
+                                        <ion-textarea *ngIf="!enableeditservice" type="text"
                                             [(ngModel)]="Services.descriptioncare"
                                             placeholder="{{ service.descriptioncare | translate}}">
                                         </ion-textarea>
-                                        <ion-label *ngIf="enableeditservice=='true'" style="color: black;">
+                                        <ion-label *ngIf="enableeditservice" style="color: black;">
                                             {{ service.descriptioncare | translate}}
                                         </ion-label>
                                     </p>
 
                                 </ion-item>
                             </ion-row>
-                            <div class="buttonedit" *ngIf="enableeditservice=='false'">
+                            <div class="buttonedit" *ngIf="!enableeditservice">
                                 <ion-button color="danger" (click)="Canceledition(3)" size="small">
                                     {{ 'All.Cancel' | translate }}
                                 </ion-button>

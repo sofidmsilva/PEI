@@ -35,7 +35,6 @@ export class FavoritesPage implements OnInit, OnDestroy {
             data => {
               
               this.alluser[i] = data;
-              console.log(this.alluser)
             });
           
         }
