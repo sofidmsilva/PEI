@@ -18,6 +18,8 @@ import { Image } from 'src/app/interfaces/image';
 import { Calendar } from 'src/app/interfaces/calendar';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { RequestService } from 'src/app/interfaces/request-service';
+import { Favorites } from 'src/app/interfaces/favorites';
+
 
 
 
@@ -45,6 +47,7 @@ export class ProfilePage implements OnInit,OnDestroy {
   imageloading = false;
 
   private showuser: number;
+  private showusertabs: number;
   private ispremium: boolean;
   public animalsPosition: number = 0;
   public animalsDifference: number = 100;
@@ -64,11 +67,13 @@ export class ProfilePage implements OnInit,OnDestroy {
   public NewUser;
   public userRegister: User = {};
   private datacomment = new Array<Comments>();
+  private datafavorites = new Array<Favorites>();
   private animalsSubscription: Subscription;
   private userSubscription: Subscription;
   private CommentsSubscription: Subscription;
   private ServicespetSubscription: Subscription;
   private CalendarPetSubscription: Subscription;
+  private FavoritesSubscription: Subscription;
   private typeanimals: Array<string> = ["TypeAnimals.cat", "TypeAnimals.dog", "TypeAnimals.turtle", "TypeAnimals.fish",
     "TypeAnimals.bird", "TypeAnimals.snake", "TypeAnimals.hamster"];
   private sizeanimals: Array<string> = ["SizeAnimals.verysmall", "SizeAnimals.small", "SizeAnimals.medium", "SizeAnimals.big"];
@@ -77,9 +82,11 @@ export class ProfilePage implements OnInit,OnDestroy {
   private AnimalsRegister: Animals = {};
   private requestservice: RequestService={};
   private AddComment: Comments = {};
+  private Favorites: Favorites={};
+  private liked: boolean=false ;
   private Services: Services = {};
   private event: Calendar = {startTime: '',endTime:''};
-
+  public profileid = this.router.url.split('/');
   constructor(private translationservice: TranslateService,
     private router: Router,
     private authServices: AuthService,
@@ -93,23 +100,45 @@ export class ProfilePage implements OnInit,OnDestroy {
     private alertController: AlertController,
     public modalController: ModalController) {
 
-    this.animalsSubscription = this.animalServices.getAnimals(this.authServices.getAuth().currentUser.uid).subscribe(
+    this.animalsSubscription = this.animalServices.getAnimals(this.profileid[3]).subscribe(
       data => {
         this.animals = data;
       });
-    this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
-      data => {
+      
+    this.userSubscription = this.userServices.getDataUser(this.profileid[3]).subscribe(
+      data => {this.datauser=[];
         data[0].dateofbirthday = data[0].dateofbirthday.split('T')[0];
         this.datauser = data;
         this.alldatauser = data[0].image;
-        this.showuser = data[0].tipeuser;
+        if(this.profileid[3]==this.authServices.getAuth().currentUser.uid){
+          this.showuser = data[0].tipeuser;
+          this.showusertabs= data[0].tipeuser;
+        }else{
+          if(data[0].tipeuser==1){
+            this.showuser= 2;
+            this.showusertabs= data[0].tipeuser;
+          }else{
+            this.showuser=1;
+            this.showusertabs= data[0].tipeuser;
+          }
+        }
         this.ispremium= data[0].premium;
       });
-    this.CommentsSubscription = this.userServices.getComments(this.authServices.getAuth().currentUser.uid).subscribe(
+    this.CommentsSubscription = this.userServices.getComments(this.profileid[3]).subscribe(
       data => {
         this.datacomment = data
       });
-    this.ServicespetSubscription = this.servicespetServices.getServices(this.authServices.getAuth().currentUser.uid).subscribe(
+      this.FavoritesSubscription = this.userServices.getFavorites(this.profileid[3]).subscribe(
+        data => {this.datafavorites=[];
+            this.datafavorites = data
+            if(this.datafavorites[0] != null){
+              this.liked= this.datafavorites[0].liked;
+            }else{
+              this.liked=false;
+            }
+
+        });
+    this.ServicespetSubscription = this.servicespetServices.getServices(this.profileid[3]).subscribe(
       data => { this.typeservicefromuser=[];
         this.servicesPet = data
         for(let i = 0; i <= this.servicesPet.length-1; i++){
@@ -117,7 +146,7 @@ export class ProfilePage implements OnInit,OnDestroy {
         }
       });
       
-    this.CalendarPetSubscription = this.servicespetServices.getevents(this.authServices.getAuth().currentUser.uid).subscribe(
+    this.CalendarPetSubscription = this.servicespetServices.getevents(this.profileid[3]).subscribe(
       data => {this.eventSource=[];
         this.calendarevent = data
         for(let i = 0; i <= this.calendarevent.length - 1; i++){
@@ -128,7 +157,6 @@ export class ProfilePage implements OnInit,OnDestroy {
             endTime: new Date(this.calendarevent[i].endTime),   
             
           }
-          console.log(eventCopy);
         this.eventSource.push(eventCopy);
         this.myCal.loadEvents();
        
@@ -139,13 +167,12 @@ export class ProfilePage implements OnInit,OnDestroy {
     this.typeanimals;
     this.sizeanimals;
     this.typeservices;
-    console.log("passou aqui");
-
   }
 
   ngOnInit() {
     this.resetEvents();
     this.NewUser = this.authServices.getAuth().currentUser.uid;
+   
   }
 
   ngOnDestroy() {
@@ -154,6 +181,7 @@ export class ProfilePage implements OnInit,OnDestroy {
     this.CommentsSubscription.unsubscribe();
     this.ServicespetSubscription.unsubscribe();
     this.CalendarPetSubscription.unsubscribe();
+    this.FavoritesSubscription.unsubscribe();
     this.animals=[];
     this.datauser = [];
     this.alldatauser = null;
@@ -253,10 +281,41 @@ export class ProfilePage implements OnInit,OnDestroy {
     } finally {
       this.loading.dismiss();
     }
-    this.AddComment.content = "";
+    
     this.loading.dismiss();
   }
+  async AddFavorites(){
+    var to = this.router.url.split('/');
+    try {
+      this.Favorites.from = this.authServices.getAuth().currentUser.uid;
+        this.Favorites.to = to[3];
+        this.Favorites.liked=true;
+        await this.userServices.addfavorites(this.Favorites);
+ 
+    }
+    catch (error) {
 
+      console.error(error);
+      this.presentToast('erro a guardar');
+    }
+  }
+
+  async RemoveFavorites(){
+    var fav = this.router.url.split('/');
+    for(let i = 0; i <= this.datafavorites.length - 1; i++){
+       if((fav[3] == this.datafavorites[i].to) && (this.NewUser==this.datafavorites[i].from)){
+         var remove = this.datafavorites[i].id;
+       }
+    }
+    try {
+      await this.userServices.deletefavorites(remove);
+    }
+    catch (error) {
+      console.error(error);
+      this.presentToast('erro ao apagar');
+    }
+    this.liked =false;
+  }
   async deletecomment(id: string) {
     await this.presentLoading();
     try {

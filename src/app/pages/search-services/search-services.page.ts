@@ -45,4 +45,7 @@ export class SearchServicesPage implements OnInit,OnDestroy {
   openFilters(){
     this.router.navigate(['tabs/service-filters']);
   }
+  goback(){
+    this.router.navigate(['tabs/home']);
+  }
 }
