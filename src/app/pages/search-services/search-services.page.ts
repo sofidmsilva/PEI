@@ -46,7 +46,7 @@ export class SearchServicesPage implements OnInit {
   rasterLayer;
 
   constructor(private router: Router,
-    private userServices: RegisterService, private service: ServicespetService, private storage: Storage) {
+    private userServices: RegisterService, private service: ServicespetService, private storage: Storage, route:ActivatedRoute) {
     this.userSubscription = this.userServices.getAllUser().subscribe(
       data => {
         this.filterUsers = data;
