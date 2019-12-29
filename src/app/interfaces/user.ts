@@ -2,6 +2,7 @@ import { Timestamp, Observable } from 'rxjs';
 import { Morada } from './morada';
 
 export interface User {
+    id?: string;
     email?: string;
     password?: string;
     sexo?: string;

@@ -132,7 +132,9 @@
     "title":"Search for Services",
     "relevance":"Relevance",
     "distance":"Distance",
-    "price":"Price"
+    "price":"Price",
+    "applyfilters": "Apply Filters",
+    "cleanfilters": "Clean Filters"
  },
  "Favorites":{
     "title":"Favorites"

@@ -1,19 +1,56 @@
 <ion-content>
     <div class="container ion-text-center">
-        <ion-title style="font-size: 25px; background: cornsilk;"><b>{{ 'Filters.title' | translate }}</b></ion-title>
-        <ion-item class="ion-text-center">
-            <ion-label>
-                <h2>{{ 'SearchServices.relevance' | translate }}</h2>
-                <ion-row style="font-size: 30px;">
-                    <ion-col>
-                        <ion-icon name="star"></ion-icon>
-                        <ion-icon name="star"></ion-icon>
-                        <ion-icon name="star"></ion-icon>
-                        <ion-icon name="star"></ion-icon>
-                        <ion-icon name="star"></ion-icon>
-                    </ion-col>
-                </ion-row>
-            </ion-label>
+        <ion-title class="ion-margin-bottom" style="font-size: 25px; background: cornsilk;"><b>{{ 'Filters.title' | translate }}</b></ion-title>
+        <ion-item>
+            <ion-label>{{ 'Profile.typeservice' | translate }}</ion-label>
+            <ion-select placeholder="Select" interface="popover" [(ngModel)]="filters.typeservice">
+              <ion-select-option value="Pet Care">Pet Care</ion-select-option>
+              <ion-select-option value="Pet Sitting">Pet Sitting</ion-select-option>
+              <ion-select-option value="Pet Walking">Pet Walking</ion-select-option>
+            </ion-select>
         </ion-item>
+        <ion-item>
+            <ion-label>{{ 'Profile.AnimalType' | translate }}</ion-label>
+            <ion-select placeholder="Select" interface="alert" [(ngModel)]="filters.AnimalType">
+                <ion-select-option *ngFor="let item of typeanimals" value="{{item}}">
+                    {{ item | translate}}
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+            <ion-label>{{ 'UserRegister.experience' | translate }}</ion-label>
+            <ion-row style="font-size: 30px;">
+                <ion-col *ngFor="let star of stars; let i = index" tappable (click)="starClicked(i)">
+                    <ion-icon [name] = "star"></ion-icon>
+                </ion-col>
+            </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-label>{{ 'UserRegister.car' | translate }}</ion-label>
+            <ion-select placeholder="Select" interface="popover" [(ngModel)]="filters.car">
+              <ion-select-option value="{{ 'Profile.Yes'}}">{{ 'Profile.Yes' | translate }}</ion-select-option>
+              <ion-select-option value="{{ 'Profile.No'}}">{{ 'Profile.No' | translate }}</ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+            <ion-label>{{ 'UserRegister.drivinglicense' | translate }}</ion-label>
+            <ion-select placeholder="Select" interface="popover" [(ngModel)]="filters.drivinglicense">
+              <ion-select-option value="{{ 'Profile.Yes'}}">{{ 'Profile.Yes' | translate }}</ion-select-option>
+              <ion-select-option value="{{ 'Profile.No'}}">{{ 'Profile.No' | translate }}</ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+            <ion-label>{{ 'UserRegister.garden' | translate }}</ion-label>
+            <ion-select placeholder="Select" interface="popover" [(ngModel)]="filters.garden">
+              <ion-select-option value="{{ 'Profile.Yes'}}">{{ 'Profile.Yes' | translate }}</ion-select-option>
+              <ion-select-option value="{{ 'Profile.No'}}">{{ 'Profile.No' | translate }}</ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-button class="ion-margin-top" (click)="applyFilters()">
+            {{ 'SearchServices.applyfilters' | translate }}
+        </ion-button>
+        <ion-button class="ion-margin-top" fill="outline"(click)="cleanFilters()">
+            {{ 'SearchServices.cleanfilters' | translate }}
+        </ion-button>
     </div>
 </ion-content>
