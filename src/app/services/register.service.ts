@@ -15,7 +15,12 @@ export class RegisterService {
   constructor(private afs: AngularFirestore, private authServices: AuthService) {
 
   }
-
+  getUsersCollection(){
+    return this.usersCollection;
+  }
+  setUsersCollection(usersCollection){
+    this.usersCollection = usersCollection;
+  }
   documentToDomainObject = _ => {
     const object = _.payload.doc.data();
     object.id = _.payload.doc.id;

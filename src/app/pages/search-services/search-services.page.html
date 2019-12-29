@@ -29,7 +29,7 @@
         <div [ngSwitch]="option">
          
               <ion-list *ngSwitchCase="'relevance'" >
-                  <div  *ngFor="let users of alluser">
+                  <div  *ngFor="let users of filterUsers">
                   <ion-item color="Warning"(click)="searchprofile(users.id)"  *ngIf="users.premium == true " >
                       <ion-avatar slot="start">
                           <img  class="center ion-margin-top" [src]="users.image">
@@ -45,7 +45,7 @@
           
          
                 <ion-list *ngSwitchCase="'distance'">
-                    <div *ngFor="let users of alluser">
+                    <div *ngFor="let users of filterUsers">
                     <ion-item color="Warning" (click)="searchprofile()" *ngIf="users.location == 'Braga' ">
                         <ion-avatar slot="start">
                             <img  class="center ion-margin-top" [src]="users.image">
@@ -61,7 +61,7 @@
            
          
               <ion-list *ngSwitchCase="'price'">
-                  <div *ngFor="let users of alluser">
+                  <div *ngFor="let users of filterUsers">
                       <ion-item (click)="searchprofile()">
                           <ion-avatar slot="start">
                             <img src="/assets/img/flags/pt.png">

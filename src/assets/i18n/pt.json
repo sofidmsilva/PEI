@@ -119,7 +119,9 @@
       "title": "Procurar por serviços",
       "relevance": "Relevância",
       "distance": "Distância",
-      "price": "Preço"
+      "price": "Preço",
+      "applyfilters": "Aplicar Filtros",
+      "cleanfilters": "Limpar Filtros"
    },
    "Favorites": {
       "title": "Favoritos"

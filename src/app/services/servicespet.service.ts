@@ -41,6 +41,15 @@ export class ServicespetService {
       ));
     return this.servicesCollection;
   }
+
+  getAllServices() {
+    this.servicesCollection = this.afs.collection('Services').snapshotChanges()
+      .pipe(map(action => action.map(
+        this.documentToDomainObject
+      )));
+    return this.servicesCollection;
+  }
+
   addrequestservice(requestservice: RequestService){
    
     return this.afs.collection('RequestService').add(requestservice);
