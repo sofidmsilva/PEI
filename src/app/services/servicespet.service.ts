@@ -4,14 +4,19 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
 import { Calendar } from '../interfaces/calendar';
 import { RequestService } from '../interfaces/request-service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServicespetService {
 
+  
+
   private servicesCollection;
   private calendarCollection;
+  
+  coords:Object={};
 
   constructor(private afs: AngularFirestore) { }
 
@@ -21,6 +26,14 @@ export class ServicespetService {
     return object;
   }
 
+
+  // this.servicesCollection = this.afs.collection('Utilizador').snapshotChanges()
+  //   .pipe(map(action => action.map(
+  //     this.documentToDomainObject
+  //   )
+  //     .filter(item => (item == newUser))
+  //   ));
+  // return this.servicesCollection;
   addservices(service: Services){
     return this.afs.collection('Services').add(service);
   }
@@ -80,4 +93,32 @@ export class ServicespetService {
       ));
     return this.calendarCollection;
   }
+
+  getCoordsLocationOfAUser(token: string): Promise<any> {
+    return new Promise((resolve,reject) => {
+    var docRef = this.afs.collection("Utilizador").doc(token);
+    
+
+    docRef.get().subscribe(
+      doc => {
+        if (doc.exists) {
+          var data=doc.data();
+          // console.log("data",data);
+          var coords= {latitude:data.morada.Coordenadas.latitude, longitude:data.morada.Coordenadas.longitude, cidade:data.morada.Cidade};
+          resolve(coords)
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+        },
+        (error) => reject(error)
+    );
+  });
+}
+
+  getCoordsLocationOfAllNearPetSitters(cidade: string ):Observable<any>{
+          // Create a reference to the cities collection
+      return this.afs.collection('Utilizador',ref=>ref.where('morada.Cidade', '==', cidade).where('tipeuser', '==' , '2')).get()
+  }
+   
 }

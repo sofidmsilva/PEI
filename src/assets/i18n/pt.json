@@ -62,7 +62,14 @@
       "car": "Carro",
       "years": "Anos",
       "continue": "Continuar",
-      "uploadimage": "Escolha a imagem para upload"
+      "uploadimage": "Escolha a imagem para upload",
+      "numerodePorta":"Numero de porta",
+      "rua":"Rua",
+      "codigoPostal":"Codigo Postal",
+      "cidade": "Cidade",
+      "distrito": "Distrito",
+      "pais": "Pais"
+
    },
    "Profile": {
       "AddAnimal": "Adicionar Animal",
@@ -107,6 +114,10 @@
          "messageconfirm": "Quer mesmo apagar o serviço?",
          "editservice": "Editar Serviço"
       },
+      "Animals":{
+         "messageconfirm":"Quer mesmo apagar este registo do animal?",
+         "editanimal":"Editar Animal"
+       },
       "premium":{
          "becomepremium":"Tornar-se",
          "becomepremium2":"Premium",

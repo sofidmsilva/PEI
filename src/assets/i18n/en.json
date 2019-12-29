@@ -64,7 +64,13 @@
       "car":"Car",
       "years":"Years",
       "continue":"Continue",
-      "uploadimage":"Choose Images to Upload"
+      "uploadimage":"Choose Images to Upload",
+      "doornumber":"Numero de porta",
+      "street":"Street",
+      "postalcode":"Postal Code",
+      "city": "City",
+      "state": "State",
+      "country": "Country"
  },
  "Profile":{
       "AddAnimal":"Add Animal",
@@ -108,6 +114,10 @@
          "title":"Confirm please!",
          "messageconfirm":"Do you really want to delete the service?",
          "editservice":"Edit Service"
+    },
+    "Animals":{
+      "messageconfirm":"Do you really want to delete this animal?",
+      "editanimal":"Edit Animal"
     },
     "premium":{
       "becomepremium":"Become",

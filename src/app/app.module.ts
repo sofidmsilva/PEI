@@ -23,6 +23,8 @@ import { LanguagePopoverPageModule } from './pages/language-popover/language-pop
 import { from } from 'rxjs';
 import {ChartsModule} from 'ng2-charts';
 import { NgCalendarModule} from 'ionic2-calendar';
+
+
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http,'../assets/i18n/', '.json');
 }

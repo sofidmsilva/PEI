@@ -1,4 +1,5 @@
 import { Timestamp, Observable } from 'rxjs';
+import { Morada } from './morada';
 
 export interface User {
     id?: string;
@@ -15,7 +16,8 @@ export interface User {
     surface?:string;
     car?:string;
     dateofbirthday?:Date;
-    location?:string;
+    // locationCity?:string;
+    morada?:Morada
     phonenumber?: number;
     image?: string;
     premium?:boolean;

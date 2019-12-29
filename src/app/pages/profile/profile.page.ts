@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { IonSlides, LoadingController, ToastController, AlertController, ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -18,6 +18,8 @@ import { Image } from 'src/app/interfaces/image';
 import { Calendar } from 'src/app/interfaces/calendar';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { RequestService } from 'src/app/interfaces/request-service';
+import { Favorites } from 'src/app/interfaces/favorites';
+
 
 
 
@@ -26,7 +28,7 @@ import { RequestService } from 'src/app/interfaces/request-service';
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
-export class ProfilePage implements OnInit {
+export class ProfilePage implements OnInit,OnDestroy {
 
   @ViewChild(IonSlides, { static: false }) slides: IonSlides;
   @ViewChild(CalendarComponent, { static: false }) myCal: CalendarComponent;
@@ -45,17 +47,21 @@ export class ProfilePage implements OnInit {
   imageloading = false;
 
   private showuser: number;
+  private showwiconfav: boolean;
+  private showusertabs: number;
   private ispremium: boolean;
   public animalsPosition: number = 0;
   public animalsDifference: number = 100;
   public imagem;
   private alldatauser: string;
+  private allanimalsphoto: string;
   private calendarevent = new Array<Calendar>();
   private loading: any;
-  private disabled: string = "true";
-  private editshow: string = "true";
-  private enableeditservice: string="true";
-  private editimage: string = "true";
+  private disabled: boolean = true;
+  private editshow: boolean = true;
+  private enableeditservice: boolean=true;
+  private enableeditanimal: boolean=true;
+  private editimage: boolean = true;
   private experience: Array<string> = ["<1", "<5", ">5"];
   private showaddanimals: number = 0;
   private animals = new Array<Animals>();
@@ -64,11 +70,13 @@ export class ProfilePage implements OnInit {
   public NewUser;
   public userRegister: User = {};
   private datacomment = new Array<Comments>();
+  private datafavorites = new Array<Favorites>();
   private animalsSubscription: Subscription;
   private userSubscription: Subscription;
   private CommentsSubscription: Subscription;
   private ServicespetSubscription: Subscription;
   private CalendarPetSubscription: Subscription;
+  private FavoritesSubscription: Subscription;
   private typeanimals: Array<string> = ["TypeAnimals.cat", "TypeAnimals.dog", "TypeAnimals.turtle", "TypeAnimals.fish",
     "TypeAnimals.bird", "TypeAnimals.snake", "TypeAnimals.hamster"];
   private sizeanimals: Array<string> = ["SizeAnimals.verysmall", "SizeAnimals.small", "SizeAnimals.medium", "SizeAnimals.big"];
@@ -77,9 +85,11 @@ export class ProfilePage implements OnInit {
   private AnimalsRegister: Animals = {};
   private requestservice: RequestService={};
   private AddComment: Comments = {};
+  private Favorites: Favorites={};
+  private liked: boolean=false ;
   private Services: Services = {};
   private event: Calendar = {startTime: '',endTime:''};
-
+  public profileid = this.router.url.split('/');
   constructor(private translationservice: TranslateService,
     private router: Router,
     private authServices: AuthService,
@@ -93,31 +103,56 @@ export class ProfilePage implements OnInit {
     private alertController: AlertController,
     public modalController: ModalController) {
 
-    this.animalsSubscription = this.animalServices.getAnimals(this.authServices.getAuth().currentUser.uid).subscribe(
+    this.animalsSubscription = this.animalServices.getAnimals(this.profileid[3]).subscribe(
       data => {
         this.animals = data;
       });
-    this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
-      data => {
+      
+    this.userSubscription = this.userServices.getDataUser(this.profileid[3]).subscribe(
+      data => {this.datauser=[];
         data[0].dateofbirthday = data[0].dateofbirthday.split('T')[0];
         this.datauser = data;
         this.alldatauser = data[0].image;
-        this.showuser = data[0].tipeuser;
+        if(this.profileid[3]==this.authServices.getAuth().currentUser.uid){
+          this.showuser = data[0].tipeuser;
+          this.showusertabs= data[0].tipeuser;
+          this.showwiconfav=false;
+        }else{
+          if(data[0].tipeuser==1){
+            this.showuser= 2;
+            this.showusertabs= data[0].tipeuser;
+            this.showwiconfav=true;
+          }else{
+            this.showuser=1;
+            this.showusertabs= data[0].tipeuser;
+            this.showwiconfav=true;
+          }
+        }
         this.ispremium= data[0].premium;
       });
-    this.CommentsSubscription = this.userServices.getComments(this.authServices.getAuth().currentUser.uid).subscribe(
+    this.CommentsSubscription = this.userServices.getComments(this.profileid[3]).subscribe(
       data => {
         this.datacomment = data
       });
-    this.ServicespetSubscription = this.servicespetServices.getServices(this.authServices.getAuth().currentUser.uid).subscribe(
-      data => {
+      this.FavoritesSubscription = this.userServices.getFavorites(this.profileid[3]).subscribe(
+        data => {this.datafavorites=[];
+            this.datafavorites = data
+            if(this.datafavorites[0] != null){
+              this.liked= this.datafavorites[0].liked;
+            }else{
+              this.liked=false;
+            }
+
+        });
+    this.ServicespetSubscription = this.servicespetServices.getServices(this.profileid[3]).subscribe(
+      data => { this.typeservicefromuser=[];
         this.servicesPet = data
         for(let i = 0; i <= this.servicesPet.length-1; i++){
           this.typeservicefromuser[i]=this.servicesPet[i].typeservice;
         }
       });
       
-    this.CalendarPetSubscription = this.servicespetServices.getevents(this.authServices.getAuth().currentUser.uid).subscribe(
+    this.CalendarPetSubscription = this.servicespetServices.getevents(this.profileid[3]).subscribe(
       data => {this.eventSource=[];
         this.calendarevent = data
         for(let i = 0; i <= this.calendarevent.length - 1; i++){
@@ -128,7 +163,6 @@ export class ProfilePage implements OnInit {
             endTime: new Date(this.calendarevent[i].endTime),   
             
           }
-          console.log(eventCopy);
         this.eventSource.push(eventCopy);
         this.myCal.loadEvents();
        
@@ -139,12 +173,15 @@ export class ProfilePage implements OnInit {
     this.typeanimals;
     this.sizeanimals;
     this.typeservices;
-
+    console.log(this.sizeanimals)
+    console.log(this.typeanimals)
+  
   }
 
   ngOnInit() {
     this.resetEvents();
     this.NewUser = this.authServices.getAuth().currentUser.uid;
+   
   }
 
   ngOnDestroy() {
@@ -153,19 +190,34 @@ export class ProfilePage implements OnInit {
     this.CommentsSubscription.unsubscribe();
     this.ServicespetSubscription.unsubscribe();
     this.CalendarPetSubscription.unsubscribe();
+    this.FavoritesSubscription.unsubscribe();
+    this.animals=[];
+    this.datauser = [];
+    this.alldatauser = null;
+    this.showuser = null;
+    this.ispremium= null;
+    this.datacomment=[];
+    this.servicesPet = [];
+    this.typeservicefromuser=[];
   }
 
   editdata(id:number) {
     if(id==1){
-      this.disabled = "false";
-      this.editshow = "false";
+      this.disabled = false;
+      this.editshow = false;
     }
     else{
       if(id==2){
-        this.editimage = "false";
+        this.editimage = false;
       }
       else{
-        this.enableeditservice="false";
+        if(id==3){
+          this.enableeditservice=false;
+        }
+        else{
+          this.enableeditanimal=false;
+        }
+       
       }
     }
     
@@ -173,15 +225,20 @@ export class ProfilePage implements OnInit {
 
   Canceledition(id:number) {
     if(id==1){
-    this.disabled = "true";
-    this.editshow = "true";
+    this.disabled = true;
+    this.editshow = true;
     this.userRegister = {};
   }else{
     if(id==2){
-      this.editimage = "true";
+      this.editimage = true;
     }
     else{
-      this.enableeditservice="true";
+      if(id==3){
+        this.enableeditservice=true;
+      }else{
+        this.enableeditanimal=true;
+      }
+
     }
   }
 
@@ -192,8 +249,8 @@ export class ProfilePage implements OnInit {
 
     try {
       await this.userServices.updateUser(this.userRegister, this.NewUser);
-      this.disabled = "true";
-      this.editshow = "true";
+      this.disabled = true;
+      this.editshow = true;
       this.userRegister = {};
     }
     catch (error) {
@@ -244,10 +301,41 @@ export class ProfilePage implements OnInit {
     } finally {
       this.loading.dismiss();
     }
-    this.AddComment.content = "";
+    
     this.loading.dismiss();
   }
+  async AddFavorites(){
+    var to = this.router.url.split('/');
+    try {
+      this.Favorites.from = this.authServices.getAuth().currentUser.uid;
+        this.Favorites.to = to[3];
+        this.Favorites.liked=true;
+        await this.userServices.addfavorites(this.Favorites);
+ 
+    }
+    catch (error) {
 
+      console.error(error);
+      this.presentToast('erro a guardar');
+    }
+  }
+
+  async RemoveFavorites(){
+    var fav = this.router.url.split('/');
+    for(let i = 0; i <= this.datafavorites.length - 1; i++){
+       if((fav[3] == this.datafavorites[i].to) && (this.NewUser==this.datafavorites[i].from)){
+         var remove = this.datafavorites[i].id;
+       }
+    }
+    try {
+      await this.userServices.deletefavorites(remove);
+    }
+    catch (error) {
+      console.error(error);
+      this.presentToast('erro ao apagar');
+    }
+    this.liked =false;
+  }
   async deletecomment(id: string) {
     await this.presentLoading();
     try {
@@ -265,11 +353,12 @@ export class ProfilePage implements OnInit {
     await this.presentLoading();
     console.log(this.AnimalsRegister);
     try {
-
+      this.AnimalsRegister.image=this.allanimalsphoto;
       this.AnimalsRegister.userID = this.authServices.getAuth().currentUser.uid;
       await this.animalServices.addAnimal(this.AnimalsRegister);
       this.AnimalsRegister = {};
       this.showaddanimals = 0;
+      this.allanimalsphoto="";
     }
     catch (error) {
 
@@ -279,6 +368,59 @@ export class ProfilePage implements OnInit {
     }
 
     this.loading.dismiss();
+  }
+   delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+}
+  async updateanimal(id: string){
+   
+    await this.presentLoading();
+    await this.delay(1000);
+    try {
+      if(this.allanimalsphoto!=undefined){
+        this.AnimalsRegister.image= this.allanimalsphoto;
+      }
+      
+      await this.animalServices.updateanimal(this.AnimalsRegister, id);
+      this.AnimalsRegister = {};
+    }
+    catch (error) {
+      console.error(error);
+      this.presentToast(error);
+    } finally {
+      this.loading.dismiss();
+    }
+    this.enableeditanimal=true;
+    this.loading.dismiss();
+  }
+  async deleteanimal(id:string){
+    const alert = await this.alertController.create({
+      header:  this.translationservice.instant('Profile.Service.title'),
+      message: this.translationservice.instant('Profile.Animals.messageconfirm'),
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+          }
+        }, {
+          text: 'Ok',
+          handler:async  () => {
+            try {
+              await this.animalServices.deleteAnimal(id);
+            }
+            catch (error) {
+              this.presentToast('erro ao apagar');
+            } finally {
+              
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
   async addrequestservice() {
     await this.presentLoading();
@@ -365,7 +507,7 @@ export class ProfilePage implements OnInit {
     } finally {
       this.loading.dismiss();
     }
-    this.enableeditservice="true";
+    this.enableeditservice=true;
     this.loading.dismiss();
   }
   async presentLoading() {
@@ -433,7 +575,7 @@ export class ProfilePage implements OnInit {
 
     await alert.present();
   }
-  async uploadImage(event) {
+  async uploadImage(event,i?:number) {
     await this.presentLoading();
     this.imageloading = true;
     if (event.target.files && event.target.files[0]) {
@@ -443,28 +585,47 @@ export class ProfilePage implements OnInit {
       // para visualisar imagem
       reader.onload = (e: any) => {
         this.url = e.target.result;
+      if(i==1){
+     // upload da imagem para firebase
+     const fileraw = event.target.files[0];
+     const filePath = "/image/" + this.authServices.getAuth().currentUser.uid +"/animals"+ "/Photo/";
+     const result = this.SaveImageRef(filePath, fileraw);
+     const ref = result.ref;
 
-        // upload da imagem para firebase
-        const fileraw = event.target.files[0];
-        const filePath = "/image/" + this.authServices.getAuth().currentUser.uid + "/profile/";
-        const result = this.SaveImageRef(filePath, fileraw);
-        const ref = result.ref;
+     //criar link para download 
+     result.task.then(a => {
+       ref.getDownloadURL().subscribe(a => {
+         this.allanimalsphoto = a;
+       });
+
+     });
+        }else{
+             // upload da imagem para firebase
+     const fileraw = event.target.files[0];
+     const filePath = "/image/" + this.authServices.getAuth().currentUser.uid + "/profile/";
+     const result = this.SaveImageRef(filePath, fileraw);
+     const ref = result.ref;
 
 
-        //criar link para download 
+     //criar link para download 
 
-        result.task.then(a => {
-          ref.getDownloadURL().subscribe(a => {
-            this.alldatauser = a;
-            this.UpdateRecord(this.alldatauser);
-          });
+     result.task.then(a => {
+       ref.getDownloadURL().subscribe(a => {
+         this.alldatauser = a;
+         this.UpdateRecord(this.alldatauser);
+       });
 
-        });
+     });
+        }
+   
       }, error => {
         alert("Error");
       }
     }
-    this.editimage = "true";
+    if(i!=1){
+      this.editimage = true;
+    }
+
     this.loading.dismiss();
   }
   UpdateRecord(user) {

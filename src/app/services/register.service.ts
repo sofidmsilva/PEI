@@ -5,6 +5,9 @@ import { map } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { Comments } from '../interfaces/comments';
 import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { Favorites } from '../interfaces/favorites';
 @Injectable({
   providedIn: 'root'
 })
@@ -12,7 +15,9 @@ export class RegisterService {
 
   private usersCollection;
   private userCommentCollection;
-  constructor(private afs: AngularFirestore, private authServices: AuthService) {
+  coords: any;
+  private usersFavoritesCollection;
+  constructor(private afs: AngularFirestore, private authServices: AuthService, private http: HttpClient) {
 
   }
   getUsersCollection(){
@@ -31,11 +36,16 @@ export class RegisterService {
       .pipe(map(action => action.map(
         this.documentToDomainObject
       )
-        .filter(item => (item.id == newUser))
+        .filter(item => (item.id === newUser))
       ));
     return this.usersCollection;
   }
 
+  getCityCoords(morada){
+    var url=`https://eu1.locationiq.com/v1/search.php?key=82087a057eb819&q=${morada}&format=json`
+    console.log(url)
+        return this.coords=this.http.get(url);
+  }
   getAllUser() {
     this.usersCollection = this.afs.collection('Utilizador').snapshotChanges()
       .pipe(map(action => action.map(
@@ -56,6 +66,7 @@ export class RegisterService {
   }
 
   updateUser(user: User,newUser) {
+    console.log(user)
     return this.afs.collection('Utilizador').doc(newUser).update(user);
   }
 
@@ -69,10 +80,38 @@ export class RegisterService {
   addComments(comment: Comments) {
     return this.afs.collection('Comentarios').add(comment);
   }
-
   deleteComment(id: string) {
     return this.afs.collection('Comentarios').doc(id).delete();
   }
 
+  getLocalFile(){
+    return this.http.get('assets/cidades.json').pipe(
+        map(res => res));
+  }
+
+  addfavorites(favorite: Favorites){
+    return this.afs.collection('Favoritos').add(favorite);
+  }
+  deletefavorites(id: string) {
+    return this.afs.collection('Favoritos').doc(id).delete();
+  }
+  getFavorites(newUser) {
+    this.usersFavoritesCollection = this.afs.collection('Favoritos').snapshotChanges()
+      .pipe(map(action => action.map(
+        this.documentToDomainObject
+      )
+        .filter(item => (item.to == newUser))
+      ));
+    return this.usersFavoritesCollection;
+  }
+  getFavoritesfrom(newUser) {
+    this.usersFavoritesCollection = this.afs.collection('Favoritos').snapshotChanges()
+      .pipe(map(action => action.map(
+        this.documentToDomainObject
+      )
+        .filter(item => (item.from == newUser))
+      ));
+    return this.usersFavoritesCollection;
+  }
 
 }

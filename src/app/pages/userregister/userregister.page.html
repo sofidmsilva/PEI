@@ -23,10 +23,17 @@
       <ion-datetime [(ngModel)]="userRegister.dateofbirthday" displayFormat="MM/DD/YYYY" placeholder="Select Date">
       </ion-datetime>
     </ion-item>
+
     <ion-item>
-      <ion-label position="floating">{{ 'UserRegister.location' | translate }}</ion-label>
-      <ion-input [(ngModel)]="userRegister.location"></ion-input>
+      <ion-label position="stacked">Address</ion-label>
+      <ion-input [(ngModel)]="morada.Rua" placeholder="{{ 'UserRegister.rua' | translate }}"></ion-input>
+      <ion-input [(ngModel)]="morada.NumPorta" type="number" placeholder="{{ 'UserRegister.numerodePorta' | translate }}"></ion-input>
+      <ion-input [(ngModel)]="morada.CodigoPostal"  placeholder="{{ 'UserRegister.codigoPostal' | translate }}"></ion-input>
+      <ion-input [(ngModel)]="morada.Cidade" placeholder="{{ 'UserRegister.cidade' | translate }}"></ion-input>
+      <ion-input [(ngModel)]="morada.Distrito" placeholder="{{ 'UserRegister.distrito' | translate }}"></ion-input>
+      <ion-input [(ngModel)]="morada.Pais" placeholder="{{ 'UserRegister.pais' | translate }}"></ion-input>
     </ion-item>
+  
 
     <div class="phone">
       <p style="font-size: 15px; text-align: left; margin-left: 10px;">{{ 'UserRegister.phonenumber' | translate }}</p>

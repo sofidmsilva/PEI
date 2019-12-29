@@ -1,6 +1,11 @@
 <ion-content>
   <div class="container">
-      <ion-title style="font-size: 25px; background: cornsilk;"><b>{{ 'SearchServices.title' | translate }}</b></ion-title>
+    <div style="background: #b69354;">
+            <ion-button class="ion-margin-top" (click)="goback()" size="small" color="danger">
+                    <ion-icon name="arrow-back"></ion-icon>
+                </ion-button>&nbsp;&nbsp;
+            <ion-label style="font-size: 25px; ">   <b>{{ 'SearchServices.title' | translate }}</b></ion-label>     
+    </div>
       <ion-toolbar no-border-top>
           <ion-segment [(ngModel)]="option">
             <ion-segment-button value="relevance" >
@@ -15,7 +20,7 @@
                 <ion-icon name="cash"></ion-icon>
                 <ion-label>{{ 'SearchServices.price' | translate }}</ion-label>
             </ion-segment-button>
-            <ion-segment-button value="map">
+            <ion-segment-button value="map"  (ionSelect)="initializeMap()">
                 <ion-icon name="map"></ion-icon>
             <ion-label>Map</ion-label>
             </ion-segment-button>
@@ -72,17 +77,12 @@
                         </ion-item>
                       </div>
                 </ion-list>
-          
-    <div >
-        <ion-list *ngSwitchCase="'map'">
-            <ion-item>
-             Inserir mapa aqui
-            </ion-item>
-          </ion-list>
-    </div>
-            
+                 <div class="map" [hidden]="option!='map'" #map id="map"></div>
         </div>
+       
     </div>
+
+  
 
 
 </ion-content>
