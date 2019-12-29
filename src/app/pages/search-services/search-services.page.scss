@@ -3,7 +3,6 @@
     width: 100%;
     margin: 0 auto;
     z-index: 4;
-    height: 100%;
     ;
 
     ion-title{
@@ -21,12 +20,12 @@
 
     }
 
-    div{
-        height: 100%;
+    .map{
+        height: 450px;
         }
-    #map {
-        height: 100%;
-    }
+    // #map {
+    //     height: 503px;
+    // }
     ion-list{
         ion-item{
             background: #d8ddf7;
