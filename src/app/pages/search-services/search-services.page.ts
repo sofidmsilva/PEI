@@ -164,4 +164,7 @@ export class SearchServicesPage implements OnInit {
     this.router.navigate(['/tabs/profile', event]);
   }
 
+  openFilters(){
+    this.router.navigate(['tabs/service-filters']);
+  }
 }

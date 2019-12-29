@@ -21,7 +21,11 @@
             </ion-segment-button>
           </ion-segment>
         </ion-toolbar>
-  
+        <div class="ion-text-right">
+        <ion-button color="primary" (click)="openFilters()" style="padding-right: 10px;">
+            <ion-icon name="ios-funnel" slot="icon-only"></ion-icon>
+        </ion-button>
+        </div>
         <div [ngSwitch]="option">
          
               <ion-list *ngSwitchCase="'relevance'" >
