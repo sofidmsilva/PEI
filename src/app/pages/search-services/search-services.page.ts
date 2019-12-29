@@ -157,14 +157,17 @@ export class SearchServicesPage implements OnInit {
   }
   ngOnDestroy() {
     this.userSubscription.unsubscribe();
+    this.option;
   }
 
   searchprofile(event) {
-    console.log(event);
     this.router.navigate(['/tabs/profile', event]);
   }
 
   openFilters(){
     this.router.navigate(['tabs/service-filters']);
+  }
+  goback(){
+    this.router.navigate(['tabs/home']);
   }
 }

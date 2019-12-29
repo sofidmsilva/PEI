@@ -114,6 +114,10 @@
          "messageconfirm": "Quer mesmo apagar o serviço?",
          "editservice": "Editar Serviço"
       },
+      "Animals":{
+         "messageconfirm":"Quer mesmo apagar este registo do animal?",
+         "editanimal":"Editar Animal"
+       },
       "premium":{
          "becomepremium":"Tornar-se",
          "becomepremium2":"Premium",

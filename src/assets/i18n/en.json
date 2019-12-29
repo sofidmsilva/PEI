@@ -115,6 +115,10 @@
          "messageconfirm":"Do you really want to delete the service?",
          "editservice":"Edit Service"
     },
+    "Animals":{
+      "messageconfirm":"Do you really want to delete this animal?",
+      "editanimal":"Edit Animal"
+    },
     "premium":{
       "becomepremium":"Become",
       "becomepremium2":"Premium",

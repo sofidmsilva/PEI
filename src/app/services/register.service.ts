@@ -7,6 +7,7 @@ import { Comments } from '../interfaces/comments';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+import { Favorites } from '../interfaces/favorites';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,6 +16,7 @@ export class RegisterService {
   private usersCollection;
   private userCommentCollection;
   coords: any;
+  private usersFavoritesCollection;
   constructor(private afs: AngularFirestore, private authServices: AuthService, private http: HttpClient) {
 
   }
@@ -73,7 +75,6 @@ export class RegisterService {
   addComments(comment: Comments) {
     return this.afs.collection('Comentarios').add(comment);
   }
-
   deleteComment(id: string) {
     return this.afs.collection('Comentarios').doc(id).delete();
   }
@@ -83,5 +84,29 @@ export class RegisterService {
         map(res => res));
   }
 
+  addfavorites(favorite: Favorites){
+    return this.afs.collection('Favoritos').add(favorite);
+  }
+  deletefavorites(id: string) {
+    return this.afs.collection('Favoritos').doc(id).delete();
+  }
+  getFavorites(newUser) {
+    this.usersFavoritesCollection = this.afs.collection('Favoritos').snapshotChanges()
+      .pipe(map(action => action.map(
+        this.documentToDomainObject
+      )
+        .filter(item => (item.to == newUser))
+      ));
+    return this.usersFavoritesCollection;
+  }
+  getFavoritesfrom(newUser) {
+    this.usersFavoritesCollection = this.afs.collection('Favoritos').snapshotChanges()
+      .pipe(map(action => action.map(
+        this.documentToDomainObject
+      )
+        .filter(item => (item.from == newUser))
+      ));
+    return this.usersFavoritesCollection;
+  }
 
 }
