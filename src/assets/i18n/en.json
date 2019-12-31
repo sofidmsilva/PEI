@@ -95,6 +95,7 @@
       "editprofile":"Edit Profile",
       "welcome":"Welcome",
       "editphoto":"Edit Photo",
+      "ratings":"Ratings: 1- 5 ",
       "Comment":{
          "title":"Comments",
          "label":"Insert comment...",

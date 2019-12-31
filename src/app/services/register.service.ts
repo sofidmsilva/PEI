@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Favorites } from '../interfaces/favorites';
+import { Ratings } from '../interfaces/ratings';
 @Injectable({
   providedIn: 'root'
 })
@@ -114,4 +115,16 @@ export class RegisterService {
     return this.usersFavoritesCollection;
   }
 
+  addRatings(ratings: Ratings) {
+    return this.afs.collection('Ratings').add(ratings);
+  }
+  getRatings(newUser) {
+    this.usersFavoritesCollection = this.afs.collection('Ratings').snapshotChanges()
+      .pipe(map(action => action.map(
+        this.documentToDomainObject
+      )
+        .filter(item => (item.to == newUser))
+      ));
+    return this.usersFavoritesCollection;
+  }
 }

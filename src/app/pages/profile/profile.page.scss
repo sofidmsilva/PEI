@@ -45,6 +45,15 @@ ion-slides{
                 color: #4e2424;
                 font-size: 14px;
             }
+            ion-item{
+                .classification{
+                    color: #fff;
+                    background: #589150;
+                    border-radius: 10px;
+                    border-style: solid;
+                    border-color: black;
+                }
+            }
         }
         .detailservice{
             background: #4ca53f;;
@@ -62,7 +71,17 @@ ion-slides{
                 }
             }
         }
- 
+        .classification{
+            ion-grid{
+                width: 100%;
+            }
+            margin-top: 10px;
+            color: #f7df0e;
+            background: #3f6d92;
+            border-radius: 10px;
+            border-style: solid;
+            border-color: black;
+        }
         .profile{
             color: #fff;
             background: #589150;

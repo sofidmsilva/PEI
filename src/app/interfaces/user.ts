@@ -16,6 +16,7 @@ export interface User {
     surface?:string;
     car?:string;
     dateofbirthday?:Date;
+    ratings?:number;
     // locationCity?:string;
     morada?:Morada
     phonenumber?: number;

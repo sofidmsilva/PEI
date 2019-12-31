@@ -19,6 +19,8 @@ import { Calendar } from 'src/app/interfaces/calendar';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { RequestService } from 'src/app/interfaces/request-service';
 import { Favorites } from 'src/app/interfaces/favorites';
+import { Filters } from 'src/app/interfaces/filters';
+import { Ratings } from 'src/app/interfaces/ratings';
 
 
 
@@ -50,6 +52,9 @@ export class ProfilePage implements OnInit,OnDestroy {
   private showwiconfav: boolean;
   private showusertabs: number;
   private ispremium: boolean;
+  private stars: string[] = [];
+  private length: number;
+  private filters : Filters = {};
   public animalsPosition: number = 0;
   public animalsDifference: number = 100;
   public imagem;
@@ -67,6 +72,7 @@ export class ProfilePage implements OnInit,OnDestroy {
   private animals = new Array<Animals>();
   private servicesPet = new Array<Services>();
   private datauser = new Array<User>();
+  private dataratings = new Array<Ratings>();
   public NewUser;
   public userRegister: User = {};
   private datacomment = new Array<Comments>();
@@ -77,6 +83,7 @@ export class ProfilePage implements OnInit,OnDestroy {
   private ServicespetSubscription: Subscription;
   private CalendarPetSubscription: Subscription;
   private FavoritesSubscription: Subscription;
+  private RatingSubscription: Subscription;
   private typeanimals: Array<string> = ["TypeAnimals.cat", "TypeAnimals.dog", "TypeAnimals.turtle", "TypeAnimals.fish",
     "TypeAnimals.bird", "TypeAnimals.snake", "TypeAnimals.hamster"];
   private sizeanimals: Array<string> = ["SizeAnimals.verysmall", "SizeAnimals.small", "SizeAnimals.medium", "SizeAnimals.big"];
@@ -110,8 +117,12 @@ export class ProfilePage implements OnInit,OnDestroy {
       
     this.userSubscription = this.userServices.getDataUser(this.profileid[3]).subscribe(
       data => {this.datauser=[];
+        this.stars=[];
         data[0].dateofbirthday = data[0].dateofbirthday.split('T')[0];
         this.datauser = data;
+    
+     
+        console.log(this.datauser[0].ratings)
         this.alldatauser = data[0].image;
         if(this.profileid[3]==this.authServices.getAuth().currentUser.uid){
           this.showuser = data[0].tipeuser;
@@ -170,18 +181,29 @@ export class ProfilePage implements OnInit,OnDestroy {
       
       });
 
+      this.RatingSubscription = this.userServices.getRatings(this.profileid[3]).subscribe(
+        data => { this.dataratings=[];
+          this.dataratings = data
+          this.length=this.dataratings.length;
+           var soma = 0;
+          for(let i = 0; i <= this.dataratings.length-1; i++){
+           soma= this.dataratings[i].value +++ soma;
+          }
+          var finalyrating = soma/this.dataratings.length;
+          for(let i =0; i<finalyrating; i++){
+            this.stars.push("star");
+          }         
+        });
+
     this.typeanimals;
     this.sizeanimals;
     this.typeservices;
-    console.log(this.sizeanimals)
-    console.log(this.typeanimals)
-  
   }
 
   ngOnInit() {
     this.resetEvents();
     this.NewUser = this.authServices.getAuth().currentUser.uid;
-   
+
   }
 
   ngOnDestroy() {
@@ -191,6 +213,7 @@ export class ProfilePage implements OnInit,OnDestroy {
     this.ServicespetSubscription.unsubscribe();
     this.CalendarPetSubscription.unsubscribe();
     this.FavoritesSubscription.unsubscribe();
+    this.RatingSubscription.unsubscribe();
     this.animals=[];
     this.datauser = [];
     this.alldatauser = null;
@@ -200,6 +223,7 @@ export class ProfilePage implements OnInit,OnDestroy {
     this.servicesPet = [];
     this.typeservicefromuser=[];
   }
+
 
   editdata(id:number) {
     if(id==1){
