@@ -121,8 +121,6 @@ export class ProfilePage implements OnInit,OnDestroy {
         data[0].dateofbirthday = data[0].dateofbirthday.split('T')[0];
         this.datauser = data;
     
-     
-        console.log(this.datauser[0].ratings)
         this.alldatauser = data[0].image;
         if(this.profileid[3]==this.authServices.getAuth().currentUser.uid){
           this.showuser = data[0].tipeuser;
@@ -366,6 +364,7 @@ export class ProfilePage implements OnInit,OnDestroy {
       await this.userServices.deleteComment(id);
     }
     catch (error) {
+      console.error(error)
       this.presentToast('erro ao apagar');
     } finally {
       this.loading.dismiss();
@@ -453,6 +452,8 @@ export class ProfilePage implements OnInit,OnDestroy {
 
       this.requestservice.from = this.authServices.getAuth().currentUser.uid;
       this.requestservice.to=to[3];
+      this.requestservice.accept=false;
+      this.requestservice.done=false;
       this.requestservice.datebegin= this.event.startTime;
       this.requestservice.dateend=this.event.endTime;
   

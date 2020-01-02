@@ -3,6 +3,8 @@ export interface RequestService {
     to?: string;
     datebegin?: string;
     dateend?: string;
+    datedone?: string;
     type?: string;
     accept?:boolean;
+    done?:boolean;
 }

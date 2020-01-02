@@ -68,6 +68,10 @@ export class ServicespetService {
     return this.afs.collection('RequestService').add(requestservice);
   }
 
+  updateRequestservice(requestservice: RequestService,id:string) {
+
+    return this.afs.collection('RequestService').doc(id).update(requestservice);
+  }
   getrequestservice(newUser) {
     this.servicesCollection = this.afs.collection('RequestService').snapshotChanges()
       .pipe(map(action => action.map(

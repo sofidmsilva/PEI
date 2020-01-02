@@ -67,7 +67,6 @@ export class RegisterService {
   }
 
   updateUser(user: User,newUser) {
-    console.log(user)
     return this.afs.collection('Utilizador').doc(newUser).update(user);
   }
 

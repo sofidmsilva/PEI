@@ -6,6 +6,7 @@
    },
    "Home": {
       "Question": "Qual o serviço que precisa?",
+      "Done":"Feito",
       "Services": "Serviços a Fazer:",
       "hello": "Olá!",
       "PetWalking": "Passear os seus animais nunca fora tão fácil, venha conhecer quem pode facilitar a sua vida",
@@ -25,7 +26,7 @@
       "december": "Dezembro",
       "months":"Meses",
       "numberservices": "Número de Serviços",
-      "totalservices":"Total de Serviços efetuados",
+      "totalservices":"Total de Serviços efetuados em",
       "consult":"Consultar o calendário para mais detalhes"
    },
    "Login": {

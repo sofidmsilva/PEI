@@ -4,6 +4,9 @@ import { PopoverController, IonTabs } from '@ionic/angular';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import {   Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
+import { Subscription } from 'rxjs';
+import { RegisterService } from 'src/app/services/register.service';
+import { User } from 'src/app/interfaces/user';
 
 @Component({
   selector: 'app-all-tabs',
@@ -12,12 +15,21 @@ import { Storage } from '@ionic/storage';
 })
 export class AllTabsPage implements OnInit {
 
-
+  private userSubscription: Subscription;
   public userId: string;
+  private typeuser: number;
   constructor(private authService: AuthService, 
     private popoverCtr:PopoverController,
     private route: Router,
-    private storage: Storage) { 
+    private storage: Storage,
+    private userServices: RegisterService) { 
+
+      this.userSubscription = this.userServices.getDataUser(this.authService.getAuth().currentUser.uid).subscribe(
+        data => {
+          console.log(data)
+          this.typeuser=data[0].tipeuser;
+         
+        });
 
   }
 

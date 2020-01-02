@@ -70,7 +70,7 @@
                 </ion-card>
         </div>
         <div class="homepetsitter" *ngIf="showuser == 2">
-                <ion-title>{{ 'Home.hello' | translate }}</ion-title>
+                <ion-title style="margin-top: 16px;">{{ 'Home.hello' | translate }}</ion-title>
                 <ion-list>
                         <ion-list-header>
                                 {{'Home.Services'| translate}}<br>
@@ -78,17 +78,12 @@
                         </ion-list-header>
                         <ion-note class="subtitle" > {{'Home.consult'| translate}}</ion-note> 
                         <ion-item-sliding *ngFor="let servi of requestservices">
-                                <ion-item color="Warning"*ngIf="servi.accept == true" >
-                                        <ion-note> {{'Profile.typeservice'| translate}} {{ servi.type }}  </ion-note>
-                                         <ion-note>{{'Profile.Calendar.begindate'| translate}} {{ servi.datebegin }}</ion-note> 
+                                <ion-item color="Warning" *ngIf="servi.accept && !servi.done" >
+                                        <ion-note> <b>{{'Profile.typeservice'| translate}}</b> {{ servi.type }}  </ion-note>
+                                         <ion-note><b>{{'Profile.Calendar.begindate'| translate}}</b> {{ servi.datebegin }}</ion-note> 
                                         </ion-item>
-
-                                <ion-item-options side="start">
-                                        <ion-item-option color="primary" (click)="test()">Mark Unread</ion-item-option>
-                                </ion-item-options>
-
                                 <ion-item-options side="end">
-                                        <ion-item-option color="danger" (click)="test()">Delete</ion-item-option>
+                                        <ion-item-option color="success" (click)="servicedone(servi.id)">{{ 'Home.Done' | translate }}</ion-item-option>
                                 </ion-item-options>
                         </ion-item-sliding>
                 </ion-list>
