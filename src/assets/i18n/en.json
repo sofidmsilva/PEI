@@ -27,7 +27,8 @@
     "months":"Months",
     "numberservices": "Number Services",
     "totalservices":"Total services performed in",
-    "consult":"See the calendar for more details"
+    "consult":"See the calendar for more details",
+    "consult2":"No Service to Do"
  },
  "Login": {
      "register":"Register",

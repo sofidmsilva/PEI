@@ -27,7 +27,8 @@
       "months":"Meses",
       "numberservices": "Número de Serviços",
       "totalservices":"Total de Serviços efetuados em",
-      "consult":"Consultar o calendário para mais detalhes"
+      "consult":"Consultar o calendário para mais detalhes",
+      "consult2":"Nenhum serviço a fazer"
    },
    "Login": {
       "register": "Registar",

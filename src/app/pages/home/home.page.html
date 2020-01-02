@@ -76,7 +76,8 @@
                                 {{'Home.Services'| translate}}<br>
                                
                         </ion-list-header>
-                        <ion-note class="subtitle" > {{'Home.consult'| translate}}</ion-note> 
+                        <ion-note *ngIf="numberservicetodo!=0" class="subtitle" > {{'Home.consult'| translate}}</ion-note> 
+                        <ion-note *ngIf="numberservicetodo==0" class="subtitle" >{{'Home.consult2'| translate}}</ion-note> 
                         <ion-item-sliding *ngFor="let servi of requestservices">
                                 <ion-item color="Warning" *ngIf="servi.accept && !servi.done" >
                                         <ion-note> <b>{{'Profile.typeservice'| translate}}</b> {{ servi.type }}  </ion-note>

@@ -29,6 +29,7 @@ export class HomePage implements OnInit, OnDestroy {
   public lengthrequest: number;
   public servicepermonth: Servicespermonths={};
   public requestservice: RequestService = {};
+  private numberservicetodo: number;
 
   constructor(private translateService: TranslateService,
     private router: Router,
@@ -46,21 +47,21 @@ export class HomePage implements OnInit, OnDestroy {
       });
 
     this.requestSubscription = this.servicespetServices.getrequestservice(this.authServices.getAuth().currentUser.uid).subscribe(
-      data => {
+      data => {this.numberservicetodo=0;
         this.lengthrequest = data.length;
         for (let i = 0; i <= data.length - 1; i++) {
           data[i].datebegin = data[i].datebegin.split('T')[0];
           data[i].dateend = data[i].dateend.split('T')[0];
+         if(data[i].done==false){
+           this.numberservicetodo++;
+         }
           if (data[i].datedone != null) {
             data[i].datedone = data[i].datedone.split(' ')[1];
-
           }
         }
         this.requestservices = data;   
-        if (this.showuser == 2) {
-        
-          this.getPieChart();
-          
+        if (this.showuser == 2) {      
+          this.getPieChart();          
         }   
       });
   
