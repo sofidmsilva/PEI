@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonSlides, LoadingController, ToastController, PopoverController } from '@ionic/angular';
+import { IonSlides, LoadingController, ToastController, PopoverController, NavController } from '@ionic/angular';
 import { NativeKeyboard } from '@ionic-native/native-keyboard/ngx';
 import { User } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -7,10 +7,11 @@ import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription, VirtualTimeScheduler } from 'rxjs';
 import { RegisterService } from 'src/app/services/register.service';
-import { EmailComposer} from '@ionic-native/email-composer/ngx';
+import { EmailComposer } from '@ionic-native/email-composer/ngx';
 import { send } from 'q';
 import { Router } from '@angular/router';
-
+import { Storage } from '@ionic/storage';
+declare var H: any;
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -22,10 +23,14 @@ export class LoginPage implements OnInit {
   public allanimalsDifference: number = 100;
   public userLogin: User = {};
   public userRegister: User = {};
-  public confirmpassword: string ="";
+  public confirmpassword: string = "";
   private loading: any;
-  public position : number=0;
-  public guardposition: number=0;
+  public position: number = 0;
+  public guardposition: number = 0;
+  platform: any;
+  private _appId: string = 'cZhsObl98cbkEcgYHrwn';  
+  private _appCode: string = 'JAkuOIaFZ4x_Zer-IbR0noK9ma5MO3BAQLfXC8wbz7s';  
+  search: any;
 
 
   constructor(
@@ -33,23 +38,25 @@ export class LoginPage implements OnInit {
     private loadingCtrl: LoadingController,
     private toastCrt: ToastController,
     private authServices: AuthService,
-    private popoverCtr:PopoverController,
-    private translationservice:TranslateService,
+    private popoverCtr: PopoverController,
+    private translationservice: TranslateService,
     private registerServices: RegisterService,
     public composer: EmailComposer,
-    private router: Router ) { }
-
+    private router: Router,
+    private storage: Storage,  public navCtrl: NavController ) {
+    
+     }
   ngOnInit() { }
 
   segmentChanged(event: any) {
-    if (event.detail.value === "login") {
-     if(this.guardposition===2){
-      this.slides.slidePrev();
-     }else{
-      this.slides.slidePrev();
-      this.slides.slidePrev();
-     }
-    
+    if (event.detail.value === 'login') {
+      if (this.guardposition === 2) {
+        this.slides.slidePrev();
+      } else {
+        this.slides.slidePrev();
+        this.slides.slidePrev();
+      }
+
       this.allanimalsPosition += this.allanimalsDifference;
     }
     else {
@@ -57,19 +64,21 @@ export class LoginPage implements OnInit {
       this.allanimalsPosition -= this.allanimalsDifference;
     }
   }
-  NextChanged(position){
-    this.guardposition=position;
+  NextChanged(position) {
+    this.guardposition = position;
     this.slides.slideNext();
   }
-  PrevChanged(){
+  PrevChanged() {
     this.slides.slidePrev();
   }
- async login() {
-  await this.presentLoading();
-  
+  async login() {
+    await this.presentLoading();
+
     try {
-      await this.authServices.login(this.userLogin);
-    }
+      await this.authServices.login(this.userLogin).then((res)=>{
+        this.storage.set('currentActiveUser', this.authServices.getAuth().currentUser.uid);
+    });
+}
     catch (error) {
       let message: string;
       switch (error.code) {
@@ -90,24 +99,24 @@ export class LoginPage implements OnInit {
 
   async register() {
     await this.presentLoading();
- 
+
     try {
-      if(this.confirmpassword !== this.userRegister.password){
+      if (this.confirmpassword !== this.userRegister.password) {
         this.presentToast(this.translationservice.instant('Login.errormessage.differentpasswords'));
         return console.error("Passwords diferentes!");
-        
-      }else{
-       const NewUser= await this.authServices.register(this.userRegister);
-       this.userRegister.verifycode=Math.floor(Math.random() * 3000); 
-        await this.registerServices.addUser(this.userRegister,NewUser);
+
+      } else {
+        const NewUser = await this.authServices.register(this.userRegister);
+        this.userRegister.verifycode = Math.floor(Math.random() * 3000);
+        await this.registerServices.addUser(this.userRegister, NewUser);
 
 
       }
-  
+
     }
     catch (error) {
       let message: string;
-  
+
       switch (error.code) {
         case 'auth/email-already-in-use':
           message = this.translationservice.instant('Login.errormessage.emailalreadyinuse');
@@ -136,10 +145,10 @@ export class LoginPage implements OnInit {
     toast.present();
   }
 
-  async openlanguages(ev) { 
-    const popover=await this.popoverCtr.create({
+  async openlanguages(ev) {
+    const popover = await this.popoverCtr.create({
       component: LanguagePopoverPage,
-      event:ev
+      event: ev
     });
     await popover.present();
   }

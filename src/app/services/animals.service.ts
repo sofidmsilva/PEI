@@ -32,4 +32,13 @@ private userId: string;
     const newUserObject = Object.assign({},animal);
     return  this.animalsCollection.add(animal);
   }
+
+  updateanimal(animal: Animals,Animal) {
+    return this.afs.collection('Animais').doc(Animal).update(animal);
+  }
+
+  deleteAnimal(id: string) {
+    return this.afs.collection('Animais').doc(id).delete();
+  }
+
 }

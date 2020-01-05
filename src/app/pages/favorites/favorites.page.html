@@ -1,34 +1,29 @@
 <ion-content>
-    <div class="container">
+    <div class="container" >
             <ion-item  color="light" >
                     <ion-label style="color: rgb(226, 216, 216);font-size: 30px;">
                             {{ 'Favorites.title' | translate }}
                     </ion-label>
                     <ion-icon color="danger" name="heart" style="font-size: 50px;"></ion-icon>
                   </ion-item>
-        <ion-item (click)="searchprofile()">
-            <ion-avatar slot="start">
-                <img src="/assets/img/iconperfil.png">
-            </ion-avatar>
-            <ion-label>
-                descricao
-            </ion-label>
-        </ion-item>
-        <ion-item (click)="searchprofile()">
-            <ion-avatar slot="start">
-                <img src="/assets/img/iconperfil.png">
-            </ion-avatar>
-            <ion-label>
-                descricao2
-            </ion-label>
-        </ion-item>
-        <ion-item (click)="searchprofile()">
-            <ion-avatar slot="start">
-                <img src="/assets/img/iconperfil.png">
-            </ion-avatar>
-            <ion-label>
-                descricao3
-            </ion-label>
-        </ion-item>
+
+                  <div *ngFor="let users of alluser">
+                        <div *ngFor="let user of users">
+                        <ion-item color="Warning" (click)="searchprofile(user.id)"  >
+                            <ion-avatar slot="start">
+                                <img  class="center ion-margin-top" *ngIf="user.image" [src]="user.image">
+                            </ion-avatar>
+                            <ion-label>
+                                <h2>{{'Login.name'| translate}}: {{ user.name}}</h2>
+                                <h3>{{ 'UserRegister.experience' | translate }}:{{ user.experience}}</h3>
+                                <h3>{{ 'UserRegister.location' | translate }}: {{ user.location}}</h3>
+                            </ion-label>
+                            <ion-button class="ion-margin-top"
+                            (click)="RemoveFavorites(user.id)" size="small" shape="round" color="danger">
+                            <ion-icon name="close"></ion-icon>
+                        </ion-button>
+                          </ion-item>
+                        </div>
+                </div>
     </div>
 </ion-content>

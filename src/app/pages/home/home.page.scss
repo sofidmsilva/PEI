@@ -3,19 +3,75 @@
     left: 0;
     right: 0;
     width: 85%;
-    top:2%;
+    top:15%;
     margin: 0 auto;
     z-index: 2;
 
-}
     
+}
+ion-item{
+    margin-top: 10px;
+    ion-slides{
+        height: 120px;
+        background: #d5e0e6;
+        border-radius: 10px;
+        
+    }
+    ion-note{
+        font-size: 17px;
+        color: #17246e;
+        text-align: center;
+        font-family: Tahoma;
+    }
+}
+
 ion-title{
     left: -1;
     right: 0;
+    margin-top: 60px;
 }
 
 .sc-ion-card-md-s img {
         margin-left: 5%;
         margin-top: 3%;
         max-width:20%;
+    }
+    .homepetsitter{
+        ion-title{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 26px;
+        }
+       
+        ion-list{
+            margin-top:10px ;
+            border-radius: 10px;
+            border-style: solid;
+            border-color: black;
+            background: #7db5e1;
+            margin-left: 16px;
+            margin-right: 16px;
+
+            .subtitle{
+                margin-left: 15px;
+            }
+        ion-list-header{
+            font-size: 21px;        
+        }
+        ion-item-options{
+            border-radius: 2px;
+        }
+        ion-item-sliding{
+            margin-top: 1px;
+
+            ion-item{
+                margin-left: 9px;
+                margin-right: 9px;
+                border-radius: 2px;
+                background:#9fc6e5;
+            }
+        }
+    }
+    }
+    .chart_div{
+        margin-left: -15px;
     }

@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {File} from '@ionic-native/file/ngx';
-import { Camera,CameraOptions } from '@ionic-native/camera/ngx';
 import { TranslateService } from '@ngx-translate/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { AuthService } from 'src/app/services/auth.service';
@@ -9,7 +7,13 @@ import { Subscription, Observable } from 'rxjs';
 import { User } from 'src/app/interfaces/user';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { finalize } from 'rxjs/operators';
+import { Image } from 'src/app/interfaces/image';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { ThrowStmt } from '@angular/compiler';
+import { Morada } from 'src/app/interfaces/morada';
+import { Storage } from '@ionic/storage';
+
+
 
 @Component({
   selector: 'app-userregister',
@@ -21,69 +25,160 @@ export class UserregisterPage implements OnInit {
   private loading: any;
   private userId: string;
   private userSubscription: Subscription;
+  private alldatauser:string;
   private datauser: number;
   private experience: Array<string> = ["<1","<5",">5"];
-  public userRegister: User = {};
+  public userRegister: User = <User>{};
   public  NewUser;
-  public downloadUrl: Observable<string>;
-  private currentImage;
-  constructor(private file: File, private camera: Camera,
+
+  // public labelAttribute:string;
+  public isItemAvailable = false;
+  public items:any
+  public value:any
+  public cidades:string[]=[];
+  public cityselectedvar:string
+  public lat:string
+  public long:string
+  public morada:Morada =<Morada>{}
+  
+  
+  url: any;
+  newImage: Image = {
+    id: this.afs.createId(), image: ''
+  }
+  imageloading = false;
+
+  constructor(
     private afStorage: AngularFireStorage,
     private authServices: AuthService,
     private translationservice: TranslateService,
     private userServices: RegisterService,
     private loadingCtrl: LoadingController,
     private toastCrt: ToastController,
+    private afs: AngularFirestore,
     private registerServices: RegisterService,
-    private router: Router) {
+    private router: Router,
+    private storage: Storage) {
       this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
         data => {
+          this.alldatauser= data[0].image;
           this.datauser = data[0].tipeuser;
         });
     }
 
   ngOnInit() {
+    // this.searchbar.addEventListener('ion-searchbar',this.handleInput);
+    // this.getLocalFile();
     this.NewUser = this.authServices.getAuth().currentUser.uid;
+  //  this.initializeItems()
   }
 
-  async uploadimage(){
-    await this.presentLoading();
-    const options: CameraOptions ={
-      quality:100,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      sourceType:this.camera.PictureSourceType.PHOTOLIBRARY,
-      correctOrientation:true
-    };
-    try{
-      const fileUri: string = await this.camera.getPicture(options);
-      let file: string;
-      file = fileUri.substring(fileUri.lastIndexOf('/') + 1, fileUri.indexOf('?'));
-      const path: string = fileUri.substring(0, fileUri.lastIndexOf('/'));
+  // initializeItems(){ 
+  //   this.registerServices.getLocalFile().subscribe((res)=>{
+  //     this.items=res
+      
+  //   }); 
+  // }
 
-      const buffer: ArrayBuffer =await this.file.readAsArrayBuffer(path,file);
+  // getItems(ev: any) {
+  //   // Reset items back to all of the items
+  //  this.initializeItems();
+  //  this.cidades=[];
+ 
+  //   // set val to the value of the searchbar
+  //   const val = ev.target.value;
 
-      const blob: Blob= new Blob([buffer],{type:'image/jpeg'});
-      this.uploadpicture(blob);
-      this.loading.dismiss();
-    }catch(error){
-      console.error(error);
+  //   //if the value is an empty string don't filter the items
+  //   if (val && val.trim() != '') {
+  //     this.isItemAvailable = true;
+  //     this.items = this.items.filter((item) => {
+  //       return (item.city.toLowerCase().indexOf(val.toLowerCase()) > -1);
+  //     })
+
+  //     for (var x in this.items){
+  //       if(this.cidades.length<5){
+  //           this.cidades.push(this.items[x].city)
+  //       }
+  //     }
+      
+  //   }
+  // }
+
+  // cityselected(cityselected:any){
+  
+  //   this.isItemAvailable=false
+  //   this.cityselectedvar=cityselected;
+   
+  //   this.value = this.items.filter((item) => {
+  //     return (item.city.toLowerCase()===(this.cityselectedvar.toLocaleLowerCase()));
+  //   })
+
+  //   for (var x in this.value){
+  //         this.cityselectedvar=cityselected;
+  //         this.lat=this.value[x].lat;
+  //         this.long=this.value[x].lng;
+      
+  //   }
+    
+  // }
+
+  uploadImage(event) {
+    this.imageloading = true;
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+     
+      reader.readAsDataURL(event.target.files[0]);
+      // para visualisar imagem
+      reader.onload = (e:any) => {
+        this.url = e.target.result;
+      
+        // upload da imagem para firebase
+        const fileraw = event.target.files[0];
+        const filePath = "/image/"+ this.authServices.getAuth().currentUser.uid +"/profile/" ;
+        const result=this.SaveImageRef(filePath, fileraw);
+        const ref=result.ref;
+
+       
+        //criar link para download 
+
+        result.task.then(a => {
+          ref.getDownloadURL().subscribe(a => {            
+            this.alldatauser = a;
+            this.UpdateRecord(this.alldatauser);
+          });        
+          
+        });
+      },error=>{
+        alert("Error");
+      }
     }
   }
+  UpdateRecord(user) {
+    let record = {};
+    record['image'] = user;
+    this.userServices.updateUser(record, this.authServices.getAuth().currentUser.uid);
+  }
 
-
-  uploadpicture(blob: Blob){
-    const ref= this.afStorage.ref('image/'+ this.NewUser+'/profile.jpg');
-    const task= ref.put(blob);
-    this.currentImage = task.snapshotChanges().pipe(
-      finalize(() => this.downloadUrl = ref.getDownloadURL())
-    ).subscribe();
+  SaveImageRef(filePath, file) {
+    return {
+      task: this.afStorage.upload(filePath, file)
+      , ref: this.afStorage.ref(filePath)
+    };
   }
 
   async uploadinformation() {
+    console.log("Passou no upload information")
     await this.presentLoading();
- 
-    try {      
+    let address=`${this.morada.Rua}, ${this.morada.NumPorta}, ${this.morada.CodigoPostal}, ${this.morada.Cidade}, ${this.morada.Distrito}, ${this.morada.Pais}`
+    this.registerServices.getCityCoords(address).subscribe(async (response)=>{
+      
+      let address=<Morada>{}
+
+      this.userRegister.morada=this.morada;
+      this.userRegister.morada.Coordenadas={ latitude: response[0].lat, longitude: response[0].lon};
+      try {
         await this.registerServices.updateUser(this.userRegister,this.NewUser);
+        this.storage.set('currentActiveUser', this.authServices.getAuth().currentUser.uid);
         this.router.navigate(["tabs/home"]);
 
 
@@ -94,6 +189,10 @@ export class UserregisterPage implements OnInit {
     } finally {
       this.loading.dismiss();
     }
+
+
+    })
+   
 
     this.loading.dismiss();
   }
@@ -107,4 +206,12 @@ export class UserregisterPage implements OnInit {
     const toast = await this.toastCrt.create({ message, duration: 2000 });
     toast.present();
   }
+
+  // getLocalFile(){
+  //    this.registerServices.getLocalFile().subscribe((res)=>{
+  //   })
+  // }
+
+
+  
 }

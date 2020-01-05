@@ -50,6 +50,22 @@ const routes: Routes = [
     component: AllTabsPage,
     children: [
       {
+        path: 'service-filters',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../service-filters/service-filters.module').then(m => m.ServiceFiltersPageModule)
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: '',
+    component: AllTabsPage,
+    children: [
+      {
         path: 'profile/:id',
         children: [
           {

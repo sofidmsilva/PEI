@@ -32,16 +32,22 @@
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
     "angularfire2": "^5.2.3",
-    "cordova-android": "8.1.0",
+    "@types/ol": "^5.3.6",
+    "chart.js": "^2.9.3",
+    "cordova-android": "^8.1.0",
     "cordova-browser": "^6.0.0",
     "cordova-plugin-camera": "^4.1.0",
     "cordova-plugin-email-composer": "^0.9.2",
     "cordova-plugin-file": "^6.0.2",
     "cordova-plugin-native-keyboard": "^2.0.5",
+    "cordova-sqlite-storage": "^4.0.0",
     "core-js": "^2.5.4",
     "firebase": "^7.3.0",
     "gradle": "^1.0.9",
     "ionic2-calendar": "^0.5.7",
+    "ionic4-auto-complete": "^2.4.1",
+    "ol": "^6.1.1",
+    "ng2-charts": "^2.3.0",
     "rxjs": "~6.5.1",
     "rxjs-compat": "^6.5.3",
     "tslib": "^1.9.0",
@@ -100,11 +106,12 @@
       "cordova-plugin-file": {},
       "cordova-plugin-camera": {
         "ANDROID_SUPPORT_V4_VERSION": "27.+"
-      }
+      },
+      "cordova-sqlite-storage": {}
     },
     "platforms": [
-      "android",
-      "browser"
+      "browser",
+      "android"
     ]
   }
 }

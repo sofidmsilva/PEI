@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonicModule } from '@ionic/angular';
-
 import { UserregisterPage } from './userregister.page';
+import { AutoCompleteModule } from 'ionic4-auto-complete';
 
 const routes: Routes = [
   {
@@ -20,6 +20,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     TranslateModule,
+    AutoCompleteModule,
     RouterModule.forChild(routes)
   ],
   declarations: [UserregisterPage]

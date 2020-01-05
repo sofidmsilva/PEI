@@ -9,8 +9,14 @@
         display: block;
         margin-left: auto;
         margin-right: auto;
-        width: 45%;
+        width:34%;
+        border-radius: 21%;
+        border-style: solid;
+        border-color: unset;
+        border-width: thick;
+        margin-bottom: 10px;;
     }
+
 }
 
 ion-segment{
@@ -29,6 +35,25 @@ ion-slides{
             border-style: solid;
             border-color: black;
             margin-top: 5%;
+            ion-avatar{
+                height: 100%;
+            }
+            img{
+                width: 100%;
+            }
+            b{
+                color: #4e2424;
+                font-size: 14px;
+            }
+            ion-item{
+                .classification{
+                    color: #fff;
+                    background: #589150;
+                    border-radius: 10px;
+                    border-style: solid;
+                    border-color: black;
+                }
+            }
         }
         .detailservice{
             background: #4ca53f;;
@@ -46,7 +71,17 @@ ion-slides{
                 }
             }
         }
- 
+        .classification{
+            ion-grid{
+                width: 100%;
+            }
+            margin-top: 10px;
+            color: #f7df0e;
+            background: #3f6d92;
+            border-radius: 10px;
+            border-style: solid;
+            border-color: black;
+        }
         .profile{
             color: #fff;
             background: #589150;
@@ -58,7 +93,9 @@ ion-slides{
                 text-align: center;
                 color:black;
             }
-        
+            ion-label{
+                margin-top: initial;
+            }
 
             .dataprofile{
                 ion-item{
@@ -78,11 +115,8 @@ ion-slides{
                       ion-select{
                         place-self: baseline;
                       }
-                    ion-label{
-                        margin-top: 5px;
-                    }
                     ion-input{
-                        margin-top: -15px;
+                        margin-top: -8px;
                         color: #121511;
                         font-size: 16px;
                         font-weight: bold;
