@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild  } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { NavController, NavParams } from '@ionic/angular';
-import { AngularFireDatabase } from 'angularfire2/database';
+//import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFirestore} from '@angular/fire/firestore';
 import { Subscription } from 'rxjs';
 import { RegisterService } from 'src/app/services/register.service';
@@ -18,7 +18,7 @@ import { map } from 'rxjs/operators';
 export class ChatPage implements OnInit {
   @ViewChild(NavController, { static: false }) navCtrl: NavController;
   @ViewChild(NavParams, { static: false }) navParams: NavParams;
-  @ViewChild(AngularFireDatabase, { static: false }) db: AngularFireDatabase;
+  //@ViewChild(AngularFireDatabase, { static: false }) db: AngularFireDatabase;
 
   private userSubscription: Subscription;
   private messageSubscription;
