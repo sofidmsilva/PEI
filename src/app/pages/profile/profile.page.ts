@@ -12,6 +12,7 @@ import { Comments } from 'src/app/interfaces/comments';
 import { CalendarComponent } from 'ionic2-calendar/calendar';
 import { Services } from 'src/app/interfaces/services';
 import { ServicespetService } from 'src/app/services/servicespet.service';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Image } from 'src/app/interfaces/image';
 import { Calendar } from 'src/app/interfaces/calendar';
