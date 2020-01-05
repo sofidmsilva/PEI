@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 import { RegisterService } from 'src/app/services/register.service';
 import { User } from 'src/app/interfaces/user';
 import { map } from 'rxjs/operators';
-import { RequestService } from '../interfaces/requestService';
+
 //import { reverse } from 'dns';
 
 @Component({
@@ -20,7 +20,7 @@ export class ChatListPage implements OnInit {
   @ViewChild(NavController, { static: false }) navCtrl: NavController;
   @ViewChild(NavParams, { static: false }) navParams: NavParams;
   @ViewChild(AngularFireDatabase, { static: false }) db: AngularFireDatabase;
-  private requestServiceCollection : AngularFirestoreCollection<RequestService>;
+  
   private userSubscription: Subscription;
   private messageSubscription;
   private datauser = new Array<User>();
@@ -36,7 +36,7 @@ export class ChatListPage implements OnInit {
   }
   constructor(private afs: AngularFirestore, 
     private authServices: AuthService, private userServices: RegisterService,) {
-    this.requestServiceCollection =this.afs.collection<RequestService>('RequestService');
+
     this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
       data => {
         data[0].dateofbirthday= data[0].dateofbirthday.split('T')[0];
@@ -56,17 +56,7 @@ export class ChatListPage implements OnInit {
   }
 
   getDataservice(user) {
-    return this.checkService.snapshotChanges().pipe(
-      map(actions => {
-        return actions.map( a =>{
-          const data = a.payload.doc.data();
-          const id =a.payload.doc.id;
-    
-            return{id, ...data};
-        })
-        .filter(item => (item.from == user));
-      })
-    )
+    return "teste"
   }
 }
   
