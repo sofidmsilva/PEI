@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 import { RegisterService } from 'src/app/services/register.service';
 import { User } from 'src/app/interfaces/user';
 import { map } from 'rxjs/operators';
-import { reverse } from 'dns';
+//import { reverse } from 'dns';
 
 @Component({
   selector: 'app-chat',

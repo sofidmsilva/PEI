@@ -81,12 +81,12 @@ const routes: Routes = [
     component: AllTabsPage,
     children: [
       {
-        path: 'chat',
+        path: 'chatlist',
         children: [
           {
             path: '',
             loadChildren: () =>
-              import('../chat/chat.module').then(m => m.ChatPageModule)
+              import('../chatlist/chatlist.module').then(m => m.ChatListPageModule)
           }
         ]
       }
