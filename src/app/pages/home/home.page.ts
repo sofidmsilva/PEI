@@ -3,7 +3,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { TouchSequence } from 'selenium-webdriver';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
-import { PopoverController, LoadingController, ToastController } from '@ionic/angular';
+import { PopoverController, LoadingController, ToastController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { RegisterService } from 'src/app/services/register.service';
@@ -38,7 +38,7 @@ export class HomePage implements OnInit, OnDestroy {
     private translationservice: TranslateService,
     private servicespetServices: ServicespetService,
     private loadingCtrl: LoadingController,
-    private toastCrt: ToastController, ) {
+    private toastCrt: ToastController,public alertController: AlertController ) {
 
     this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
       data => {
@@ -68,6 +68,7 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.presentAlert()
   }
 
   ngOnDestroy() {
@@ -206,5 +207,16 @@ export class HomePage implements OnInit, OnDestroy {
   async presentToast(message: string) {
     const toast = await this.toastCrt.create({ message, duration: 2000 });
     toast.present();
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Parabéns, ganhou um serviço gratuito!',
+      message: 'Por ter efetuado 10 requisições de serviços, tem direito a um serviço gratuito. Dirija-se ao seu perfil para usufruir do desconto',
+     
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 }

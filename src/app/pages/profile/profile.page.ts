@@ -21,6 +21,7 @@ import { RequestService } from 'src/app/interfaces/request-service';
 import { Favorites } from 'src/app/interfaces/favorites';
 import { Filters } from 'src/app/interfaces/filters';
 import { Ratings } from 'src/app/interfaces/ratings';
+import { Storage } from '@ionic/storage';
 
 
 
@@ -97,6 +98,7 @@ export class ProfilePage implements OnInit,OnDestroy {
   private Services: Services = {};
   private event: Calendar = {startTime: '',endTime:''};
   public profileid = this.router.url.split('/');
+  public displayPromotionTag:boolean
   constructor(private translationservice: TranslateService,
     private router: Router,
     private authServices: AuthService,
@@ -108,7 +110,8 @@ export class ProfilePage implements OnInit,OnDestroy {
     private servicespetServices: ServicespetService,
     private afs: AngularFirestore,
     private alertController: AlertController,
-    public modalController: ModalController) {
+    public modalController: ModalController,
+    private storage: Storage) {
 
     this.animalsSubscription = this.animalServices.getAnimals(this.profileid[3]).subscribe(
       data => {
@@ -201,6 +204,7 @@ export class ProfilePage implements OnInit,OnDestroy {
   ngOnInit() {
     this.resetEvents();
     this.NewUser = this.authServices.getAuth().currentUser.uid;
+    this.countRequisitedServices();
 
   }
 
@@ -713,5 +717,15 @@ export class ProfilePage implements OnInit,OnDestroy {
   onTimeSelected(ev) {
     console.log('Selected time: ' + ev.selectedTime + ',hasEvents: ' +
       (ev.events !== undefined && ev.events.lenght !== 0) + ',disabled: ' + ev.disabled);
+  }
+
+  countRequisitedServices(){
+    this.storage.get('currentActiveUser').then((userToken) => {
+      this.servicespetServices.countRequisitedServices(userToken).subscribe(resp=>{
+        if(resp.size<10){
+          this.displayPromotionTag = true;
+        }
+      })
+    })
   }
 }

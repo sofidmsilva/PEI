@@ -4,11 +4,11 @@ import { IonSlides } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import Tile from 'ol/layer/Tile';
 import Map from 'ol/Map';
-import { fromLonLat } from 'ol/proj';
+import { fromLonLat, toLonLat } from 'ol/proj';
 import OSM from "ol/source/OSM";
 import View from "ol/View";
 import { ServicespetService } from 'src/app/services/servicespet.service';
-import { Feature } from 'ol';
+import { Feature, Overlay } from 'ol';
 import Point from 'ol/geom/Point';
 import Icon from 'ol/style/Icon';
 import Style from 'ol/style/Style';
@@ -20,6 +20,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { RegisterService } from 'src/app/services/register.service';
 import { User } from 'firebase';
+import { toStringHDMS } from 'ol/coordinate';
 @Component({
   selector: 'app-search-services',
   templateUrl: './search-services.page.html',
@@ -65,8 +66,20 @@ export class SearchServicesPage implements OnInit {
   }
 
   public initializeMap() {
+    const container = document.getElementById('popup');
+    const content = document.getElementById('popup-content');
+    const closer = document.getElementById('popup-closer');
+
+    const overlay = new Overlay({
+      element: container,
+      autoPan: true,
+      autoPanAnimation: {
+        duration: 250
+      }
+    });
+
     this.storage.get('currentActiveUser').then((userToken) => {
-      this.service.getCoordsLocationOfAUser(userToken).then((resolve) => {
+    this.service.getCoordsLocationOfAUser(userToken).then((resolve) => {
 
 
         //---------------------------------------MAIN MARKER---------------------------------
@@ -76,6 +89,7 @@ export class SearchServicesPage implements OnInit {
             source: new OSM()
           })
           ],
+          overlays:[overlay],
           view: new View({
             center: fromLonLat([resolve.longitude, resolve.latitude]),
             zoom: 10
@@ -100,6 +114,24 @@ export class SearchServicesPage implements OnInit {
           }))
         }))
 
+        // pointermove
+        this.map.on('singleclick', function (evt: any) {
+          
+          const coordinate = evt.coordinate;
+          console.log(toLonLat(coordinate));
+          const hdms = toStringHDMS(toLonLat(coordinate));
+          this.getUserFromCoords(coordinate[0],coordinate[1]);
+          //content.innerHTML = '<p>Current coordinates are :</p><code>' + hdms +'</code> <button type="button" (onclick)="verPerfil()">Ver perfil</button>';
+          //overlay.setPosition(coordinate);
+        });
+
+
+        closer.onclick = function () {
+          overlay.setPosition(undefined);
+          closer.blur();
+          return false;
+        };
+
         var vectorSource = new VectorSource({
           features: [marker]
         });
@@ -112,7 +144,7 @@ export class SearchServicesPage implements OnInit {
 
 
         this.map.addLayer(markerVectorLayer);
-
+        console.log(this.map)
 
 
         //---------------------------------------ALL THE OTHER MARKERS---------------------------------
@@ -175,5 +207,14 @@ export class SearchServicesPage implements OnInit {
   }
   goback(){
     this.router.navigate(['tabs/home']);
+  }
+
+  getUserFromCoords(longitude:number, latitude:number){
+    console.log("latitude",latitude, "longitude", longitude)
+    // this.service.getUserFromCoords(coords)
+  }
+
+  verPerfil(){
+    console.log("clicked")
   }
 }

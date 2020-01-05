@@ -10,6 +10,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ServicespetService {
+ 
+ 
 
   
 
@@ -26,14 +28,10 @@ export class ServicespetService {
     return object;
   }
 
+  getUserFromCoords(coords: any) {
+    console.log(coords)
+  }
 
-  // this.servicesCollection = this.afs.collection('Utilizador').snapshotChanges()
-  //   .pipe(map(action => action.map(
-  //     this.documentToDomainObject
-  //   )
-  //     .filter(item => (item == newUser))
-  //   ));
-  // return this.servicesCollection;
   addservices(service: Services){
     return this.afs.collection('Services').add(service);
   }
@@ -123,6 +121,11 @@ export class ServicespetService {
   getCoordsLocationOfAllNearPetSitters(cidade: string ):Observable<any>{
           // Create a reference to the cities collection
       return this.afs.collection('Utilizador',ref=>ref.where('morada.Cidade', '==', cidade).where('tipeuser', '==' , '2')).get()
+  }
+
+  countRequisitedServices(userToken) {
+    return this.afs.collection('RequestService',ref=>ref.where('from','==',userToken).where('done','==',false)).get();
+    
   }
    
 }
