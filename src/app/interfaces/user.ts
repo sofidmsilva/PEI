@@ -18,10 +18,12 @@ export interface User {
     dateofbirthday?:Date;
     ratings?:number;
     // locationCity?:string;
+    location?:string;
     morada?:Morada
     phonenumber?: number;
     image?: string;
     premium?:boolean;
+    typeservice?:string;
  
     
 

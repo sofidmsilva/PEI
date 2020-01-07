@@ -12,6 +12,8 @@ import { staticViewQueryIds } from '@angular/compiler';
 import { ServicespetService } from 'src/app/services/servicespet.service';
 import { RequestService } from 'src/app/interfaces/request-service';
 import { Servicespermonths } from 'src/app/interfaces/servicespermonths';
+import { User } from 'src/app/interfaces/user';
+import { Services } from 'src/app/interfaces/services';
 
 declare var google;
 @Component({
@@ -23,7 +25,10 @@ export class HomePage implements OnInit, OnDestroy {
 
   private userSubscription: Subscription;
   private requestSubscription: Subscription;
+  private ServicespetSubscription: Subscription;
   private showuser: number;
+  private filterUsers: Array<User>;
+  private filterServicesPet = new Array<Services>();
   private requestservices: Array<RequestService>;
   private loading: any;
   public lengthrequest: number;
@@ -43,7 +48,7 @@ export class HomePage implements OnInit, OnDestroy {
     this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
       data => {
         this.showuser = data[0].tipeuser;
-       
+        this.userServices.setCurrentUser(data); 
       });
 
     this.requestSubscription = this.servicespetServices.getrequestservice(this.authServices.getAuth().currentUser.uid).subscribe(
@@ -81,9 +86,35 @@ export class HomePage implements OnInit, OnDestroy {
     slides.startAutoplay();
   }
 
-  searchServices() {
-    this.router.navigate(['tabs/home/search-services']);
-  }
+  searchServices(typeservice) {
+    this.userSubscription = this.userServices.getAllUser().subscribe(
+      data => {
+        this.filterUsers = data;
+        this.ServicespetSubscription = this.servicespetServices.getAllServices().subscribe(
+          data => {
+            this.filterServicesPet = data;
+            this.filterServicesPet = this.filterServicesPet.filter(X => X.typeservice == typeservice);
+            var exist = false;
+        
+            for(let i =this.filterUsers.length - 1; i>=0;i--){
+              exist= false;
+              for(let j=0; j < this.filterServicesPet.length;j++){
+                if(this.filterUsers[i].id == this.filterServicesPet[j].userID){
+                  exist= true;
+                  break;
+                }
+              }
+              if(!exist){
+              this.filterUsers.splice(i,1);
+              }
+            }
+            this.userServices.setUsersCollection(this.filterUsers);
+            this.servicespetServices.setServiceType(typeservice);
+            this.servicespetServices.setFilterServicesCollection(this.filterServicesPet);
+            this.router.navigate(['tabs/home/search-services']);
+          });
+      });
+    }
   getnumbermonths() {
     this.servicepermonth.Jan=0;
     this.servicepermonth.Fev=0;

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { RegisterService } from 'src/app/services/register.service';
 import { Filters } from 'src/app/interfaces/filters';
@@ -26,7 +26,7 @@ export class ServiceFiltersPage implements OnInit,OnDestroy {
     "TypeAnimals.bird", "TypeAnimals.snake", "TypeAnimals.hamster"];
 
   constructor(private router: Router,
-    private userServices: RegisterService, private servicespetServices : ServicespetService) {
+    private userServices: RegisterService, private servicespetServices : ServicespetService, route:ActivatedRoute) {
     this.userSubscription = this.userServices.getAllUser().subscribe(
       data => {
         this.alluser = data;
@@ -36,6 +36,9 @@ export class ServiceFiltersPage implements OnInit,OnDestroy {
       data => {
         this.servicesPet = data
         });
+    route.params.subscribe(val => {
+      this.filters.typeservice = this.servicespetServices.getServiceType();
+    });
    }
 
   ngOnInit() { 
@@ -61,11 +64,13 @@ export class ServiceFiltersPage implements OnInit,OnDestroy {
   }
   cleanFilters(){
     this.filters = {};
+    this.servicespetServices.setServiceType('');
     this.stars = [];
     for(let i =0; i<5 ; i++){
       this.stars.push("star-outline");
     }
     this.filterUsers = Object.assign([], this.alluser);
+    this.servicespetServices.setFilterServicesCollection(this.servicesPet);
     this.userServices.setUsersCollection(this.filterUsers);
   }
   applyFilters(){
@@ -103,6 +108,8 @@ export class ServiceFiltersPage implements OnInit,OnDestroy {
       }
       this.setUsersOfServices();
     }
+    this.servicespetServices.setServiceType(this.filters.typeservice);
+    this.servicespetServices.setFilterServicesCollection(this.filterServicesPet);
     this.userServices.setUsersCollection(this.filterUsers);
     this.router.navigate(['tabs/home/search-services']);
   }
