@@ -7,4 +7,5 @@ export interface RequestService {
     type?: string;
     accept?:boolean;
     done?:boolean;
+    freeservice?:boolean
 }

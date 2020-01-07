@@ -99,6 +99,7 @@ export class ProfilePage implements OnInit,OnDestroy {
   private event: Calendar = {startTime: '',endTime:''};
   public profileid = this.router.url.split('/');
   public displayPromotionTag:boolean
+  requsitedServicesSize: number;
   constructor(private translationservice: TranslateService,
     private router: Router,
     private authServices: AuthService,
@@ -450,31 +451,38 @@ export class ProfilePage implements OnInit,OnDestroy {
     await alert.present();
   }
   async addrequestservice() {
-    await this.presentLoading();
-    var to = this.router.url.split('/');
-    try {
+    this.countRequisitedServices()
+    const diff= +new Date(this.event.endTime)- +new Date(this.event.startTime)
+    if (this.requsitedServicesSize == 10 && diff > 10800000){
+      this.presentAlert();
+      return;
+    } else {
 
-      this.requestservice.from = this.authServices.getAuth().currentUser.uid;
-      this.requestservice.to=to[3];
-      this.requestservice.accept=false;
-      this.requestservice.done=false;
-      this.requestservice.datebegin= this.event.startTime;
-      this.requestservice.dateend=this.event.endTime;
-  
-      await this.servicespetServices.addrequestservice(this.requestservice);
-      console.log(this.requestservice);
-      this.requestservice = {};
-      this.resetEvents();
+        await this.presentLoading();
+        var to = this.router.url.split('/')
+        try {
+
+          this.requestservice.freeservice=this.requsitedServicesSize == 10 ? true : false
+          this.requestservice.from = this.authServices.getAuth().currentUser.uid;
+          this.requestservice.to=to[3];
+          this.requestservice.accept=false;
+          this.requestservice.done=false;
+          this.requestservice.datebegin= this.event.startTime;
+          this.requestservice.dateend=this.event.endTime;
+          await this.servicespetServices.addrequestservice(this.requestservice);
+          console.log(this.requestservice);
+          this.requestservice = {};
+          this.resetEvents();
+        }
+        catch (error) {
+
+          this.presentToast('erro a guardar');
+        } finally {
+          this.loading.dismiss();
+        }
       
-    }
-    catch (error) {
-
-      this.presentToast('erro a guardar');
-    } finally {
-      this.loading.dismiss();
-    }
-
-    this.loading.dismiss();
+      }
+  
   }
   async addservice() {
     await this.presentLoading();
@@ -722,10 +730,19 @@ export class ProfilePage implements OnInit,OnDestroy {
   countRequisitedServices(){
     this.storage.get('currentActiveUser').then((userToken) => {
       this.servicespetServices.countRequisitedServices(userToken).subscribe(resp=>{
-        if(resp.size<10){
-          this.displayPromotionTag = true;
-        }
+        this.requsitedServicesSize = resp.size;
+        
       })
     })
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Erro',
+      message: 'Como está a ultilizar um serviço gratuito o periodo de requisição não pode ser superior a 3 horas',
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 }

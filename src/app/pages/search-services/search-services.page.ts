@@ -213,8 +213,4 @@ export class SearchServicesPage implements OnInit {
     console.log("latitude",latitude, "longitude", longitude)
     // this.service.getUserFromCoords(coords)
   }
-
-  verPerfil(){
-    console.log("clicked")
-  }
 }
