@@ -129,4 +129,7 @@ export class ServiceFiltersPage implements OnInit,OnDestroy {
       }
     }
   }
+  goback(){
+    this.router.navigate(['tabs/home/search-services']);
+  }
 }

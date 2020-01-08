@@ -1,6 +1,13 @@
 <ion-content>
     <div class="container ion-text-center">
-        <ion-title class="ion-margin-bottom" style="font-size: 25px; background: cornsilk;"><b>{{ 'Filters.title' | translate }}</b></ion-title>
+            <div class="ion-text-left">
+            <ion-button class="ion-margin-top" (click)="goback()" size="small" color="danger">
+                <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
+        </div>
+            <ion-title class="ion-margin-bottom">
+                <b>{{ 'Filters.title' | translate }}</b>
+            </ion-title>
         <ion-item>
             <ion-label>{{ 'Profile.typeservice' | translate }}</ion-label>
             <ion-select placeholder="Select" interface="popover" [(ngModel)]="filters.typeservice">

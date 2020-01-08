@@ -4,7 +4,7 @@ import { TouchSequence } from 'selenium-webdriver';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { PopoverController, LoadingController, ToastController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { RegisterService } from 'src/app/services/register.service';
 import { Chart } from 'chart.js';
@@ -43,33 +43,33 @@ export class HomePage implements OnInit, OnDestroy {
     private translationservice: TranslateService,
     private servicespetServices: ServicespetService,
     private loadingCtrl: LoadingController,
-    private toastCrt: ToastController, ) {
-
-    this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
-      data => {
-        this.showuser = data[0].tipeuser;
-        this.userServices.setCurrentUser(data); 
+    private toastCrt: ToastController, private route:ActivatedRoute) {
+      route.params.subscribe(val => {
+        this.showuser = null;
+        this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
+          data => {
+            this.showuser = data[0].tipeuser;
+            this.userServices.setCurrentUser(data); 
+          });
+          this.requestSubscription = this.servicespetServices.getrequestservice(this.authServices.getAuth().currentUser.uid).subscribe(
+            data => {this.numberservicetodo=0;
+              this.lengthrequest = data.length;
+              for (let i = 0; i <= data.length - 1; i++) {
+                data[i].datebegin = data[i].datebegin.split('T')[0];
+                data[i].dateend = data[i].dateend.split('T')[0];
+               if(data[i].done==false){
+                 this.numberservicetodo++;
+               }
+                if (data[i].datedone != null) {
+                  data[i].datedone = data[i].datedone.split(' ')[1];
+                }
+              }
+              this.requestservices = data;  
+              if (this.showuser == 2) {      
+                this.getPieChart();          
+              }   
+            });
       });
-
-    this.requestSubscription = this.servicespetServices.getrequestservice(this.authServices.getAuth().currentUser.uid).subscribe(
-      data => {this.numberservicetodo=0;
-        this.lengthrequest = data.length;
-        for (let i = 0; i <= data.length - 1; i++) {
-          data[i].datebegin = data[i].datebegin.split('T')[0];
-          data[i].dateend = data[i].dateend.split('T')[0];
-         if(data[i].done==false){
-           this.numberservicetodo++;
-         }
-          if (data[i].datedone != null) {
-            data[i].datedone = data[i].datedone.split(' ')[1];
-          }
-        }
-        this.requestservices = data;   
-        if (this.showuser == 2) {      
-          this.getPieChart();          
-        }   
-      });
-  
   }
 
   ngOnInit() {

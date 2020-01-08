@@ -200,7 +200,7 @@ export class SearchServicesPage implements OnInit {
             }
           }
         }
-        return usersList.filter(X => X.location == this.userServices.getCurrentUser()[0].location);
+        return usersList.filter(X => X.morada.Cidade == this.userServices.getCurrentUser()[0].morada.Cidade);
         break;
       case 'price':
         servicesList = servicesList.sort((a,b) => (a.price > b.price) ? 1 : ((b.price > a.price) ? -1 : 0));
