@@ -70,6 +70,8 @@ export class SearchServicesPage implements OnInit {
     const content = document.getElementById('popup-content');
     const closer = document.getElementById('popup-closer');
 
+    // container.addEventListener("click", (e:Event) => this.verPerfil());
+   
     const overlay = new Overlay({
       element: container,
       autoPan: true,
@@ -80,7 +82,7 @@ export class SearchServicesPage implements OnInit {
 
     this.storage.get('currentActiveUser').then((userToken) => {
     this.service.getCoordsLocationOfAUser(userToken).then((resolve) => {
-
+      
 
         //---------------------------------------MAIN MARKER---------------------------------
         this.map = new Map({
@@ -114,16 +116,34 @@ export class SearchServicesPage implements OnInit {
           }))
         }))
 
+        this.map.on("singleclick", e=> {
+          var feature=this.map.forEachFeatureAtPixel(e.pixel, function (feature) {
+            return feature;
+          });
+          if(feature){
+            const coordinate = e.coordinate;
+            overlay.setPosition(coordinate);
+            this.showPopUpInfo()
+          }
+      });
         // pointermove
-        this.map.on('singleclick', function (evt: any) {
+        // this.map.addEventListener("click", (e:Event) => this.verPerfil());
+        // this.map.on('singleclick', function (evt: any) {
           
-          const coordinate = evt.coordinate;
-          console.log(toLonLat(coordinate));
-          const hdms = toStringHDMS(toLonLat(coordinate));
-          this.getUserFromCoords(coordinate[0],coordinate[1]);
-          //content.innerHTML = '<p>Current coordinates are :</p><code>' + hdms +'</code> <button type="button" (onclick)="verPerfil()">Ver perfil</button>';
-          //overlay.setPosition(coordinate);
-        });
+        //   const coordinate = evt.coordinate;
+        //   console.log(toLonLat(coordinate));
+          
+        //   const hdms = toStringHDMS(toLonLat(coordinate));
+        //   //this.getUserFromCoords(coordinate[0],coordinate[1]);
+        //   // content.innerHTML = "<p>Current coordinates are :</p><code>" + hdms +"</code>";
+        //   // content.innerHTML += "<button type='button' id='seeProfile' (click)='verPerfil()'>Ver Perfil</button>"
+
+        //   overlay.setPosition(coordinate);
+        //   // let btn = document.getElementById("seeProfile");
+        //   // btn.addEventListener("click", (e:Event) => this.verPerfil());
+        // });
+
+     
 
 
         closer.onclick = function () {
@@ -212,5 +232,9 @@ export class SearchServicesPage implements OnInit {
   getUserFromCoords(longitude:number, latitude:number){
     console.log("latitude",latitude, "longitude", longitude)
     // this.service.getUserFromCoords(coords)
+  }
+
+  showPopUpInfo(){
+    console.log("Ver perfil clicked")
   }
 }
