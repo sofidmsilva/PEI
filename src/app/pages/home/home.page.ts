@@ -12,6 +12,8 @@ import { staticViewQueryIds } from '@angular/compiler';
 import { ServicespetService } from 'src/app/services/servicespet.service';
 import { RequestService } from 'src/app/interfaces/request-service';
 import { Servicespermonths } from 'src/app/interfaces/servicespermonths';
+import { Storage } from '@ionic/storage';
+
 
 declare var google;
 @Component({
@@ -38,7 +40,8 @@ export class HomePage implements OnInit, OnDestroy {
     private translationservice: TranslateService,
     private servicespetServices: ServicespetService,
     private loadingCtrl: LoadingController,
-    private toastCrt: ToastController,public alertController: AlertController ) {
+    private toastCrt: ToastController,public alertController: AlertController,
+    private storage: Storage ) {
 
     this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
       data => {
@@ -68,14 +71,20 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.presentAlert()
+    //adicionar aqui a verificação da contagem do numero de serviços
+    this.storage.get('currentActiveUser').then((userToken) => {
+    this.servicespetServices.countRequisitedServices(userToken).subscribe((res)=>{
+      if(res.size==10){
+        this.presentAlert()
+      }
+    })
+  })
   }
 
   ngOnDestroy() {
     this.requestSubscription.unsubscribe();
     this.userSubscription.unsubscribe();
     this.showuser = null;
-    console.log("ola")
   }
 
   slidesDidLoad(slides) {

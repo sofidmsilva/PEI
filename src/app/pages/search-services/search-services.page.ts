@@ -21,6 +21,8 @@ import { Subscription } from 'rxjs';
 import { RegisterService } from 'src/app/services/register.service';
 import { User } from 'firebase';
 import { toStringHDMS } from 'ol/coordinate';
+import { UserPopUp } from 'src/app/interfaces/userPopUp';
+
 @Component({
   selector: 'app-search-services',
   templateUrl: './search-services.page.html',
@@ -41,6 +43,7 @@ export class SearchServicesPage implements OnInit {
   public option: string;
   public currentEmail: string;
   public userCoords: number[] = []
+  public userPopUpInfo: UserPopUp = {};
   currentLocation;
   vectorSource;
   vectorLayer;
@@ -122,8 +125,11 @@ export class SearchServicesPage implements OnInit {
           });
           if(feature){
             const coordinate = e.coordinate;
+            // const hdms = toStringHDMS(toLonLat(coordinate));
+            //console.log(hdms)
+
             overlay.setPosition(coordinate);
-            this.showPopUpInfo()
+            this.showPopUpInfo(toLonLat(coordinate))
           }
       });
         // pointermove
@@ -228,13 +234,18 @@ export class SearchServicesPage implements OnInit {
   goback(){
     this.router.navigate(['tabs/home']);
   }
-
-  getUserFromCoords(longitude:number, latitude:number){
-    console.log("latitude",latitude, "longitude", longitude)
-    // this.service.getUserFromCoords(coords)
-  }
-
-  showPopUpInfo(){
-    console.log("Ver perfil clicked")
+  showPopUpInfo(coordinates:any){
+    console.log(toStringHDMS(coordinates))
+    this.service.showPopUpInfo(coordinates[0], coordinates[1]).subscribe(resp=>{
+      console.log("Resp",resp.docs[0].data())
+      this.userPopUpInfo.id=resp.docs[0].id;
+      this.userPopUpInfo.rua=resp.docs[0].data().morada.Rua;
+      this.userPopUpInfo.numPorta=resp.docs[0].data().morada.NumPorta;
+      this.userPopUpInfo.name=resp.docs[0].data().name;
+      this.userPopUpInfo.telemovel=resp.docs[0].data().garden;
+      this.userPopUpInfo.codigoPostal=resp.docs[0].data().morada.CodigoPostal;
+      this.userPopUpInfo.cidade=resp.docs[0].data().morada.Cidade;
+      console.log(this.userPopUpInfo)
+    })
   }
 }

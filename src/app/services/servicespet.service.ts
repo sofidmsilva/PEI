@@ -124,8 +124,22 @@ export class ServicespetService {
   }
 
   countRequisitedServices(userToken) {
-    return this.afs.collection('RequestService',ref=>ref.where('from','==',userToken).where('done','==',false)).get();
+    return this.afs.collection('RequestService',ref=>ref.where('from','==',userToken).where('done','==',true)).get();
     
   }
+
+  //retrieves the user info from coordinates
+  showPopUpInfo(longitude:number, latitude:number){
+    // console.log("longitude",longitude.toFixed(3))
+    console.log("latitude",latitude + 0.01)
+    console.log("latitude",latitude)
+    console.log("latitude",latitude - 0.01)
+
+    console.log("longitude",longitude)
+
+    
+    return this.afs.collection('Utilizador',ref=>ref.where('morada.Coordenadas.latitude', '<=', latitude + 0.01).where('morada.Coordenadas.latitude', '>', latitude - 0.01)).get()
+    
+}
    
 }
