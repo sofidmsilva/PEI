@@ -44,6 +44,7 @@ export class SearchServicesPage implements OnInit {
   public currentEmail: string;
   public userCoords: number[] = []
   public userPopUpInfo: UserPopUp = {};
+  public alldatauser:any;
   currentLocation;
   vectorSource;
   vectorLayer;
@@ -242,9 +243,17 @@ export class SearchServicesPage implements OnInit {
       this.userPopUpInfo.rua=resp.docs[0].data().morada.Rua;
       this.userPopUpInfo.numPorta=resp.docs[0].data().morada.NumPorta;
       this.userPopUpInfo.name=resp.docs[0].data().name;
-      this.userPopUpInfo.telemovel=resp.docs[0].data().garden;
       this.userPopUpInfo.codigoPostal=resp.docs[0].data().morada.CodigoPostal;
       this.userPopUpInfo.cidade=resp.docs[0].data().morada.Cidade;
+      this.userPopUpInfo.distrito=resp.docs[0].data().morada.Distrito;
+      if(resp.docs[0].data().image){
+        console.log("PASSOU NO IF")
+        this.alldatauser=resp.docs[0].data().image;
+      }
+      else{
+        console.log("PASSOU NO ELSE")
+        this.alldatauser==false
+      }
       console.log(this.userPopUpInfo)
     })
   }

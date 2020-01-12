@@ -9,5 +9,6 @@ export interface UserPopUp {
     numPorta?:number
     cidade?:string
     codigoPostal?:string
+    distrito?:string
 
 }

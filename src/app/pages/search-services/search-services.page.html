@@ -85,9 +85,9 @@
                         <a href="#" id="popup-closer" class="ol-popup-closer"></a>
                         <div id="popup-content">
                           <h3>{{userPopUpInfo.name}}</h3>
-                          <p>{{userPopUpInfo.rua}}, {{userPopUpInfo.numPorta}} - {{userPopUpInfo.cidade}}</p>
-                          <p>Tel: {{userPopUpInfo.telemovel}}</p>
-                          <img src="../../../assets/img/computer-icons-user-profile-male-png-favpng-ZmC9dDrp9x27KFnnge0jKWKBs.jpg" alt="Smiley face" height="42" width="42" class="profile_logo">
+                          <p>{{userPopUpInfo.rua}}, {{userPopUpInfo.numPorta}} - {{userPopUpInfo.cidade}}, {{userPopUpInfo.distrito}} </p>
+                          <img *ngIf="!alldatauser" src="../../../assets/img/computer-icons-user-profile-male-png-favpng-ZmC9dDrp9x27KFnnge0jKWKBs.jpg" alt="Smiley face" height="42" width="42" class="profile_logo">
+                          <img *ngIf="alldatauser" [src]="alldatauser" alt="Smiley face" height="42" width="42" class="profile_logo">
                           <button type="button" (click)="router.navigate(['tabs/profile',userPopUpInfo.id]);" >Ver perfil</button>
                         </div>
                     </div>
