@@ -14,7 +14,8 @@ export class ServicespetService {
  
 
   
-
+  private serviceType;
+  private filterServicesCollection;
   private servicesCollection;
   private calendarCollection;
   
@@ -27,9 +28,11 @@ export class ServicespetService {
     object.id = _.payload.doc.id;
     return object;
   }
-
-  getUserFromCoords(coords: any) {
-    console.log(coords)
+  getFilterServicesCollection(){
+    return this.filterServicesCollection;
+  }
+  setFilterServicesCollection(filterServicesCollection){
+    this.filterServicesCollection = filterServicesCollection;
   }
 
   addservices(service: Services){
@@ -141,5 +144,11 @@ export class ServicespetService {
     return this.afs.collection('Utilizador',ref=>ref.where('morada.Coordenadas.latitude', '<=', latitude + 0.01).where('morada.Coordenadas.latitude', '>', latitude - 0.01)).get()
     
 }
+  getServiceType(){
+    return this.serviceType;
+  }
+  setServiceType(serviceType){
+    this.serviceType = serviceType;
+  }
    
 }

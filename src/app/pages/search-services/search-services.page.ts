@@ -19,9 +19,9 @@ import TileJSON from 'ol/source/TileJSON';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { RegisterService } from 'src/app/services/register.service';
-import { User } from 'firebase';
 import { toStringHDMS } from 'ol/coordinate';
 import { UserPopUp } from 'src/app/interfaces/userPopUp';
+import { User } from 'src/app/interfaces/user';
 
 @Component({
   selector: 'app-search-services',
@@ -35,7 +35,6 @@ export class SearchServicesPage implements OnInit {
   // @ViewChild('map', {static: false}) mapElement: ElementRef;
   @ViewChild('map', { static: false }) map;
 
-  private userSubscription: Subscription;
   private filterUsers: Array<User>;
   private orderprice: Array<number>;
   public animalsPosition: number = 0;
@@ -52,10 +51,7 @@ export class SearchServicesPage implements OnInit {
 
   constructor(private router: Router,
     private userServices: RegisterService, private service: ServicespetService, private storage: Storage, route:ActivatedRoute) {
-    this.userSubscription = this.userServices.getAllUser().subscribe(
-      data => {
-        this.filterUsers = data;
-      });
+      this.filterUsers = Object.assign([], this.userServices.getUsersCollection());
       route.params.subscribe(val => {
         this.filterUsers = Object.assign([], this.userServices.getUsersCollection());
       });
@@ -221,7 +217,6 @@ export class SearchServicesPage implements OnInit {
 
   }
   ngOnDestroy() {
-    this.userSubscription.unsubscribe();
     this.option;
   }
 
@@ -256,5 +251,54 @@ export class SearchServicesPage implements OnInit {
       }
       console.log(this.userPopUpInfo)
     })
+  }
+  sortBy(filter){
+    var usersList = [];
+    var servicesList = this.service.getFilterServicesCollection();
+    switch (filter) {
+      case 'relevance':
+        for(let i = 0; i < servicesList.length; i++){
+          for(let j = 0; j < this.filterUsers.length; j++){
+            if(this.filterUsers[j].id == servicesList[i].userID){
+              this.filterUsers[j].typeservice = servicesList[i].typeservice;
+              var userToAdd = Object.assign([], this.filterUsers[j]);
+              usersList.push(userToAdd);
+              break;
+            }
+          }
+        }
+        return usersList.filter(X => X.premium == true);
+        break;
+      case 'distance':
+        for(let i = 0; i < servicesList.length; i++){
+          for(let j = 0; j < this.filterUsers.length; j++){
+            if(this.filterUsers[j].id == servicesList[i].userID){
+              this.filterUsers[j].typeservice = servicesList[i].typeservice;
+              var userToAdd = Object.assign([], this.filterUsers[j]);
+              usersList.push(userToAdd);
+              break;
+            }
+          }
+        }
+        return usersList.filter(X => X.morada.Cidade == this.userServices.getCurrentUser()[0].morada.Cidade);
+        break;
+      case 'price':
+        servicesList = servicesList.sort((a,b) => (a.price > b.price) ? 1 : ((b.price > a.price) ? -1 : 0));
+        for(let i = 0; i < servicesList.length; i++){
+          for(let j = 0; j < this.filterUsers.length; j++){
+            if(this.filterUsers[j].id == servicesList[i].userID){
+              this.filterUsers[j].typeservice = servicesList[i].typeservice;
+              var userToAdd = Object.assign([], this.filterUsers[j]);
+              usersList.push(userToAdd);
+              break;
+            }
+          }
+        }
+        return usersList;
+        break;
+      default:
+        return this.filterUsers;
+        break;
+    }
   }
 }

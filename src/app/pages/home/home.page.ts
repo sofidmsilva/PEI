@@ -4,7 +4,7 @@ import { TouchSequence } from 'selenium-webdriver';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguagePopoverPage } from '../language-popover/language-popover.page';
 import { PopoverController, LoadingController, ToastController, AlertController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { RegisterService } from 'src/app/services/register.service';
 import { Chart } from 'chart.js';
@@ -14,6 +14,8 @@ import { RequestService } from 'src/app/interfaces/request-service';
 import { Servicespermonths } from 'src/app/interfaces/servicespermonths';
 import { Storage } from '@ionic/storage';
 
+import { User } from 'src/app/interfaces/user';
+import { Services } from 'src/app/interfaces/services';
 
 declare var google;
 @Component({
@@ -25,7 +27,10 @@ export class HomePage implements OnInit, OnDestroy {
 
   private userSubscription: Subscription;
   private requestSubscription: Subscription;
+  private ServicespetSubscription: Subscription;
   private showuser: number;
+  private filterUsers: Array<User>;
+  private filterServicesPet = new Array<Services>();
   private requestservices: Array<RequestService>;
   private loading: any;
   public lengthrequest: number;
@@ -40,34 +45,34 @@ export class HomePage implements OnInit, OnDestroy {
     private translationservice: TranslateService,
     private servicespetServices: ServicespetService,
     private loadingCtrl: LoadingController,
-    private toastCrt: ToastController,public alertController: AlertController,
-    private storage: Storage ) {
-
-    this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
-      data => {
-        this.showuser = data[0].tipeuser;
-       
+    private toastCrt: ToastController, private route:ActivatedRoute, public alertController: AlertController,
+    private storage: Storage) {
+      route.params.subscribe(val => {
+        this.showuser = null;
+        this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
+          data => {
+            this.showuser = data[0].tipeuser;
+            this.userServices.setCurrentUser(data); 
+          });
+          this.requestSubscription = this.servicespetServices.getrequestservice(this.authServices.getAuth().currentUser.uid).subscribe(
+            data => {this.numberservicetodo=0;
+              this.lengthrequest = data.length;
+              for (let i = 0; i <= data.length - 1; i++) {
+                data[i].datebegin = data[i].datebegin.split('T')[0];
+                data[i].dateend = data[i].dateend.split('T')[0];
+               if(data[i].done==false){
+                 this.numberservicetodo++;
+               }
+                if (data[i].datedone != null) {
+                  data[i].datedone = data[i].datedone.split(' ')[1];
+                }
+              }
+              this.requestservices = data;  
+              if (this.showuser == 2) {      
+                this.getPieChart();          
+              }   
+            });
       });
-
-    this.requestSubscription = this.servicespetServices.getrequestservice(this.authServices.getAuth().currentUser.uid).subscribe(
-      data => {this.numberservicetodo=0;
-        this.lengthrequest = data.length;
-        for (let i = 0; i <= data.length - 1; i++) {
-          data[i].datebegin = data[i].datebegin.split('T')[0];
-          data[i].dateend = data[i].dateend.split('T')[0];
-         if(data[i].done==false){
-           this.numberservicetodo++;
-         }
-          if (data[i].datedone != null) {
-            data[i].datedone = data[i].datedone.split(' ')[1];
-          }
-        }
-        this.requestservices = data;   
-        if (this.showuser == 2) {      
-          this.getPieChart();          
-        }   
-      });
-  
   }
 
   ngOnInit() {
@@ -91,9 +96,35 @@ export class HomePage implements OnInit, OnDestroy {
     slides.startAutoplay();
   }
 
-  searchServices() {
-    this.router.navigate(['tabs/home/search-services']);
-  }
+  searchServices(typeservice) {
+    this.userSubscription = this.userServices.getAllUser().subscribe(
+      data => {
+        this.filterUsers = data;
+        this.ServicespetSubscription = this.servicespetServices.getAllServices().subscribe(
+          data => {
+            this.filterServicesPet = data;
+            this.filterServicesPet = this.filterServicesPet.filter(X => X.typeservice == typeservice);
+            var exist = false;
+        
+            for(let i =this.filterUsers.length - 1; i>=0;i--){
+              exist= false;
+              for(let j=0; j < this.filterServicesPet.length;j++){
+                if(this.filterUsers[i].id == this.filterServicesPet[j].userID){
+                  exist= true;
+                  break;
+                }
+              }
+              if(!exist){
+              this.filterUsers.splice(i,1);
+              }
+            }
+            this.userServices.setUsersCollection(this.filterUsers);
+            this.servicespetServices.setServiceType(typeservice);
+            this.servicespetServices.setFilterServicesCollection(this.filterServicesPet);
+            this.router.navigate(['tabs/home/search-services']);
+          });
+      });
+    }
   getnumbermonths() {
     this.servicepermonth.Jan=0;
     this.servicepermonth.Fev=0;

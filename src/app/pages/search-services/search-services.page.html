@@ -37,8 +37,8 @@
         <div [ngSwitch]="option">
          
               <ion-list *ngSwitchCase="'relevance'" >
-                  <div  *ngFor="let users of filterUsers">
-                  <ion-item color="Warning"(click)="searchprofile(users.id)"  *ngIf="users.premium == true " >
+                  <div  *ngFor="let users of sortBy('relevance')">
+                  <ion-item color="Warning"(click)="searchprofile(users.id)">
                       <ion-avatar slot="start">
                           <img  class="center ion-margin-top" [src]="users.image">
                       </ion-avatar>
@@ -46,6 +46,7 @@
                           <h2>{{'Login.name'| translate}}: {{ users.name}}</h2>
                           <h3>{{ 'UserRegister.experience' | translate }}:{{ users.experience}}</h3>
                           <h3>{{ 'UserRegister.location' | translate }}: {{ users.location}}</h3>
+                          <h3>{{ 'Profile.typeservice' | translate }}: {{ users.typeservice}}</h3>
                       </ion-label>
                     </ion-item>
                   </div>
@@ -53,8 +54,8 @@
           
          
                 <ion-list *ngSwitchCase="'distance'">
-                    <div *ngFor="let users of filterUsers">
-                    <ion-item color="Warning" (click)="searchprofile()" *ngIf="users.location == 'Braga' ">
+                    <div *ngFor="let users of sortBy('distance')">
+                    <ion-item color="Warning" (click)="searchprofile(users.id)">
                         <ion-avatar slot="start">
                             <img  class="center ion-margin-top" [src]="users.image">
                         </ion-avatar>
@@ -62,6 +63,7 @@
                             <h2>{{'Login.name'| translate}}: {{ users.name}}</h2>
                             <h3>{{ 'UserRegister.experience' | translate }}:{{ users.experience}}</h3>
                             <h3>{{ 'UserRegister.location' | translate }}: {{ users.location}}</h3>
+                            <h3>{{ 'Profile.typeservice' | translate }}: {{ users.typeservice}}</h3>
                         </ion-label>
                       </ion-item>
                       </div>
@@ -69,14 +71,17 @@
            
          
               <ion-list *ngSwitchCase="'price'">
-                  <div *ngFor="let users of filterUsers">
-                      <ion-item (click)="searchprofile()">
-                          <ion-avatar slot="start">
-                            <img src="/assets/img/flags/pt.png">
-                          </ion-avatar>
-                          <ion-label>
-                            Avatar Start, Button Item
-                          </ion-label>
+                  <div *ngFor="let users of sortBy('price')">
+                      <ion-item color="Warning" (click)="searchprofile(users.id)">
+                        <ion-avatar slot="start">
+                            <img  class="center ion-margin-top" [src]="users.image">
+                        </ion-avatar>
+                        <ion-label>
+                            <h2>{{'Login.name'| translate}}: {{ users.name}}</h2>
+                            <h3>{{ 'UserRegister.experience' | translate }}:{{ users.experience}}</h3>
+                            <h3>{{ 'UserRegister.location' | translate }}: {{ users.location}}</h3>
+                            <h3>{{ 'Profile.typeservice' | translate }}: {{ users.typeservice}}</h3>
+                        </ion-label>
                         </ion-item>
                       </div>
                 </ion-list>
