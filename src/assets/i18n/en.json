@@ -2,7 +2,8 @@
    "All":{
       "Cancel":"Cancel",
       "continue":"Continue",
-      "add":"ADD"
+      "add":"ADD",
+      "date":"Month-Day Hours:Minutes"
    },
  "Home": {
    "Question":"What service do you need?",
@@ -111,6 +112,7 @@
          "start":"Start",
          "end":"End",
          "buttonaddevent":" Add Event",
+         "chooseservice":"Choose Service",
          "begindate":"Begin Date"
       },
       "Service":{
@@ -161,5 +163,23 @@
 },
 "Filters":{
       "title" : "Filters"
+},
+"Notification":{
+   "messagerequestservice":"You have a service request for",
+   "messagerequestservice2":"in",
+   "messagerequestservice3":"that starts",
+   "messagerequestservice4":"to",
+   "messagerequestservice5":"Want to accept?",
+   "messageresponserequest":"The request for the service",
+   "messageresponserequest2":"for the dates",
+   "messageresponserequest3":"It was accepted",
+   "messageresponserequest4":"It was denied",
+   "messageunlockpayment": "Payment made! You can now talk to the Pet Sitter. Go to Messages",
+   "messageunlockpayment2": "You can now talk to the owner of the pet. Go to Messages",
+   "messagefreeservice":"You have requested 10 in-app services!",
+   "messagefreeservice2":" Congratulations, 11 is free. Enjoy",
+   "alert":{
+      "message":"Do you realy want cancel this service?"
+   }
 }
 }

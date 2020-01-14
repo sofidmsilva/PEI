@@ -47,7 +47,7 @@ export class ProfilePage implements OnInit,OnDestroy {
     id: this.afs.createId(), image: ''
   }
   imageloading = false;
-
+private monthcalendar: string;
   private showuser: number;
   private showwiconfav: boolean;
   private showusertabs: number;
@@ -88,7 +88,6 @@ export class ProfilePage implements OnInit,OnDestroy {
     "TypeAnimals.bird", "TypeAnimals.snake", "TypeAnimals.hamster"];
   private sizeanimals: Array<string> = ["SizeAnimals.verysmall", "SizeAnimals.small", "SizeAnimals.medium", "SizeAnimals.big"];
   private typeservices: Array<string> = ["Pet Walking", "Pet Care", "Pet Sitting"];
-  private typeservicefromuser =[];
   private AnimalsRegister: Animals = {};
   private requestservice: RequestService={};
   private AddComment: Comments = {};
@@ -154,11 +153,8 @@ export class ProfilePage implements OnInit,OnDestroy {
 
         });
     this.ServicespetSubscription = this.servicespetServices.getServices(this.profileid[3]).subscribe(
-      data => { this.typeservicefromuser=[];
+      data => { 
         this.servicesPet = data
-        for(let i = 0; i <= this.servicesPet.length-1; i++){
-          this.typeservicefromuser[i]=this.servicesPet[i].typeservice;
-        }
       });
       
     this.CalendarPetSubscription = this.servicespetServices.getevents(this.profileid[3]).subscribe(
@@ -172,6 +168,7 @@ export class ProfilePage implements OnInit,OnDestroy {
             endTime: new Date(this.calendarevent[i].endTime),   
             
           }
+         
         this.eventSource.push(eventCopy);
         this.myCal.loadEvents();
        
@@ -219,7 +216,6 @@ export class ProfilePage implements OnInit,OnDestroy {
     this.ispremium= null;
     this.datacomment=[];
     this.servicesPet = [];
-    this.typeservicefromuser=[];
   }
 
 
@@ -449,16 +445,21 @@ export class ProfilePage implements OnInit,OnDestroy {
     await this.presentLoading();
     var to = this.router.url.split('/');
     try {
-
+     
+      var a=this.requestservice.type.split('-');
+     this.requestservice.type= a[0];
+     this.requestservice.location=a[1];
       this.requestservice.from = this.authServices.getAuth().currentUser.uid;
       this.requestservice.to=to[3];
-      this.requestservice.accept=false;
+      this.requestservice.accept=0;
       this.requestservice.done=false;
+      this.requestservice.confirmmessgefrom=false;
+      this.requestservice.confirmmessgeto=false;
+      this.requestservice.payment=false;
       this.requestservice.datebegin= this.event.startTime;
       this.requestservice.dateend=this.event.endTime;
-  
+
       await this.servicespetServices.addrequestservice(this.requestservice);
-      console.log(this.requestservice);
       this.requestservice = {};
       this.resetEvents();
       
@@ -713,5 +714,7 @@ export class ProfilePage implements OnInit,OnDestroy {
   onTimeSelected(ev) {
     console.log('Selected time: ' + ev.selectedTime + ',hasEvents: ' +
       (ev.events !== undefined && ev.events.lenght !== 0) + ',disabled: ' + ev.disabled);
+
+      this.monthcalendar=new Date(ev.selectedTime).toString().split(' ')[1];
   }
 }

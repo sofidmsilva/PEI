@@ -139,7 +139,6 @@ export class HomePage implements OnInit, OnDestroy {
 
       }
     }
-    console.log(this.servicepermonth)
   }
 
   getPieChart() {

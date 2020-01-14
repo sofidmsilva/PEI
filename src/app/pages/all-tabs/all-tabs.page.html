@@ -1,27 +1,28 @@
 <ion-header>
     <ion-toolbar color="primary">
         <img class="center" height="55" width="55" src="/assets/img/Logo.png">
-        <b style="color: burlywood;">
+        <b style="color: white;">
           <font size="5">PetUniverse</font>
         </b>
-        <ion-buttons slot="end">
-          <ion-button class="language" (click)="openlanguages($event)" slot="icon-only">
-            <ion-icon name="globe"></ion-icon>
-          </ion-button>
-          <ion-button (click)="notification()" slot="icon-only">
-            <ion-icon name="notifications"></ion-icon>
-            <ion-badge id="notifications-badge" color="danger">5</ion-badge>
-          </ion-button>
-          <ion-button (click)="settings()" slot="icon-only">
-            <ion-icon name="settings"></ion-icon>
-          </ion-button>
-          <ion-button (click)="logout()" slot="icon-only">
-            <ion-icon name="log-out"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-    </ion-toolbar>
+          <ion-buttons slot="end">
+            <ion-button class="language" (click)="openlanguages($event)" slot="icon-only">
+              <ion-icon name="globe"></ion-icon>
+            </ion-button>
+            <ion-button class="language"  (click)="notification($event)" slot="icon-only">
+              <ion-icon name="notifications"></ion-icon>
+              <ion-badge id="notifications-badge" color="danger">{{numberofnotification}}</ion-badge>
+            </ion-button>
+            <ion-button (click)="settings()" slot="icon-only">
+              <ion-icon name="settings"></ion-icon>
+            </ion-button>
+            <ion-button (click)="logout()" slot="icon-only">
+              <ion-icon name="log-out"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+    </ion-toolbar>    
   </ion-header>
 <ion-content>
+   
   <ion-tabs>
       
     <ion-tab-bar slot="bottom" color="primary">

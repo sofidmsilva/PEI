@@ -30,7 +30,7 @@ ion-slides{
     .slide-inner{
         width: 100%;
         .detailsanimals{
-            background: #d1b953;;
+            background: #aea9a1;;
             border-radius: 10px;
             border-style: solid;
             border-color: black;
@@ -42,7 +42,7 @@ ion-slides{
                 width: 100%;
             }
             b{
-                color: #4e2424;
+                color: #641e1e;
                 font-size: 14px;
             }
             ion-item{
@@ -161,21 +161,21 @@ ion-slides{
     }
     .addanimals{
         color: #fff;
-        background: #0993a2;
+        background: #d6cdb3;
         border-radius: 10px;
         border-style: solid;
         border-color: black;
 
         ion-list{
             color: #fff;
-            background: #0993a2;
+            background: #d6cdb3;
             
         }
  
     }
     .addservice{
         color: #480f0f;
-        background: #ac4a4a;
+        background: #d6cdb3;
         border-radius: 10px;
         border-style: solid;
         border-color: black;
@@ -200,7 +200,10 @@ ion-select {
     border-style: solid;
     border-color: black;
     background: #405a86;
-    
+    ion-label{
+        color: #CDDC39;
+        font-size: 21px;
+    }
   }
   
 

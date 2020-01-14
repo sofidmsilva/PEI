@@ -19,3 +19,12 @@ ion-button {
             right: -3px;
             border-radius: 100%;
 }
+        ion-item{
+            border-style: solid;
+            border-radius: 6px;
+            border-color: #9e9e9e;
+
+            ion-button{
+                width: 84px;
+            }
+        }

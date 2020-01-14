@@ -2,7 +2,8 @@
    "All": {
       "Cancel": "Cancelar",
       "continue": "Continuar",
-      "add": "Adicionar"
+      "add": "Adicionar",
+      "date":"Mês-Dia  Horas:Minutos"
    },
    "Home": {
       "Question": "Qual o serviço que precisa?",
@@ -109,11 +110,12 @@
          "description": "Descrição",
          "start": "Começo",
          "end": "Fim",
+         "chooseservice":"Escolher Serviço",
          "buttonaddevent": " Adicionar Evento",
          "begindate":"Data Início"
       },
       "Service": {
-         "title": "Confirm please!",
+         "title": "Confirme!",
          "messageconfirm": "Quer mesmo apagar o serviço?",
          "editservice": "Editar Serviço"
       },
@@ -158,5 +160,23 @@
    },
    "Filters":{
       "title" : "Filtros"
+   },
+   "Notification":{
+      "messagerequestservice":"Tem um pedido de serviço para",
+      "messagerequestservice2":"em",
+      "messagerequestservice3":"que começa dia",
+      "messagerequestservice4":"até",
+      "messagerequestservice5":"Deseja aceitar?",
+      "messageresponserequest":"A solicitação feita para o serviço",
+      "messageresponserequest2":"para as datas",
+      "messageresponserequest3":"Foi aceite",
+      "messageresponserequest4":"Foi recusada",
+      "messageunlockpayment": "Pagamento efetuado! Já pode falar com o Pet Sitter. Dirija-se às Mensagens.",
+      "messageunlockpayment2": "Já pode falar com o Dono. Dirija-se às Mensagens.",
+      "messagefreeservice":"Solicitou 10 serviços na aplicação!",
+      "messagefreeservice2":" Parabéns, o 11 é grátis. Aproveite",
+      "alert":{
+         "message":"Quer mesmo cancelar o serviço?"
+      }
    }
 }
