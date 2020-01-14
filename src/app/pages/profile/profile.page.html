@@ -86,7 +86,14 @@
                             <ion-row>
                                 <ion-item>
                                     <ion-label><b>{{ 'UserRegister.location' | translate }}: </b> </ion-label>
-                                    <ion-input [(ngModel)]="userRegister.location" placeholder="{{ user.location }}"
+                                    <ion-input [(ngModel)]="userRegister.location" placeholder="{{ user.morada.Cidade}}"
+                                        readonly="{{disabled}}"></ion-input>
+                                </ion-item>
+                            </ion-row>
+                            <ion-row>
+                                <ion-item>
+                                    <ion-label><b>{{ 'UserRegister.location' | translate }}: </b> </ion-label>
+                                    <ion-input [(ngModel)]="userRegister.location" placeholder="{{ user.morada.Distrito}}"
                                         readonly="{{disabled}}"></ion-input>
                                 </ion-item>
                             </ion-row>
