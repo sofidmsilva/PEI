@@ -12,7 +12,8 @@ import { Observable } from 'rxjs';
 export class ServicespetService {
 
   
-
+  private serviceType;
+  private filterServicesCollection;
   private servicesCollection;
   private calendarCollection;
   
@@ -25,7 +26,12 @@ export class ServicespetService {
     object.id = _.payload.doc.id;
     return object;
   }
-
+  getFilterServicesCollection(){
+    return this.filterServicesCollection;
+  }
+  setFilterServicesCollection(filterServicesCollection){
+    this.filterServicesCollection = filterServicesCollection;
+  }
 
   // this.servicesCollection = this.afs.collection('Utilizador').snapshotChanges()
   //   .pipe(map(action => action.map(
@@ -129,6 +135,12 @@ export class ServicespetService {
   getCoordsLocationOfAllNearPetSitters(cidade: string ):Observable<any>{
           // Create a reference to the cities collection
       return this.afs.collection('Utilizador',ref=>ref.where('morada.Cidade', '==', cidade).where('tipeuser', '==' , '2')).get()
+  }
+  getServiceType(){
+    return this.serviceType;
+  }
+  setServiceType(serviceType){
+    this.serviceType = serviceType;
   }
    
 }
