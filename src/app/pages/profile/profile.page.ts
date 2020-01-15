@@ -453,7 +453,7 @@ export class ProfilePage implements OnInit,OnDestroy {
   async addrequestservice() {
     this.countRequisitedServices()
     const diff= +new Date(this.event.endTime)- +new Date(this.event.startTime)
-    if (this.requsitedServicesSize == 10 && diff > 10800000){
+    if (this.requsitedServicesSize % 10 === 0 && diff > 10800000){
       this.presentAlert();
       return;
     } else {
@@ -462,7 +462,7 @@ export class ProfilePage implements OnInit,OnDestroy {
         var to = this.router.url.split('/')
         try {
 
-          this.requestservice.freeservice=this.requsitedServicesSize == 10 ? true : false
+          this.requestservice.freeservice=this.requsitedServicesSize % 10 === 0 ? true : false
           this.requestservice.from = this.authServices.getAuth().currentUser.uid;
           this.requestservice.to=to[3];
           this.requestservice.accept=false;

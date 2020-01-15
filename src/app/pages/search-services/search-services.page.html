@@ -86,7 +86,7 @@
                       </div>
                 </ion-list>
                  <div class="map" [hidden]="option!='map'" #map id="map">
-                    <div id=popup class="ol-popup">
+                    <div id=popup [style.visibility]="isDivVisible ? 'visible' : 'hidden'" class="ol-popup">
                         <a href="#" id="popup-closer" class="ol-popup-closer"></a>
                         <div id="popup-content">
                           <h3>{{userPopUpInfo.name}}</h3>

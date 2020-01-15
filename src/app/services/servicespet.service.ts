@@ -123,6 +123,7 @@ export class ServicespetService {
 
   getCoordsLocationOfAllNearPetSitters(cidade: string ):Observable<any>{
           // Create a reference to the cities collection
+      // return this.afs.collection('Utilizador',ref=>ref.where('morada.Cidade', '==', cidade).where('tipeuser', '==' , '2')).get()
       return this.afs.collection('Utilizador',ref=>ref.where('morada.Cidade', '==', cidade).where('tipeuser', '==' , '2')).get()
   }
 
@@ -141,7 +142,8 @@ export class ServicespetService {
     console.log("longitude",longitude)
 
     
-    return this.afs.collection('Utilizador',ref=>ref.where('morada.Coordenadas.latitude', '<=', latitude + 0.01).where('morada.Coordenadas.latitude', '>', latitude - 0.01)).get()
+    return this.afs.collection('Utilizador',ref=>ref.where('morada.Coordenadas.latitude', '<=', latitude + 0.001).where('morada.Coordenadas.latitude', '>', latitude - 0.001)).get()
+  
     
 }
   getServiceType(){

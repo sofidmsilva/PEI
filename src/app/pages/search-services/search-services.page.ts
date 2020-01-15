@@ -44,6 +44,8 @@ export class SearchServicesPage implements OnInit {
   public userCoords: number[] = []
   public userPopUpInfo: UserPopUp = {};
   public alldatauser:any;
+  public document:any;
+  public isDivVisible:boolean;
   currentLocation;
   vectorSource;
   vectorLayer;
@@ -122,35 +124,17 @@ export class SearchServicesPage implements OnInit {
           });
           if(feature){
             const coordinate = e.coordinate;
-            // const hdms = toStringHDMS(toLonLat(coordinate));
-            //console.log(hdms)
 
             overlay.setPosition(coordinate);
             this.showPopUpInfo(toLonLat(coordinate))
           }
       });
-        // pointermove
-        // this.map.addEventListener("click", (e:Event) => this.verPerfil());
-        // this.map.on('singleclick', function (evt: any) {
-          
-        //   const coordinate = evt.coordinate;
-        //   console.log(toLonLat(coordinate));
-          
-        //   const hdms = toStringHDMS(toLonLat(coordinate));
-        //   //this.getUserFromCoords(coordinate[0],coordinate[1]);
-        //   // content.innerHTML = "<p>Current coordinates are :</p><code>" + hdms +"</code>";
-        //   // content.innerHTML += "<button type='button' id='seeProfile' (click)='verPerfil()'>Ver Perfil</button>"
-
-        //   overlay.setPosition(coordinate);
-        //   // let btn = document.getElementById("seeProfile");
-        //   // btn.addEventListener("click", (e:Event) => this.verPerfil());
-        // });
-
      
 
-
+        let self = this;
         closer.onclick = function () {
           overlay.setPosition(undefined);
+          self.isDivVisible=false
           closer.blur();
           return false;
         };
@@ -233,25 +217,43 @@ export class SearchServicesPage implements OnInit {
   showPopUpInfo(coordinates:any){
     console.log(toStringHDMS(coordinates))
     this.service.showPopUpInfo(coordinates[0], coordinates[1]).subscribe(resp=>{
-      console.log("Resp",resp.docs[0].data())
-      this.userPopUpInfo.id=resp.docs[0].id;
-      this.userPopUpInfo.rua=resp.docs[0].data().morada.Rua;
-      this.userPopUpInfo.numPorta=resp.docs[0].data().morada.NumPorta;
-      this.userPopUpInfo.name=resp.docs[0].data().name;
-      this.userPopUpInfo.codigoPostal=resp.docs[0].data().morada.CodigoPostal;
-      this.userPopUpInfo.cidade=resp.docs[0].data().morada.Cidade;
-      this.userPopUpInfo.distrito=resp.docs[0].data().morada.Distrito;
-      if(resp.docs[0].data().image){
-        console.log("PASSOU NO IF")
-        this.alldatauser=resp.docs[0].data().image;
+      
+      if(resp.size==0){
+        this.userPopUpInfo={};
+        this.isDivVisible=false
       }
       else{
-        console.log("PASSOU NO ELSE")
-        this.alldatauser==false
+      for(let i=0;i<resp.size;i++){
+        console.log("Entrou no resp", resp.docs[i])
+        if(Math.abs(resp.docs[i].data().morada.Coordenadas.longitude)<(Math.abs(coordinates[0])+0.001)&&Math.abs(resp.docs[i].data().morada.Coordenadas.longitude)>(Math.abs(coordinates[0])-0.001)){
+          console.log("Entrou no if do Abs!!!!!!!!!!!!",resp.docs[i].data().morada)
+            this.userPopUpInfo.id=resp.docs[i].id;
+            this.userPopUpInfo.rua=resp.docs[i].data().morada.Rua;
+            this.userPopUpInfo.numPorta=resp.docs[i].data().morada.NumPorta;
+            this.userPopUpInfo.name =resp.docs[i].data().name;
+            this.userPopUpInfo.codigoPostal=resp.docs[i].data().CodigoPostal;
+            this.userPopUpInfo.cidade=resp.docs[i].data().morada.Cidade;
+            this.userPopUpInfo.distrito=resp.docs[i].data().morada.Distrito;
+            if(resp.docs[i].data().image){
+                this.alldatauser=resp.docs[i].data().image;
+              }
+              else{
+                this.alldatauser==false
+              }
+              this.isDivVisible=true
+              break;
+        }
+        else{
+          console.log("entrou no else", resp.docs[i].data())
+        }
       }
-      console.log(this.userPopUpInfo)
+
+
+      console.log("PASSOU NO SAIR")
+    }
     })
   }
+  
   sortBy(filter){
     var usersList = [];
     var servicesList = this.service.getFilterServicesCollection();
