@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: 'language-popover', loadChildren: './pages/language-popover/language-popover.module#LanguagePopoverPageModule' },
   { path: 'notifications', loadChildren: './pages/notifications/notifications.module#NotificationsPageModule' },
 
+
 ];
 @NgModule({
   imports: [

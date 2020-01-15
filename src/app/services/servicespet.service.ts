@@ -87,6 +87,15 @@ export class ServicespetService {
       ));
     return this.servicesCollection;
   }
+  getrequestserviceforowner(newUser) {
+    this.servicesCollection = this.afs.collection('RequestService').snapshotChanges()
+      .pipe(map(action => action.map(
+        this.documentToDomainObject
+      )
+        .filter(item => (item.from == newUser))
+      ));
+    return this.servicesCollection;
+  }
   getAllrequestservice() {
     this.servicesCollection = this.afs.collection('RequestService').snapshotChanges()
       .pipe(map(action => action.map(

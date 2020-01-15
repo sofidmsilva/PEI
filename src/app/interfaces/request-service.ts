@@ -11,5 +11,7 @@ export interface RequestService {
     location?:string;
     confirmmessgeto?:boolean;
     confirmmessgefrom?:boolean;
+    ratingto?:boolean;
+    ratingfrom?:boolean;
     payment?:boolean;
 }

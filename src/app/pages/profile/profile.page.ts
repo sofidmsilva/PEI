@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { IonSlides, LoadingController, ToastController, AlertController, ModalController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Animals } from 'src/app/interfaces/animals';
 import { AuthService } from 'src/app/services/auth.service';
 import { AnimalsService } from 'src/app/services/animals.service';
@@ -105,10 +105,11 @@ private monthcalendar: string;
     private userServices: RegisterService,
     private afStorage: AngularFireStorage,
     private servicespetServices: ServicespetService,
+    private route:ActivatedRoute,
     private afs: AngularFirestore,
     private alertController: AlertController,
     public modalController: ModalController) {
-
+      route.params.subscribe(val => {
     this.animalsSubscription = this.animalServices.getAnimals(this.profileid[3]).subscribe(
       data => {
         this.animals = data;
@@ -119,7 +120,6 @@ private monthcalendar: string;
         this.stars=[];
         data[0].dateofbirthday = data[0].dateofbirthday.split('T')[0];
         this.datauser = data;
-    console.log(this.datauser)
         this.alldatauser = data[0].image;
         if(this.profileid[3]==this.authServices.getAuth().currentUser.uid){
           this.showuser = data[0].tipeuser;
@@ -178,6 +178,7 @@ private monthcalendar: string;
 
       this.RatingSubscription = this.userServices.getRatings(this.profileid[3]).subscribe(
         data => { this.dataratings=[];
+          finalyrating=0;
           this.dataratings = data
           this.length=this.dataratings.length;
            var soma = 0;
@@ -185,6 +186,7 @@ private monthcalendar: string;
            soma= this.dataratings[i].value +++ soma;
           }
           var finalyrating = soma/this.dataratings.length;
+       
           for(let i =0; i<finalyrating; i++){
             this.stars.push("star");
           }         
@@ -193,6 +195,7 @@ private monthcalendar: string;
     this.typeanimals;
     this.sizeanimals;
     this.typeservices;
+      });
   }
 
   ngOnInit() {
@@ -456,6 +459,8 @@ private monthcalendar: string;
       this.requestservice.confirmmessgefrom=false;
       this.requestservice.confirmmessgeto=false;
       this.requestservice.payment=false;
+      this.requestservice.ratingfrom=false;
+      this.requestservice.ratingto=false;
       this.requestservice.datebegin= this.event.startTime;
       this.requestservice.dateend=this.event.endTime;
 

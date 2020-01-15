@@ -25,13 +25,13 @@
     </ion-item>
 
     <ion-item>
-      <ion-label position="stacked">Address</ion-label>
-      <ion-input [(ngModel)]="morada.Rua" placeholder="{{ 'UserRegister.rua' | translate }}"></ion-input>
-      <ion-input [(ngModel)]="morada.NumPorta" type="number" placeholder="{{ 'UserRegister.numerodePorta' | translate }}"></ion-input>
-      <ion-input [(ngModel)]="morada.CodigoPostal"  placeholder="{{ 'UserRegister.codigoPostal' | translate }}"></ion-input>
-      <ion-input [(ngModel)]="morada.Cidade" placeholder="{{ 'UserRegister.cidade' | translate }}"></ion-input>
-      <ion-input [(ngModel)]="morada.Distrito" placeholder="{{ 'UserRegister.distrito' | translate }}"></ion-input>
-      <ion-input [(ngModel)]="morada.Pais" placeholder="{{ 'UserRegister.pais' | translate }}"></ion-input>
+      <ion-label position="stacked">{{ 'UserRegister.location' | translate }}</ion-label>
+      <ion-input [(ngModel)]="morada.Rua" placeholder="{{ 'UserRegister.street' | translate }}"></ion-input>
+      <ion-input [(ngModel)]="morada.NumPorta" type="number" placeholder="{{ 'UserRegister.doornumber' | translate }}"></ion-input>
+      <ion-input [(ngModel)]="morada.CodigoPostal"  placeholder="{{ 'UserRegister.postalcode' | translate }}"></ion-input>
+      <ion-input [(ngModel)]="morada.Cidade" placeholder="{{ 'UserRegister.city' | translate }}"></ion-input>
+      <ion-input [(ngModel)]="morada.Distrito" placeholder="{{ 'UserRegister.district' | translate }}"></ion-input>
+      <ion-input [(ngModel)]="morada.Pais" placeholder="{{ 'UserRegister.country' | translate }}"></ion-input>
     </ion-item>
   
     <div *ngIf="datauser == 2">

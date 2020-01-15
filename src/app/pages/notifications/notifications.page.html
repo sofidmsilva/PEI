@@ -1,9 +1,9 @@
 <ion-list *ngIf="showpop">
   <div *ngFor="let service of notificationacceptservice">
-    <ion-item *ngIf="service.shownotification==1 && service.accept==0" >
-      <ion-textarea  disabled align="center">
+    <ion-item *ngIf="service.shownotification==1 && service.accept==0">
+      <ion-textarea disabled align="center">
         {{ 'Notification.messagerequestservice' | translate }} <b>{{service.type}}
-        {{ 'Notification.messagerequestservice2' | translate }} {{service.location}}</b>
+          {{ 'Notification.messagerequestservice2' | translate }} {{service.location}}</b>
         {{ 'Notification.messagerequestservice3' | translate }} <b>{{service.startTime}}</b>
         {{ 'Notification.messagerequestservice4' | translate }} <b>{{service.endTime}}.</b>
         {{ 'Notification.messagerequestservice5' | translate }}
@@ -14,62 +14,125 @@
           <ion-icon name="close"></ion-icon>
         </ion-button>
       </ion-textarea>
-      <ion-button *ngIf="service.shownotification==1 && service.accept==0" class="buttoncalendar" color="warning" (click)="calendar()">
+      <ion-button *ngIf="service.shownotification==1 && service.accept==0" class="buttoncalendar" color="warning"
+        (click)="calendar()">
         <ion-icon name="calendar"></ion-icon>
       </ion-button>
     </ion-item>
   </div>
- <div *ngFor="let service of notificationresponseservice">
-  <ion-item *ngIf="service.shownotification==2 && (service.accept==1 || service.accept==2)" >
-    <ion-textarea  disabled align="center">
-      {{ 'Notification.messageresponserequest' | translate }} <b>{{service.type}}
-      {{ 'Notification.messagerequestservice2' | translate }} {{service.location}}</b>
-      {{ 'Notification.messageresponserequest2' | translate }} <b>{{service.startTime}}</b>
-      {{ 'Notification.messagerequestservice4' | translate }} <b>{{service.endTime}}:</b>&nbsp;
-     <ion-note class="accepted" disabled  *ngIf="service.accept==1">{{ 'Notification.messageresponserequest3' | translate }}</ion-note> 
-     <ion-note  class="refuse" disabled *ngIf="service.accept==2">{{ 'Notification.messageresponserequest4' | translate }}</ion-note> 
-      <ion-button *ngIf="service.accept==1" class="buttonaccept" color="medium" (click)="payment(service)">
-        <ion-icon name="card"></ion-icon>
-      </ion-button>
-      <ion-button *ngIf="service.accept==1" class="buttonrefuse" color="danger" (click)="cancelservice(service)">
-        <ion-icon name="close-circle"></ion-icon>
-      </ion-button>
-      <ion-button *ngIf="service.accept==2" class="buttonrefuse" color="warning" (click)="confirmation(service)">
-        Ok
-      </ion-button>
-    </ion-textarea>
-  </ion-item>
- </div>
-  <div class="unlockmessage" *ngFor="let service of unlockmessageboth">
-    <ion-item *ngIf="service.accept==5 && service.finish==false" >
-      <ion-textarea    disabled align="center">
-       <ion-note *ngIf="service.shownotification==2">{{ 'Notification.messageunlockpayment' | translate }} </ion-note> 
-       <ion-note *ngIf="service.shownotification==1"> {{ 'Notification.messageunlockpayment2' | translate }} </ion-note>
-       <ion-icon name="mail"></ion-icon>
-       <div>
-        <ion-button *ngIf="service.shownotification==1" class="buttonrefuse" color="danger" (click)="confirmationmessage(service,1)">
-          Ok
-        </ion-button>
-        <ion-button *ngIf="service.shownotification==2" class="buttonrefuse" color="danger" (click)="confirmationmessage(service,2)">
-          Ok
-        </ion-button>
-       </div>
-      </ion-textarea>
-    </ion-item>
-  </div>
-  <div class="freeservice"*ngIf="showfreeservice" >
-    <ion-item  >
+  <div *ngFor="let service of notificationresponseservice">
+    <ion-item *ngIf="service.shownotification==2 && (service.accept==1 || service.accept==2)">
       <ion-textarea disabled align="center">
-     {{ 'Notification.messagefreeservice' | translate }} 
-     <ion-icon name="ribbon"></ion-icon>
-        {{ 'Notification.messagefreeservice2' | translate }} <ion-icon name="happy"></ion-icon>
-       <div>
-        <ion-button  class="buttonrefuse" color="danger" (click)="confirmfreeservice()">
-          Ok
-        </ion-button>
-       </div>
+        {{ 'Notification.messageresponserequest' | translate }} <b>{{service.type}}
+          {{ 'Notification.messagerequestservice2' | translate }} {{service.location}}</b>
+        {{ 'Notification.messageresponserequest2' | translate }} <b>{{service.startTime}}</b>
+        {{ 'Notification.messagerequestservice4' | translate }} <b>{{service.endTime}}:</b>&nbsp;
+        <ion-note class="accepted" disabled *ngIf="service.accept==1">
+          {{ 'Notification.messageresponserequest3' | translate }}</ion-note>
+        <ion-note class="refuse" disabled *ngIf="service.accept==2">
+          {{ 'Notification.messageresponserequest4' | translate }}</ion-note>
+          <div align="center">
+            <ion-button *ngIf="service.accept==1" class="buttonaccept" color="medium" (click)="payment(service)">
+              <ion-icon name="card"></ion-icon>
+            </ion-button>
+            <ion-button *ngIf="service.accept==1" class="buttonrefuse" color="danger" (click)="cancelservice(service)">
+              <ion-icon name="close-circle"></ion-icon>
+            </ion-button>
+            <ion-button *ngIf="service.accept==2" class="buttonrefuse" color="warning" (click)="confirmation(service)">
+              Ok
+            </ion-button>
+          </div>
       </ion-textarea>
     </ion-item>
   </div>
- 
+  <div class="unlockmessage" *ngFor="let service of unlockmessageboth">
+    <ion-item *ngIf="service.accept==5 && service.finish==false">
+      <ion-textarea disabled align="center">
+        <ion-note *ngIf="service.shownotification==2">{{ 'Notification.messageunlockpayment' | translate }} </ion-note>
+        <ion-note *ngIf="service.shownotification==1"> {{ 'Notification.messageunlockpayment2' | translate }}
+        </ion-note>
+        <ion-icon name="mail"></ion-icon>
+        <div>
+          <ion-button *ngIf="service.shownotification==1" class="buttonrefuse" color="danger"
+            (click)="confirmationmessage(service,1)">
+            Ok
+          </ion-button>
+          <ion-button *ngIf="service.shownotification==2" class="buttonrefuse" color="danger"
+            (click)="confirmationmessage(service,2)">
+            Ok
+          </ion-button>
+        </div>
+      </ion-textarea>
+    </ion-item>
+  </div>
+  <div class="freeservice" *ngIf="showfreeservice && typeuser==1 && notificationfreeservice!=0">
+    <ion-item>
+      <ion-textarea disabled align="center">
+        {{ 'Notification.messagefreeservice' | translate }} {{notificationfreeservice}}
+         {{ 'Notification.messagefreeservice1' | translate }}
+        <ion-icon name="ribbon"></ion-icon>
+        {{ 'Notification.messagefreeservice2' | translate }} <ion-icon name="happy"></ion-icon>
+        <div>
+          <ion-button class="buttonrefuse" color="danger" (click)="confirmokbutton(1)">
+            Ok
+          </ion-button>
+        </div>
+      </ion-textarea>
+    </ion-item>
+  </div>
+  <div *ngFor="let service of warningdateofservice">
+    <ion-item *ngIf="service.shownotification==3">
+      <ion-textarea disabled align="center">
+        {{ 'Notification.messageonedayleftforservice' | translate }}
+        <ion-icon name="happy"></ion-icon>
+        <div>
+          <ion-button class="buttoncalendar" color="warning" (click)="calendar()">
+            <ion-icon name="calendar"></ion-icon>
+          </ion-button>
+        </div>
+
+      </ion-textarea>
+    </ion-item>
+  </div>
+
+  <ion-item *ngFor="let service of NotificationRatings">
+    <ion-grid *ngIf="service.shownotification==4 && !service.rating ">
+      <ion-row>
+        <ion-note style="color: black; font-size:17px" align="center">{{ 'Notification.messagerating1' | translate }}:
+         <b>{{service.type}}</b>  {{ 'Notification.messagerating2' | translate }}
+        </ion-note>
+      </ion-row>
+      <ion-row style="font-size: 30px; margin-top: 23px;">
+        <ion-col *ngFor="let star of stars; let i = index" tappable (click)="starClicked(i)">
+          <ion-icon [name]="star"></ion-icon>
+        </ion-col>
+      </ion-row>
+      <ion-row><br>
+        <ion-button class="rating" align="right"  color="danger" (click)="saverating(service,1)">
+          avaliar
+        </ion-button>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+  <ion-item *ngFor="let service of NotificationRatingsOwner">
+    <ion-grid *ngIf="service.shownotification==5 && !service.rating">
+      <ion-row>
+        <ion-note style="color: black; font-size:17px" align="center">{{ 'Notification.messagerating' | translate }}:
+          <b>{{service.type}}</b> {{ 'Notification.messagerating2' | translate }}
+        </ion-note>
+      </ion-row>
+      <ion-row style="font-size: 30px; margin-top: 23px;">
+        <ion-col *ngFor="let star of stars; let i = index" tappable (click)="starClicked(i)">
+          <ion-icon [name]="star"></ion-icon>
+        </ion-col>
+      </ion-row>
+      <ion-row><br>
+        <ion-button class="rating" align="right"  color="danger" (click)="saverating(service)">
+          avaliar
+        </ion-button>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+
+
 </ion-list>

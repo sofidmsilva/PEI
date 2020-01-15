@@ -9,6 +9,7 @@
    "Question":"What service do you need?",
    "Done":"Done",
    "Services":"Services to Do:",
+   "Services2":"Services Request",
    "hello":"Hi!",
     "PetWalking":"Walking your animals has never been easier, come see who can make your life easier",
     "PetCare":"All the care your pet needs can be found here.",
@@ -29,7 +30,8 @@
     "numberservices": "Number Services",
     "totalservices":"Total services performed in",
     "consult":"See the calendar for more details",
-    "consult2":"No Service to Do"
+    "consult2":"No Service to Do",
+    "consult3":"No Service Request"
  },
  "Login": {
      "register":"Register",
@@ -68,12 +70,12 @@
       "years":"Years",
       "continue":"Continue",
       "uploadimage":"Choose Images to Upload",
-      "doornumber":"Numero de porta",
+      "doornumber":"Door Number",
       "street":"Street",
       "postalcode":"Postal Code",
       "city": "City",
-      "state": "State",
-      "country": "Country"
+      "country": "Country",
+      "district":"District"
  },
  "Profile":{
       "AddAnimal":"Add Animal",
@@ -176,8 +178,15 @@
    "messageresponserequest4":"It was denied",
    "messageunlockpayment": "Payment made! You can now talk to the Pet Sitter. Go to Messages",
    "messageunlockpayment2": "You can now talk to the owner of the pet. Go to Messages",
-   "messagefreeservice":"You have requested 10 in-app services!",
-   "messagefreeservice2":" Congratulations, 11 is free. Enjoy",
+   "messagefreeservice":"You have requested ",
+   "messagefreeservice1":" in-app services!",
+   "messagefreeservice2":" Congratulations, the next is free. Enjoy",
+   "messageonedayleftforservice":"Some services are coming up. Check your calendar!",
+   "messagerating":"Rate the Pet Sitter who performed your service",
+   "messagerating1":"Evaluate the pet's owner from the service ",
+   "messagerating2":"that you performed in",
+   "notificationphone1":"You have notifications to see. Come to PetUniverse",
+   "notificationphone2":"You have a free service. Come to see!",
    "alert":{
       "message":"Do you realy want cancel this service?"
    }
