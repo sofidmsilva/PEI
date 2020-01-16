@@ -21,6 +21,7 @@ import { RequestService } from 'src/app/interfaces/request-service';
 import { Favorites } from 'src/app/interfaces/favorites';
 import { Filters } from 'src/app/interfaces/filters';
 import { Ratings } from 'src/app/interfaces/ratings';
+import { Morada } from 'src/app/interfaces/morada';
 
 
 
@@ -73,6 +74,7 @@ private monthcalendar: string;
   private servicesPet = new Array<Services>();
   private datauser = new Array<User>();
   private dataratings = new Array<Ratings>();
+  public morada:Morada =<Morada>{}
   public NewUser;
   public userRegister: User = {};
   private datacomment = new Array<Comments>();
@@ -267,7 +269,10 @@ private monthcalendar: string;
 
   async Updateprofile() {
     await this.presentLoading();
-
+    this.userRegister.morada= Object.assign([], this.morada);
+    console.log(this.userRegister)
+ 
+  
     try {
       await this.userServices.updateUser(this.userRegister, this.NewUser);
       this.disabled = true;

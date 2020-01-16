@@ -84,16 +84,17 @@
                                 </ion-item>
                             </ion-row>
                             <ion-row>
-                                <ion-item>
-                                    <ion-label><b>{{ 'UserRegister.location' | translate }}: </b> </ion-label>
-                                    <ion-input [(ngModel)]="userRegister.location" placeholder="{{ user.morada.Cidade}}"
-                                        readonly="{{disabled}}"></ion-input>
+                                <ion-item style="height: auto;">
+                                    <ion-textarea><b>{{ 'UserRegister.street' | translate }}: </b>
+                                        <ion-input [(ngModel)]="morada.Rua" placeholder="{{ user.morada.Rua}}"
+                                     readonly="{{disabled}}"></ion-input>
+                                     </ion-textarea>
                                 </ion-item>
                             </ion-row>
                             <ion-row>
                                 <ion-item>
-                                    <ion-label><b>{{ 'UserRegister.location' | translate }}: </b> </ion-label>
-                                    <ion-input [(ngModel)]="userRegister.location" placeholder="{{ user.morada.Distrito}}"
+                                    <ion-label><b>{{ 'UserRegister.district' | translate }}: </b> </ion-label>
+                                    <ion-input [(ngModel)]="morada.Distrito" placeholder="{{ user.morada.Distrito}}"
                                         readonly="{{disabled}}"></ion-input>
                                 </ion-item>
                             </ion-row>
