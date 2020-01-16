@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { IonSlides, LoadingController, ToastController, AlertController, ModalController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Animals } from 'src/app/interfaces/animals';
 import { AuthService } from 'src/app/services/auth.service';
 import { AnimalsService } from 'src/app/services/animals.service';
@@ -48,7 +48,7 @@ export class ProfilePage implements OnInit,OnDestroy {
     id: this.afs.createId(), image: ''
   }
   imageloading = false;
-
+private monthcalendar: string;
   private showuser: number;
   private showwiconfav: boolean;
   private showusertabs: number;
@@ -89,7 +89,6 @@ export class ProfilePage implements OnInit,OnDestroy {
     "TypeAnimals.bird", "TypeAnimals.snake", "TypeAnimals.hamster"];
   private sizeanimals: Array<string> = ["SizeAnimals.verysmall", "SizeAnimals.small", "SizeAnimals.medium", "SizeAnimals.big"];
   private typeservices: Array<string> = ["Pet Walking", "Pet Care", "Pet Sitting"];
-  private typeservicefromuser =[];
   private AnimalsRegister: Animals = {};
   private requestservice: RequestService={};
   private AddComment: Comments = {};
@@ -109,11 +108,14 @@ export class ProfilePage implements OnInit,OnDestroy {
     private userServices: RegisterService,
     private afStorage: AngularFireStorage,
     private servicespetServices: ServicespetService,
+    private route:ActivatedRoute,
     private afs: AngularFirestore,
     private alertController: AlertController,
     public modalController: ModalController,
     private storage: Storage) {
 
+
+      route.params.subscribe(val => {
     this.animalsSubscription = this.animalServices.getAnimals(this.profileid[3]).subscribe(
       data => {
         this.animals = data;
@@ -124,7 +126,6 @@ export class ProfilePage implements OnInit,OnDestroy {
         this.stars=[];
         data[0].dateofbirthday = data[0].dateofbirthday.split('T')[0];
         this.datauser = data;
-    
         this.alldatauser = data[0].image;
         if(this.profileid[3]==this.authServices.getAuth().currentUser.uid){
           this.showuser = data[0].tipeuser;
@@ -158,11 +159,8 @@ export class ProfilePage implements OnInit,OnDestroy {
 
         });
     this.ServicespetSubscription = this.servicespetServices.getServices(this.profileid[3]).subscribe(
-      data => { this.typeservicefromuser=[];
+      data => { 
         this.servicesPet = data
-        for(let i = 0; i <= this.servicesPet.length-1; i++){
-          this.typeservicefromuser[i]=this.servicesPet[i].typeservice;
-        }
       });
       
     this.CalendarPetSubscription = this.servicespetServices.getevents(this.profileid[3]).subscribe(
@@ -176,6 +174,7 @@ export class ProfilePage implements OnInit,OnDestroy {
             endTime: new Date(this.calendarevent[i].endTime),   
             
           }
+         
         this.eventSource.push(eventCopy);
         this.myCal.loadEvents();
        
@@ -185,6 +184,7 @@ export class ProfilePage implements OnInit,OnDestroy {
 
       this.RatingSubscription = this.userServices.getRatings(this.profileid[3]).subscribe(
         data => { this.dataratings=[];
+          finalyrating=0;
           this.dataratings = data
           this.length=this.dataratings.length;
            var soma = 0;
@@ -192,6 +192,7 @@ export class ProfilePage implements OnInit,OnDestroy {
            soma= this.dataratings[i].value +++ soma;
           }
           var finalyrating = soma/this.dataratings.length;
+       
           for(let i =0; i<finalyrating; i++){
             this.stars.push("star");
           }         
@@ -200,6 +201,7 @@ export class ProfilePage implements OnInit,OnDestroy {
     this.typeanimals;
     this.sizeanimals;
     this.typeservices;
+      });
   }
 
   ngOnInit() {
@@ -224,7 +226,6 @@ export class ProfilePage implements OnInit,OnDestroy {
     this.ispremium= null;
     this.datacomment=[];
     this.servicesPet = [];
-    this.typeservicefromuser=[];
   }
 
 
@@ -456,33 +457,39 @@ export class ProfilePage implements OnInit,OnDestroy {
     if (this.requsitedServicesSize % 10 === 0 && diff > 10800000){
       this.presentAlert();
       return;
-    } else {
+    } 
+    else {
+    await this.presentLoading();
+    var to = this.router.url.split('/');
+    try {
+     
+      var a=this.requestservice.type.split('-');
+     this.requestservice.type= a[0];
+     this.requestservice.location=a[1];
+      this.requestservice.from = this.authServices.getAuth().currentUser.uid;
+      this.requestservice.to=to[3];
+      this.requestservice.accept=0;
+      this.requestservice.done=false;
+      this.requestservice.confirmmessgefrom=false;
+      this.requestservice.confirmmessgeto=false;
+      this.requestservice.payment=false;
+      this.requestservice.ratingfrom=false;
+      this.requestservice.ratingto=false;
+      this.requestservice.datebegin= this.event.startTime;
+      this.requestservice.dateend=this.event.endTime;
 
-        await this.presentLoading();
-        var to = this.router.url.split('/')
-        try {
-
-          this.requestservice.freeservice=this.requsitedServicesSize % 10 === 0 ? true : false
-          this.requestservice.from = this.authServices.getAuth().currentUser.uid;
-          this.requestservice.to=to[3];
-          this.requestservice.accept=false;
-          this.requestservice.done=false;
-          this.requestservice.datebegin= this.event.startTime;
-          this.requestservice.dateend=this.event.endTime;
-          await this.servicespetServices.addrequestservice(this.requestservice);
-          console.log(this.requestservice);
-          this.requestservice = {};
-          this.resetEvents();
-        }
-        catch (error) {
-
-          this.presentToast('erro a guardar');
-        } finally {
-          this.loading.dismiss();
-        }
+      await this.servicespetServices.addrequestservice(this.requestservice);
+      this.requestservice = {};
+      this.resetEvents();
       
       }
-  
+      catch (error) {
+
+        this.presentToast('erro a guardar');
+      } finally {
+        this.loading.dismiss();
+    }
+  }
   }
   async addservice() {
     await this.presentLoading();
@@ -725,6 +732,8 @@ export class ProfilePage implements OnInit,OnDestroy {
   onTimeSelected(ev) {
     console.log('Selected time: ' + ev.selectedTime + ',hasEvents: ' +
       (ev.events !== undefined && ev.events.lenght !== 0) + ',disabled: ' + ev.disabled);
+
+      this.monthcalendar=new Date(ev.selectedTime).toString().split(' ')[1];
   }
 
   countRequisitedServices(){

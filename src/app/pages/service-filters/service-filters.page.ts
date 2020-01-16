@@ -52,6 +52,7 @@ export class ServiceFiltersPage implements OnInit,OnDestroy {
   }
 
   starClicked(index) {
+    console.log(index)
     let experiencia = index+1;
     this.filters.experience = "<"+ experiencia;
     this.stars = [];

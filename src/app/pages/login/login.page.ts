@@ -80,6 +80,7 @@ export class LoginPage implements OnInit {
     });
 }
     catch (error) {
+    
       let message: string;
       switch (error.code) {
         case 'auth/argument-error':
@@ -91,7 +92,7 @@ export class LoginPage implements OnInit {
           break;
       }
       console.log(error);
-      this.presentToast(message);
+      this.presentToast(error);
     } finally {
       this.loading.dismiss();
     }

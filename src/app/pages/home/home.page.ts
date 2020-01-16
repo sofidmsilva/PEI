@@ -32,12 +32,13 @@ export class HomePage implements OnInit, OnDestroy {
   private filterUsers: Array<User>;
   private filterServicesPet = new Array<Services>();
   private requestservices: Array<RequestService>;
+  private requestserviceowner: Array<RequestService>;
   private loading: any;
   public lengthrequest: number;
   public servicepermonth: Servicespermonths={};
   public requestservice: RequestService = {};
   private numberservicetodo: number;
-
+  private numberservicetodoowner: number;
   constructor(private translateService: TranslateService,
     private router: Router,
     private userServices: RegisterService,
@@ -72,6 +73,21 @@ export class HomePage implements OnInit, OnDestroy {
                 this.getPieChart();          
               }   
             });
+            this.requestSubscription = this.servicespetServices.getrequestserviceforowner(this.authServices.getAuth().currentUser.uid).subscribe(
+              data => {this.numberservicetodoowner=0;
+                this.lengthrequest = data.length;
+                for (let i = 0; i <= data.length - 1; i++) {
+                  data[i].datebegin = data[i].datebegin.split('T')[0];
+                  data[i].dateend = data[i].dateend.split('T')[0];
+                 if(data[i].done==false){
+                   this.numberservicetodoowner++;
+                 }
+                  if (data[i].datedone != null) {
+                    data[i].datedone = data[i].datedone.split(' ')[1];
+                  }
+                }
+                this.requestserviceowner = data; 
+              });  
       });
   }
 
@@ -139,48 +155,50 @@ export class HomePage implements OnInit, OnDestroy {
     this.servicepermonth.November=0;
     this.servicepermonth.December=0;
     for (let i = 0; i <= this.lengthrequest - 1; i++) {
-      switch (this.requestservices[i].datedone) {
-        case 'Jan':
-        this.servicepermonth.Jan++;
-          break;
-        case 'Fev':
-          this.servicepermonth.Fev++;
-          break;
-        case 'Mar':
-          this.servicepermonth.March++;
-          break;
-        case 'Apr':
-          this.servicepermonth.April++;
-          break;
-        case 'May':
-          this.servicepermonth.May++;
-          break;
-        case 'Jun':
-          this.servicepermonth.June++;
-          break;
-        case 'Jul':
-          this.servicepermonth.July++;
-          break;
-        case 'Aug':
-          this.servicepermonth.August++;
-          break;
-        case 'Set':
-          this.servicepermonth.September++;
-          break;
-        case 'Oct':
-          this.servicepermonth.October++;
-          break;
-        case 'Nov':
-          this.servicepermonth.November++;
-          break;
-        case 'Dec':
-          this.servicepermonth.December++;
-          break;
-        default:
-
+      if(this.requestservices[i].done==true){
+        switch (this.requestservices[i].datedone) {
+          case 'Jan':
+          this.servicepermonth.Jan++;
+            break;
+          case 'Fev':
+            this.servicepermonth.Fev++;
+            break;
+          case 'Mar':
+            this.servicepermonth.March++;
+            break;
+          case 'Apr':
+            this.servicepermonth.April++;
+            break;
+          case 'May':
+            this.servicepermonth.May++;
+            break;
+          case 'Jun':
+            this.servicepermonth.June++;
+            break;
+          case 'Jul':
+            this.servicepermonth.July++;
+            break;
+          case 'Aug':
+            this.servicepermonth.August++;
+            break;
+          case 'Set':
+            this.servicepermonth.September++;
+            break;
+          case 'Oct':
+            this.servicepermonth.October++;
+            break;
+          case 'Nov':
+            this.servicepermonth.November++;
+            break;
+          case 'Dec':
+            this.servicepermonth.December++;
+            break;
+          default:
+  
+        }
       }
+
     }
-    console.log(this.servicepermonth)
   }
 
   getPieChart() {

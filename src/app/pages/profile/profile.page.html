@@ -87,7 +87,14 @@
                             <ion-row>
                                 <ion-item>
                                     <ion-label><b>{{ 'UserRegister.location' | translate }}: </b> </ion-label>
-                                    <ion-input [(ngModel)]="userRegister.location" placeholder="{{ user.location }}"
+                                    <ion-input [(ngModel)]="userRegister.location" placeholder="{{ user.morada.Cidade}}"
+                                        readonly="{{disabled}}"></ion-input>
+                                </ion-item>
+                            </ion-row>
+                            <ion-row>
+                                <ion-item>
+                                    <ion-label><b>{{ 'UserRegister.location' | translate }}: </b> </ion-label>
+                                    <ion-input [(ngModel)]="userRegister.location" placeholder="{{ user.morada.Distrito}}"
                                         readonly="{{disabled}}"></ion-input>
                                 </ion-item>
                             </ion-row>
@@ -220,11 +227,12 @@
                                         placeholder="{{ 'Profile.Calendar.title' | translate }}"
                                         [(ngModel)]="event.title">
                                     </ion-input>
-                                    <ion-select *ngIf="showuser == 1" placeholder="Escolher serviço"
+                                    <ion-select *ngIf="showuser == 1" placeholder="{{ 'Profile.Calendar.chooseservice' | translate }}"
                                         [(ngModel)]="requestservice.type">
-                                        <ion-select-option *ngFor="let servi of typeservicefromuser" lines="none"
-                                            value="{{servi}}">
-                                            {{ servi}}
+                                        <ion-select-option *ngFor="let servi of servicesPet" lines="none"
+                                            value="{{servi.typeservice +'-'+ servi.location}}">
+                                            {{ servi.typeservice + ' ' +'('+(servi.location)+')' }} 
+                                      
                                         </ion-select-option>
                                     </ion-select>
                                 </ion-item>
@@ -238,6 +246,7 @@
                                     <ion-datetime display="MM/DD/YYYY HH:mm" pickerFormat="MMM D:HH:mm"
                                         [(ngModel)]="event.endTime" [min]="minDate"></ion-datetime>
                                 </ion-item>
+                                <ion-note>*{{ 'All.date' | translate }}</ion-note>
                                 <ion-button *ngIf="showuser == 2" fill="outline" expand="block" (click)="addEvent()"
                                     [disabled]="event.title == ''">{{ 'Profile.Calendar.buttonaddevent' | translate }}
                                 </ion-button>
@@ -248,6 +257,7 @@
 
                         </ion-card>
                         <div class="calendar">
+                            <ion-label>{{monthcalendar}}</ion-label>
                             <calendar style="background: blanchedalmond;" [eventSource]="eventSource"
                                 [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate"
                                 (onCurrentDateChanged)="onCurrentDateChanged($event)"

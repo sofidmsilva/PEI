@@ -2,12 +2,14 @@
    "All": {
       "Cancel": "Cancelar",
       "continue": "Continuar",
-      "add": "Adicionar"
+      "add": "Adicionar",
+      "date":"Mês-Dia  Horas:Minutos"
    },
    "Home": {
-      "Question": "Qual o serviço que precisa?",
+      "Question": "Qual o serviço que procura?",
       "Done":"Feito",
       "Services": "Serviços a Fazer:",
+      "Services2":"Serviços solicitados",
       "hello": "Olá!",
       "PetWalking": "Passear os seus animais nunca fora tão fácil, venha conhecer quem pode facilitar a sua vida",
       "PetCare": "Todos os cuidados que o seu animal precise pode ser encontrado aqui.",
@@ -28,7 +30,8 @@
       "numberservices": "Número de Serviços",
       "totalservices":"Total de Serviços efetuados em",
       "consult":"Consultar o calendário para mais detalhes",
-      "consult2":"Nenhum serviço a fazer"
+      "consult2":"Nenhum serviço a fazer",
+      "consult3":"Nenhum serviço solicitado"
    },
    "Login": {
       "register": "Registar",
@@ -65,13 +68,12 @@
       "years": "Anos",
       "continue": "Continuar",
       "uploadimage": "Escolha a imagem para upload",
-      "numerodePorta":"Numero de porta",
-      "rua":"Rua",
-      "codigoPostal":"Codigo Postal",
-      "cidade": "Cidade",
-      "distrito": "Distrito",
-      "pais": "Pais"
-
+      "doornumber":"Número de porta",
+      "street":"Rua",
+      "postalcode":"Código Postal",
+      "city": "Cidade",
+      "country": "País",
+      "district":"Distrito"
    },
    "Profile": {
       "AddAnimal": "Adicionar Animal",
@@ -109,11 +111,12 @@
          "description": "Descrição",
          "start": "Começo",
          "end": "Fim",
+         "chooseservice":"Escolher Serviço",
          "buttonaddevent": " Adicionar Evento",
          "begindate":"Data Início"
       },
       "Service": {
-         "title": "Confirm please!",
+         "title": "Confirme!",
          "messageconfirm": "Quer mesmo apagar o serviço?",
          "editservice": "Editar Serviço"
       },
@@ -158,5 +161,30 @@
    },
    "Filters":{
       "title" : "Filtros"
+   },
+   "Notification":{
+      "messagerequestservice":"Tem um pedido de serviço para",
+      "messagerequestservice2":"em",
+      "messagerequestservice3":"que começa dia",
+      "messagerequestservice4":"até",
+      "messagerequestservice5":"Deseja aceitar?",
+      "messageresponserequest":"A solicitação feita para o serviço",
+      "messageresponserequest2":"para as datas",
+      "messageresponserequest3":"Foi aceite",
+      "messageresponserequest4":"Foi recusada",
+      "messageunlockpayment": "Pagamento efetuado! Já pode falar com o Pet Sitter. Dirija-se às Mensagens.",
+      "messageunlockpayment2": "Já pode falar com o Dono. Dirija-se às Mensagens.",
+      "messagefreeservice":"Solicitou ",
+      "messagefreeservice1":" serviços na aplicação!",
+      "messagefreeservice2":" Parabéns, o próximo é grátis. Aproveite",
+      "messageonedayleftforservice":"Aproximam-se serviços a serem realizados. Consulte o seu calendário!",
+      "messagerating":"Avalie o Pet Sitter que realizou o serviço ",
+      "messagerating1":"Avalie o dono do animal do serviço ",
+      "messagerating2":"que realizou em",
+      "notificationphone1":"Tem notificações que podem ser importantes.Venha até ao PetUniverse",
+      "notificationphone2":"Tem um serviço de graça. Venha a PetUniverse para descobrir!",
+      "alert":{
+         "message":"Quer mesmo cancelar o serviço?"
+      }
    }
 }
