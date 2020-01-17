@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'All.settings' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item (click)="changepassword()">
+    {{ 'All.changepass' | translate }} &nbsp;<ion-icon name="build"></ion-icon>
+</ion-item>
+  <ion-item (click)="contactteam()">  
+    {{ 'All.contactteamsupport' | translate }} &nbsp; <ion-icon name="mail"></ion-icon>
+  </ion-item>
+  <ion-item (click)="CancelAccount()">
+    {{ 'All.cancelAccount' | translate }}&nbsp;<ion-icon name="sad"></ion-icon>
+  </ion-item>
+  <ion-item (click)="help()">
+    {{ 'All.help' | translate }} &nbsp;<ion-icon name="help-circle"></ion-icon>
+  </ion-item>
+</ion-content>

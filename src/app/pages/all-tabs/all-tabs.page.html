@@ -12,7 +12,7 @@
               <ion-icon name="notifications"></ion-icon>
               <ion-badge id="notifications-badge" color="danger">{{numberofnotification}}</ion-badge>
             </ion-button>
-            <ion-button (click)="settings()" slot="icon-only">
+            <ion-button (click)="settings($event)" slot="icon-only">
               <ion-icon name="settings"></ion-icon>
             </ion-button>
             <ion-button (click)="logout()" slot="icon-only">

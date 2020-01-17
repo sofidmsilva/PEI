@@ -78,6 +78,7 @@ private monthcalendar: string;
   public NewUser;
   public userRegister: User = {};
   private datacomment = new Array<Comments>();
+  private commentlenght:number;
   private datafavorites = new Array<Favorites>();
   private animalsSubscription: Subscription;
   private userSubscription: Subscription;
@@ -138,11 +139,22 @@ private monthcalendar: string;
             this.showwiconfav=true;
           }
         }
-        this.ispremium= data[0].premium;
+        if(this.datauser[0].tipoutilizador==2){
+          var l= new Date();
+          var num=  parseInt(this.datauser[0].Dateofpremium.split('/')[2]) +1 ;
+          if(this.datauser[0].Dateofpremium.split('/')[0] ==l.getDate().toString() && 
+          this.datauser[0].Dateofpremium.split('/')[1] ==l.toLocaleDateString().split('/')[1] &&
+          parseInt(this.datauser[0].Dateofpremium.split('/')[2]) ==num){
+            this.ispremium=false;
+          }
+          this.ispremium= data[0].premium;
+        }
+   
       });
     this.CommentsSubscription = this.userServices.getComments(this.profileid[3]).subscribe(
       data => {
         this.datacomment = data
+        this.commentlenght=this.datacomment.length;
       });
       this.FavoritesSubscription = this.userServices.getFavorites(this.profileid[3]).subscribe(
         data => {this.datafavorites=[];
@@ -604,7 +616,7 @@ private monthcalendar: string;
         {
           name: 'name1',
           type: 'number',
-          placeholder: 'Dados do Cartão'
+          placeholder: this.translationservice.instant('Notification.datacard')
         }
       ],
       buttons: [
@@ -618,9 +630,11 @@ private monthcalendar: string;
         }, {
           text: 'Pagar',
           handler:async () => {
+            var l= new Date()
+            this.userRegister.Dateofpremium= l.toLocaleDateString();
             this.userRegister.premium=true;
             await this.userServices.updateUser(this.userRegister, this.NewUser);
-            console.log('Confirm Ok');
+
           }
         }
       ]

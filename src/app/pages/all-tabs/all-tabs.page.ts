@@ -12,6 +12,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { ServicespetService } from 'src/app/services/servicespet.service';
 import { RequestService } from 'src/app/interfaces/request-service';
 import { TranslateService } from '@ngx-translate/core';
+import { SettingsPage } from '../settings/settings.page';
 
 
 @Component({
@@ -151,8 +152,8 @@ export class AllTabsPage implements OnInit, OnDestroy {
          this.localNotifications.schedule({
           id: 1,
           text: this.translationservice.instant('Notification.notificationphone1'),
-          sound: 'assets/sound/just-saying.mp3',
-          icon: 'assets/img/Logo.png',
+          sound: '/src/assets/sound/just-saying.mp3',
+          icon: '/src/assets/img/Logo.png',
           led: 'FF0000',
           data: { secret: 'key_data' }
           });
@@ -165,8 +166,8 @@ export class AllTabsPage implements OnInit, OnDestroy {
          this.localNotifications.schedule({
           id: 1,
           text:this.translationservice.instant('Notification.notificationphone1'),
-          sound: 'assets/sound/just-saying.mp3',
-          icon: 'assets/img/Logo.png',
+          sound: '/src/assets/sound/just-saying.mp3',
+          icon: '/src/assets/img/Logo.png',
               led: 'FF0000',
               data: { secret: 'key_data' }
               });
@@ -183,8 +184,8 @@ export class AllTabsPage implements OnInit, OnDestroy {
              this.localNotifications.schedule({
               id: 1,
               text:this.translationservice.instant('Notification.notificationphone2'),
-              sound: 'assets/sound/just-saying.mp3',
-              icon: 'assets/img/Logo.png',
+              sound: '/src/assets/sound/just-saying.mp3',
+              icon: '/src/assets/img/Logo.png',
               led: 'FF0000',
               data: { secret: 'key_data' }
               });
@@ -213,6 +214,19 @@ export class AllTabsPage implements OnInit, OnDestroy {
       await popover.present();
     }    
 
+  }
+
+  async settings(ev){
+   
+      const popover = await this.popoverCtr.create({
+        component: SettingsPage,
+        event: ev,
+        componentProps: { value: this.notificationacceptservice, value2: this.notificationresponseservice, 
+        value3: this.notificationfreeservice, value4: this.warningdateofservice, value5: this.NotificationRatings,
+        value6: this.NotificationRatingsOwner, value7: this.typeuser }
+      });
+      await popover.present();
+     
   }
   searchuser() {
     this.userId = this.authService.getAuth().currentUser.uid;

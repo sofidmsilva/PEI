@@ -1,7 +1,6 @@
 .container{
     position: absolute;
     width: 100%;
-    height: 180%;
     margin: 0 auto;
     z-index: 2;
     background: #a38712;
@@ -37,10 +36,11 @@
             display: grid;
             justify-content: center;
         }
-        .citybutton{
-         
+  
+        ion-note{
+            color: black;
+            font-variant: small-caps;
         }
-        
        
 
 

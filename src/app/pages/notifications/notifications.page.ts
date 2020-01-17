@@ -74,29 +74,6 @@ export class NotificationsPage implements OnInit, OnDestroy {
 
     this.route.navigate(['/tabs/profile', this.authServices.getAuth().currentUser.uid]);
   }
-async payment(ev){
-  this.requestservice.id = ev.id;
-  this.requestservice.accept = 4;
-  this.event.title = ev.type + ' ' + ev.location;
-    this.event.startTime = new Date(ev.hoursbegin).toString();
-    this.event.endTime = new Date(ev.hoursend).toString();
-    this.event.userID = this.authServices.getAuth().currentUser.uid;
-    await this.servicespetServices.addevents(this.event);
-    await this.servicespetServices.updateRequestservice(this.requestservice, this.requestservice.id);
-    for (let i = 0; i <= this.notificationresponseservice.length - 1; i++) {
-      if (this.notificationresponseservice[i].id == this.requestservice.id) {
-        this.notificationresponseservice.splice(i, 1);
-
-      }
-    }
-
-    if ( this.notificationresponseservice.length == 0 &&
-      this.warningdateofservice.length == 0  && this.NotificationRatingsOwner.length == 0) {
-        if(this.notificationfreeservice!=10 ){
-          this.showpop = false;
-        }
-    }
-}
   async acceptrequestservice(ev) {
     this.requestservice.id = ev.id;
     this.requestservice.accept = 1;
@@ -302,6 +279,56 @@ async payment(ev){
           }
     }
   }
+  }
+  async payment(ev) {
+    const alert = await this.alertController.create({
+      header: this.translationservice.instant('Notification.messagepayment'),
+      inputs: [
+        {
+          name: 'name1',
+          type: 'number',
+          placeholder: this.translationservice.instant('Notification.datacard')
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+
+          }
+        }, {
+          text: this.translationservice.instant('Notification.pay'),
+          handler:async () => {
+            this.requestservice.id = ev.id;
+            this.requestservice.accept = 4;
+            this.event.title = ev.type + ' ' + ev.location;
+              this.event.startTime = new Date(ev.hoursbegin).toString();
+              this.event.endTime = new Date(ev.hoursend).toString();
+              this.event.userID = this.authServices.getAuth().currentUser.uid;
+              await this.servicespetServices.addevents(this.event);
+              await this.servicespetServices.updateRequestservice(this.requestservice, this.requestservice.id);
+              for (let i = 0; i <= this.notificationresponseservice.length - 1; i++) {
+                if (this.notificationresponseservice[i].id == this.requestservice.id) {
+                  this.notificationresponseservice.splice(i, 1);
+          
+                }
+              }
+          
+              if ( this.notificationresponseservice.length == 0 &&
+                this.warningdateofservice.length == 0  && this.NotificationRatingsOwner.length == 0) {
+                  if(this.notificationfreeservice!=10 ){
+                    this.showpop = false;
+                  }
+              }
+
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
   async presentToast(message: string) {
     const toast = await this.toastCrt.create({ message, duration: 2000 });

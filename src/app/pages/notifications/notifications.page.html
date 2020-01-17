@@ -1,3 +1,8 @@
+<ion-header *ngIf="showpop">
+  <ion-toolbar>
+    <ion-title>{{ 'All.notificationheader' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-list *ngIf="showpop">
   <div *ngFor="let service of notificationacceptservice">
     <ion-item *ngIf="service.shownotification==1 && service.accept==0">
