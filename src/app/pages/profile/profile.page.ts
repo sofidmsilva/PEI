@@ -267,12 +267,29 @@ private monthcalendar: string;
 
   }
 
-  async Updateprofile() {
+  async Updateprofile(user) {
     await this.presentLoading();
-    this.userRegister.morada= Object.assign([], this.morada);
-    console.log(this.userRegister)
- 
   
+    this.userRegister.morada= user.morada;
+    this.userRegister.morada.Distrito= this.morada.Distrito?this.morada.Distrito : user.morada.Distrito;
+    this.userRegister.morada.Rua= this.morada.Rua? this.morada.Rua : user.morada.Rua  ;
+    this.userRegister.morada.NumPorta= this.morada.NumPorta? this.morada.NumPorta: user.morada.NumPorta ;
+    this.userRegister.morada.CodigoPostal= this.morada.CodigoPostal? this.morada.CodigoPostal : user.morada.CodigoPostal ;
+    this.userRegister.morada.Cidade= this.morada.Cidade? this.morada.Cidade : user.morada.Cidade;
+    this.userRegister.morada.Pais= this.morada.Pais?  this.morada.Pais : user.morada.Pais;
+    
+
+    let address=`${this.userRegister.morada.Rua}, ${this.userRegister.morada.NumPorta}, ${this.userRegister.morada.CodigoPostal}, ${this.userRegister.morada.Cidade}, 
+    ${this.userRegister.morada.Distrito}, ${this.userRegister.morada.Pais}`
+
+    this.userServices.getCityCoords(address).subscribe(async (response)=>{
+     let address=<Morada>{}
+     this.userRegister.morada= user.morada;
+     this.userRegister.morada.Coordenadas= this.morada.Coordenadas? this.morada.Coordenadas: user.morada.Coordenadas;
+     this.userRegister.morada.Coordenadas={ latitude: response[0].lat, longitude: response[0].lon};
+    
+     
+    }); 
     try {
       await this.userServices.updateUser(this.userRegister, this.NewUser);
       this.disabled = true;

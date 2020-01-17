@@ -93,8 +93,30 @@
                             </ion-row>
                             <ion-row>
                                 <ion-item>
+                                    <ion-label><b>{{ 'UserRegister.city' | translate }}: </b> </ion-label>
+                                    <ion-input [(ngModel)]="morada.Cidade" placeholder="{{ user.morada.Cidade}}"
+                                        readonly="{{disabled}}"></ion-input>
+                                </ion-item>
+                            </ion-row>
+                            <ion-row>
+                                <ion-item>
                                     <ion-label><b>{{ 'UserRegister.district' | translate }}: </b> </ion-label>
                                     <ion-input [(ngModel)]="morada.Distrito" placeholder="{{ user.morada.Distrito}}"
+                                        readonly="{{disabled}}"></ion-input>
+                                </ion-item>
+                            </ion-row>
+                            <ion-row>
+                                <ion-item>
+                                    <ion-label><b>{{ 'UserRegister.postalcode' | translate }}: </b> </ion-label>
+                                    <ion-input [(ngModel)]="morada.CodigoPostal" placeholder="{{ user.morada.CodigoPostal}}"
+                                    readonly="{{disabled}}"></ion-input>
+                                </ion-item>
+                            </ion-row>
+                           
+                            <ion-row>
+                                <ion-item>
+                                    <ion-label><b>{{ 'UserRegister.country' | translate }}: </b> </ion-label>
+                                    <ion-input [(ngModel)]="morada.Pais" placeholder="{{ user.morada.Pais}}"
                                         readonly="{{disabled}}"></ion-input>
                                 </ion-item>
                             </ion-row>
@@ -187,7 +209,7 @@
                                 <ion-button color="danger" (click)="Canceledition(1)" size="small">
                                     {{ 'All.Cancel' | translate }}
                                 </ion-button>
-                                <ion-button (click)="Updateprofile()" size="small" color="success">
+                                <ion-button (click)="Updateprofile(user)" size="small" color="success">
                                     {{ 'All.continue' | translate }}
                                 </ion-button>
                             </div>
