@@ -80,6 +80,7 @@ export class LoginPage implements OnInit {
     });
 }
     catch (error) {
+    
       let message: string;
       switch (error.code) {
         case 'auth/argument-error':
@@ -91,7 +92,7 @@ export class LoginPage implements OnInit {
           break;
       }
       console.log(error);
-      this.presentToast(message);
+      this.presentToast(error);
     } finally {
       this.loading.dismiss();
     }
@@ -108,6 +109,9 @@ export class LoginPage implements OnInit {
       } else {
         const NewUser = await this.authServices.register(this.userRegister);
         this.userRegister.verifycode = Math.floor(Math.random() * 3000);
+        if(this.userRegister.tipoutilizador==2){
+          this.userRegister.premium=false;
+        }
         await this.registerServices.addUser(this.userRegister, NewUser);
 
 

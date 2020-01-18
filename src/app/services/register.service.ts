@@ -16,6 +16,7 @@ import { Ratings } from '../interfaces/ratings';
 export class RegisterService {
 
   private usersCollection;
+  private currentUser;
   private userCommentCollection;
   coords: any;
   private usersFavoritesCollection;
@@ -27,6 +28,12 @@ export class RegisterService {
   }
   setUsersCollection(usersCollection){
     this.usersCollection = usersCollection;
+  }
+  getCurrentUser(){
+    return this.currentUser;
+  }
+  setCurrentUser(currentUser){
+    this.currentUser = currentUser;
   }
   documentToDomainObject = _ => {
     const object = _.payload.doc.data();

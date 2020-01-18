@@ -1,11 +1,17 @@
 <ion-content>
   <div class="container">
-    <div style="background: #b69354;">
+    <div class="ion-text-center">
+        <div class="ion-text-left">
             <ion-button class="ion-margin-top" (click)="goback()" size="small" color="danger">
-                    <ion-icon name="arrow-back"></ion-icon>
-                </ion-button>&nbsp;&nbsp;
-            <ion-label style="font-size: 25px; ">   <b>{{ 'SearchServices.title' | translate }}</b></ion-label>     
+                <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>&nbsp;&nbsp;
+            <img align="right" style="    margin-top: 9px; margin-right: 14px;" width="75px" src="assets/img/lupas.png" />
+            <ion-title align="center" style="font-size: 25px; margin-top:3px; margin-left: 7px;margin-right: 7px;background: #eab30f;border-style: solid; border-radius: 31px; ">   <b>{{ 'SearchServices.title' | translate }}</b></ion-title>
+
     </div>
+    </div>
+             
+    
       <ion-toolbar no-border-top>
           <ion-segment [(ngModel)]="option">
             <ion-segment-button value="relevance" >
@@ -34,8 +40,8 @@
         <div [ngSwitch]="option">
          
               <ion-list *ngSwitchCase="'relevance'" >
-                  <div  *ngFor="let users of filterUsers">
-                  <ion-item color="Warning"(click)="searchprofile(users.id)"  *ngIf="users.premium == true " >
+                  <div  *ngFor="let users of sortBy('relevance')">
+                  <ion-item color="Warning"(click)="searchprofile(users.id)">
                       <ion-avatar slot="start">
                           <img  class="center ion-margin-top" [src]="users.image">
                       </ion-avatar>
@@ -43,6 +49,7 @@
                           <h2>{{'Login.name'| translate}}: {{ users.name}}</h2>
                           <h3>{{ 'UserRegister.experience' | translate }}:{{ users.experience}}</h3>
                           <h3>{{ 'UserRegister.location' | translate }}: {{ users.location}}</h3>
+                          <h3>{{ 'Profile.typeservice' | translate }}: {{ users.typeservice}}</h3>
                       </ion-label>
                     </ion-item>
                   </div>
@@ -50,15 +57,17 @@
           
          
                 <ion-list *ngSwitchCase="'distance'">
-                    <div *ngFor="let users of filterUsers">
-                    <ion-item color="Warning" (click)="searchprofile()" *ngIf="users.location == 'Braga' ">
+                    <div *ngFor="let users of sortBy('distance')">
+                    <ion-item  color="Warning" (click)="searchprofile(users.id)">
                         <ion-avatar slot="start">
                             <img  class="center ion-margin-top" [src]="users.image">
                         </ion-avatar>
                         <ion-label>
                             <h2>{{'Login.name'| translate}}: {{ users.name}}</h2>
                             <h3>{{ 'UserRegister.experience' | translate }}:{{ users.experience}}</h3>
-                            <h3>{{ 'UserRegister.location' | translate }}: {{ users.location}}</h3>
+                            <h3>{{ 'UserRegister.street' | translate }}: {{ users.morada.Rua}}</h3>
+                            <h3>{{ 'UserRegister.district' | translate }}: {{ users.morada.Distrito}}</h3>
+                            <h3>{{ 'Profile.typeservice' | translate }}: {{ users.typeservice}}</h3>
                         </ion-label>
                       </ion-item>
                       </div>
@@ -66,14 +75,17 @@
            
          
               <ion-list *ngSwitchCase="'price'">
-                  <div *ngFor="let users of filterUsers">
-                      <ion-item (click)="searchprofile()">
-                          <ion-avatar slot="start">
-                            <img src="/assets/img/flags/pt.png">
-                          </ion-avatar>
-                          <ion-label>
-                            Avatar Start, Button Item
-                          </ion-label>
+                  <div *ngFor="let users of sortBy('price')">
+                      <ion-item color="Warning" (click)="searchprofile(users.id)">
+                        <ion-avatar slot="start">
+                            <img  class="center ion-margin-top" [src]="users.image">
+                        </ion-avatar>
+                        <ion-label>
+                            <h2>{{'Login.name'| translate}}: {{ users.name}}</h2>
+                            <h3>{{ 'UserRegister.experience' | translate }}:{{ users.experience}}</h3>
+                            <h3>{{ 'SearchServices.price' | translate }}: {{ users.price}}</h3>
+                            <h3>{{ 'Profile.typeservice' | translate }}: {{ users.typeservice}}</h3>
+                        </ion-label>
                         </ion-item>
                       </div>
                 </ion-list>

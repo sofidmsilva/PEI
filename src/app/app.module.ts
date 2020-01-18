@@ -20,9 +20,12 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {IonicStorageModule} from '@ionic/storage'
 import { LanguagePopoverPageModule } from './pages/language-popover/language-popover.module';
+import { NotificationsPageModule } from './pages/notifications/notifications.module';
+import { SettingsPageModule } from './pages/settings/settings.module';
 import { from } from 'rxjs';
 import {ChartsModule} from 'ng2-charts';
 import { NgCalendarModule} from 'ionic2-calendar';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -50,11 +53,14 @@ export function createTranslateLoader(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    LanguagePopoverPageModule
+    LanguagePopoverPageModule,
+    NotificationsPageModule,
+    SettingsPageModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    LocalNotifications,
     EmailComposer,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     NativeKeyboard

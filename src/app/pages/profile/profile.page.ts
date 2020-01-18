@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { IonSlides, LoadingController, ToastController, AlertController, ModalController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Animals } from 'src/app/interfaces/animals';
 import { AuthService } from 'src/app/services/auth.service';
 import { AnimalsService } from 'src/app/services/animals.service';
@@ -21,6 +21,7 @@ import { RequestService } from 'src/app/interfaces/request-service';
 import { Favorites } from 'src/app/interfaces/favorites';
 import { Filters } from 'src/app/interfaces/filters';
 import { Ratings } from 'src/app/interfaces/ratings';
+import { Morada } from 'src/app/interfaces/morada';
 
 
 
@@ -47,7 +48,7 @@ export class ProfilePage implements OnInit,OnDestroy {
     id: this.afs.createId(), image: ''
   }
   imageloading = false;
-
+private monthcalendar: string;
   private showuser: number;
   private showwiconfav: boolean;
   private showusertabs: number;
@@ -73,9 +74,11 @@ export class ProfilePage implements OnInit,OnDestroy {
   private servicesPet = new Array<Services>();
   private datauser = new Array<User>();
   private dataratings = new Array<Ratings>();
+  public morada:Morada =<Morada>{}
   public NewUser;
   public userRegister: User = {};
   private datacomment = new Array<Comments>();
+  private commentlenght:number;
   private datafavorites = new Array<Favorites>();
   private animalsSubscription: Subscription;
   private userSubscription: Subscription;
@@ -88,7 +91,6 @@ export class ProfilePage implements OnInit,OnDestroy {
     "TypeAnimals.bird", "TypeAnimals.snake", "TypeAnimals.hamster"];
   private sizeanimals: Array<string> = ["SizeAnimals.verysmall", "SizeAnimals.small", "SizeAnimals.medium", "SizeAnimals.big"];
   private typeservices: Array<string> = ["Pet Walking", "Pet Care", "Pet Sitting"];
-  private typeservicefromuser =[];
   private AnimalsRegister: Animals = {};
   private requestservice: RequestService={};
   private AddComment: Comments = {};
@@ -106,10 +108,11 @@ export class ProfilePage implements OnInit,OnDestroy {
     private userServices: RegisterService,
     private afStorage: AngularFireStorage,
     private servicespetServices: ServicespetService,
+    private route:ActivatedRoute,
     private afs: AngularFirestore,
     private alertController: AlertController,
     public modalController: ModalController) {
-
+      route.params.subscribe(val => {
     this.animalsSubscription = this.animalServices.getAnimals(this.profileid[3]).subscribe(
       data => {
         this.animals = data;
@@ -120,7 +123,6 @@ export class ProfilePage implements OnInit,OnDestroy {
         this.stars=[];
         data[0].dateofbirthday = data[0].dateofbirthday.split('T')[0];
         this.datauser = data;
-    
         this.alldatauser = data[0].image;
         if(this.profileid[3]==this.authServices.getAuth().currentUser.uid){
           this.showuser = data[0].tipeuser;
@@ -137,11 +139,22 @@ export class ProfilePage implements OnInit,OnDestroy {
             this.showwiconfav=true;
           }
         }
-        this.ispremium= data[0].premium;
+        if(this.datauser[0].tipoutilizador==2){
+          var l= new Date();
+          var num=  parseInt(this.datauser[0].Dateofpremium.split('/')[2]) +1 ;
+          if(this.datauser[0].Dateofpremium.split('/')[0] ==l.getDate().toString() && 
+          this.datauser[0].Dateofpremium.split('/')[1] ==l.toLocaleDateString().split('/')[1] &&
+          parseInt(this.datauser[0].Dateofpremium.split('/')[2]) ==num){
+            this.ispremium=false;
+          }
+          this.ispremium= data[0].premium;
+        }
+   
       });
     this.CommentsSubscription = this.userServices.getComments(this.profileid[3]).subscribe(
       data => {
         this.datacomment = data
+        this.commentlenght=this.datacomment.length;
       });
       this.FavoritesSubscription = this.userServices.getFavorites(this.profileid[3]).subscribe(
         data => {this.datafavorites=[];
@@ -154,11 +167,8 @@ export class ProfilePage implements OnInit,OnDestroy {
 
         });
     this.ServicespetSubscription = this.servicespetServices.getServices(this.profileid[3]).subscribe(
-      data => { this.typeservicefromuser=[];
+      data => { 
         this.servicesPet = data
-        for(let i = 0; i <= this.servicesPet.length-1; i++){
-          this.typeservicefromuser[i]=this.servicesPet[i].typeservice;
-        }
       });
       
     this.CalendarPetSubscription = this.servicespetServices.getevents(this.profileid[3]).subscribe(
@@ -172,6 +182,7 @@ export class ProfilePage implements OnInit,OnDestroy {
             endTime: new Date(this.calendarevent[i].endTime),   
             
           }
+         
         this.eventSource.push(eventCopy);
         this.myCal.loadEvents();
        
@@ -181,6 +192,7 @@ export class ProfilePage implements OnInit,OnDestroy {
 
       this.RatingSubscription = this.userServices.getRatings(this.profileid[3]).subscribe(
         data => { this.dataratings=[];
+          finalyrating=0;
           this.dataratings = data
           this.length=this.dataratings.length;
            var soma = 0;
@@ -188,6 +200,7 @@ export class ProfilePage implements OnInit,OnDestroy {
            soma= this.dataratings[i].value +++ soma;
           }
           var finalyrating = soma/this.dataratings.length;
+       
           for(let i =0; i<finalyrating; i++){
             this.stars.push("star");
           }         
@@ -196,6 +209,7 @@ export class ProfilePage implements OnInit,OnDestroy {
     this.typeanimals;
     this.sizeanimals;
     this.typeservices;
+      });
   }
 
   ngOnInit() {
@@ -219,7 +233,6 @@ export class ProfilePage implements OnInit,OnDestroy {
     this.ispremium= null;
     this.datacomment=[];
     this.servicesPet = [];
-    this.typeservicefromuser=[];
   }
 
 
@@ -266,9 +279,29 @@ export class ProfilePage implements OnInit,OnDestroy {
 
   }
 
-  async Updateprofile() {
+  async Updateprofile(user) {
     await this.presentLoading();
+  
+    this.userRegister.morada= user.morada;
+    this.userRegister.morada.Distrito= this.morada.Distrito?this.morada.Distrito : user.morada.Distrito;
+    this.userRegister.morada.Rua= this.morada.Rua? this.morada.Rua : user.morada.Rua  ;
+    this.userRegister.morada.NumPorta= this.morada.NumPorta? this.morada.NumPorta: user.morada.NumPorta ;
+    this.userRegister.morada.CodigoPostal= this.morada.CodigoPostal? this.morada.CodigoPostal : user.morada.CodigoPostal ;
+    this.userRegister.morada.Cidade= this.morada.Cidade? this.morada.Cidade : user.morada.Cidade;
+    this.userRegister.morada.Pais= this.morada.Pais?  this.morada.Pais : user.morada.Pais;
+    
 
+    let address=`${this.userRegister.morada.Rua}, ${this.userRegister.morada.NumPorta}, ${this.userRegister.morada.CodigoPostal}, ${this.userRegister.morada.Cidade}, 
+    ${this.userRegister.morada.Distrito}, ${this.userRegister.morada.Pais}`
+
+    this.userServices.getCityCoords(address).subscribe(async (response)=>{
+     let address=<Morada>{}
+     this.userRegister.morada= user.morada;
+     this.userRegister.morada.Coordenadas= this.morada.Coordenadas? this.morada.Coordenadas: user.morada.Coordenadas;
+     this.userRegister.morada.Coordenadas={ latitude: response[0].lat, longitude: response[0].lon};
+    
+     
+    }); 
     try {
       await this.userServices.updateUser(this.userRegister, this.NewUser);
       this.disabled = true;
@@ -449,16 +482,23 @@ export class ProfilePage implements OnInit,OnDestroy {
     await this.presentLoading();
     var to = this.router.url.split('/');
     try {
-
+     
+      var a=this.requestservice.type.split('-');
+     this.requestservice.type= a[0];
+     this.requestservice.location=a[1];
       this.requestservice.from = this.authServices.getAuth().currentUser.uid;
       this.requestservice.to=to[3];
-      this.requestservice.accept=false;
+      this.requestservice.accept=0;
       this.requestservice.done=false;
+      this.requestservice.confirmmessgefrom=false;
+      this.requestservice.confirmmessgeto=false;
+      this.requestservice.payment=false;
+      this.requestservice.ratingfrom=false;
+      this.requestservice.ratingto=false;
       this.requestservice.datebegin= this.event.startTime;
       this.requestservice.dateend=this.event.endTime;
-  
+
       await this.servicespetServices.addrequestservice(this.requestservice);
-      console.log(this.requestservice);
       this.requestservice = {};
       this.resetEvents();
       
@@ -576,7 +616,7 @@ export class ProfilePage implements OnInit,OnDestroy {
         {
           name: 'name1',
           type: 'number',
-          placeholder: 'Dados do Cartão'
+          placeholder: this.translationservice.instant('Notification.datacard')
         }
       ],
       buttons: [
@@ -590,9 +630,11 @@ export class ProfilePage implements OnInit,OnDestroy {
         }, {
           text: 'Pagar',
           handler:async () => {
+            var l= new Date()
+            this.userRegister.Dateofpremium= l.toLocaleDateString();
             this.userRegister.premium=true;
             await this.userServices.updateUser(this.userRegister, this.NewUser);
-            console.log('Confirm Ok');
+
           }
         }
       ]
@@ -605,15 +647,15 @@ export class ProfilePage implements OnInit,OnDestroy {
     this.imageloading = true;
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
-
       reader.readAsDataURL(event.target.files[0]);
       // para visualisar imagem
       reader.onload = (e: any) => {
         this.url = e.target.result;
       if(i==1){
+        
      // upload da imagem para firebase
      const fileraw = event.target.files[0];
-     const filePath = "/image/" + this.authServices.getAuth().currentUser.uid +"/animals"+ "/Photo/";
+     const filePath = "/image/" + this.authServices.getAuth().currentUser.uid +"/animals"+ "/Photo"+Math.floor(Math.random() * 3000);
      const result = this.SaveImageRef(filePath, fileraw);
      const ref = result.ref;
 
@@ -713,5 +755,7 @@ export class ProfilePage implements OnInit,OnDestroy {
   onTimeSelected(ev) {
     console.log('Selected time: ' + ev.selectedTime + ',hasEvents: ' +
       (ev.events !== undefined && ev.events.lenght !== 0) + ',disabled: ' + ev.disabled);
+
+      this.monthcalendar=new Date(ev.selectedTime).toString().split(' ')[1];
   }
 }

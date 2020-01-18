@@ -1,5 +1,5 @@
 <ion-content>
-  <div class="container">
+  <div style="height: auto;" class="container">
     <p><b>{{ 'UserRegister.title' | translate }}</b></p>
       <img class="center ion-margin-top"  *ngIf="alldatauser" [src]="alldatauser" >
     <ion-card class="ion-text-center" *ngIf="!isUploading && !isUploaded">
@@ -25,27 +25,15 @@
     </ion-item>
 
     <ion-item>
-      <ion-label position="stacked">Address</ion-label>
-      <ion-input [(ngModel)]="morada.Rua" placeholder="{{ 'UserRegister.rua' | translate }}"></ion-input>
-      <ion-input [(ngModel)]="morada.NumPorta" type="number" placeholder="{{ 'UserRegister.numerodePorta' | translate }}"></ion-input>
-      <ion-input [(ngModel)]="morada.CodigoPostal"  placeholder="{{ 'UserRegister.codigoPostal' | translate }}"></ion-input>
-      <ion-input [(ngModel)]="morada.Cidade" placeholder="{{ 'UserRegister.cidade' | translate }}"></ion-input>
-      <ion-input [(ngModel)]="morada.Distrito" placeholder="{{ 'UserRegister.distrito' | translate }}"></ion-input>
-      <ion-input [(ngModel)]="morada.Pais" placeholder="{{ 'UserRegister.pais' | translate }}"></ion-input>
+      <ion-label position="stacked">{{ 'UserRegister.location' | translate }}</ion-label>
+      <ion-input [(ngModel)]="morada.Rua" placeholder="{{ 'UserRegister.street' | translate }}"></ion-input>
+      <ion-input [(ngModel)]="morada.NumPorta" type="number" placeholder="{{ 'UserRegister.doornumber' | translate }}"></ion-input>
+      <ion-input [(ngModel)]="morada.CodigoPostal"  placeholder="{{ 'UserRegister.postalcode' | translate }}"></ion-input>
+      <ion-input [(ngModel)]="morada.Cidade" placeholder="{{ 'UserRegister.city' | translate }}"></ion-input>
+      <ion-input [(ngModel)]="morada.Distrito" placeholder="{{ 'UserRegister.district' | translate }}"></ion-input>
+      <ion-input [(ngModel)]="morada.Pais" placeholder="{{ 'UserRegister.country' | translate }}"></ion-input>
     </ion-item>
   
-
-    <div class="phone">
-      <p style="font-size: 15px; text-align: left; margin-left: 10px;">{{ 'UserRegister.phonenumber' | translate }}</p>
-      <ion-item style="top: 5%;">
-        <ion-select placeholder="(+351)" interface="popover" style=" text-align: left;"
-          [(ngModel)]="userRegister.phonenumber">
-          <ion-select-option value="f">colocar os começos dos numeros</ion-select-option>
-        </ion-select>
-        <ion-input type="number"[(ngModel)]="userRegister.garden" placeholder="{{ 'UserRegister.insertnumber' | translate }}">
-        </ion-input>
-      </ion-item>
-    </div>
     <div *ngIf="datauser == 2">
       <ion-item>
         <ion-label>{{ 'UserRegister.experience' | translate }}</ion-label>
@@ -79,7 +67,19 @@
         <ion-label>{{ 'UserRegister.surface' | translate }}</ion-label>
         <ion-input placeholder="m2" [(ngModel)]="userRegister.surface"></ion-input>
       </ion-item>
+    </div><br>
+    <div align="center">
+      <ion-note > <b >{{ 'UserRegister.message' | translate }}
+        {{ 'TypeAnimals.cat' | translate }}, 
+        {{ 'TypeAnimals.dog' | translate }},
+        {{ 'TypeAnimals.turtle' | translate }},
+        {{ 'TypeAnimals.fish' | translate }},
+        {{ 'TypeAnimals.bird' | translate }},
+        {{ 'TypeAnimals.snake' | translate }},
+        {{ 'TypeAnimals.hamster' | translate }}. 
+      </b></ion-note>
     </div>
+   
     <ion-button class="ion-margin-top" (click)="uploadinformation()" color="medium">
       {{ 'UserRegister.continue' | translate }}
     </ion-button>

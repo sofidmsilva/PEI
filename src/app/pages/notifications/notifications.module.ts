@@ -5,12 +5,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { IonicModule } from '@ionic/angular';
 
-import { LanguagePopoverPage } from './language-popover.page';
+import { NotificationsPage } from './notifications.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: LanguagePopoverPage
+    component: NotificationsPage
   }
 ];
 
@@ -22,6 +22,6 @@ const routes: Routes = [
     TranslateModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [LanguagePopoverPage]
+  declarations: [NotificationsPage]
 })
-export class LanguagePopoverPageModule {}
+export class NotificationsPageModule {}
