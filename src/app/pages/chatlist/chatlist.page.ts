@@ -102,7 +102,7 @@ export class ChatListPage implements OnInit, OnDestroy {
 
     this.getService("5s706EAvNbao1SinTloJdDisLaA3").subscribe(service => {console.log(service)})
     this.serviceRequest = this.getService("5s706EAvNbao1SinTloJdDisLaA3")*/
-    console.log(this.datapetsitter, this.datadono)
+  
 
   }
   ngOnDestroy(): void {
