@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild  } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy  } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { NavController, NavParams } from '@ionic/angular';
@@ -16,13 +16,18 @@ import { RequestService } from 'src/app/interfaces/request-service';
   templateUrl: './chatlist.page.html',
   styleUrls: ['./chatlist.page.scss'],
 })
-export class ChatListPage implements OnInit {
+export class ChatListPage implements OnInit, OnDestroy {
+
   @ViewChild(NavController, { static: false }) navCtrl: NavController;
   @ViewChild(NavParams, { static: false }) navParams: NavParams;
   
   private ServicespetSubscription: Subscription;
   private userSubscription: Subscription;
+  private requestSubscription: Subscription;
   public datauser = new Array<User>();
+  public datadono=new Array<User>();
+  public datapetsitter=new Array<User>();
+  private requestservices: Array<RequestService>;
   public teste;
   public userType;
   public  CurrentUser;
@@ -39,20 +44,43 @@ export class ChatListPage implements OnInit {
   }
   constructor(private afs: AngularFirestore, 
     public authServices: AuthService, public userServices: RegisterService,private servicespetServices: ServicespetService,) {
-    //this.servicesCollection = this.afs.collection<RequestService>('RequestService');
-    this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
+
+    this.userSubscription = this.userServices.getAllUser().subscribe(
       data => {
-        //data[0].dateofbirthday= data[0].dateofbirthday.split('T')[0];
+   
         this.datauser = data        
-        //console.log(this.datauser) //// ------- 1
+       
     });
-    console.log(this.datauser) //// ------- 2
+    this.requestSubscription = this.servicespetServices.getAllrequestservice().subscribe(
+      data => {
+        this.requestservices = data;
+        for (let i = 0; i <= this.requestservices.length - 1; i++) {
+          if(this.requestservices[i].from==this.authServices.getAuth().currentUser.uid){
+            var iddono=this.requestservices[i].from;
+            var idpet= this.requestservices[i].to;
+            for (let i = 0; i <= this.datauser.length - 1; i++) {
+                if(iddono==this.datauser[i].id){
+                 this.datadono.push(this.datauser[i]);
+                }
+                else{
+                  if(idpet==this.datauser[i].id){
+                    this.datapetsitter.push(this.datauser[i]);
+                  }
+                }
+            }
+          }
+        }
+       console.log(this.datadono, this.datapetsitter)
+      }
+     
+    );
+   
+ 
   }
   ngOnInit() {
-
-    this.CurrentUser = this.authServices.getAuth().currentUser
-    //console.log(this.userSubscription);
-    this.getDataUser(this.CurrentUser.uid).subscribe(user =>{this.userType = user[0].tipeuser;
+    /*this.getDataUser(this.authServices.getAuth().currentUser).subscribe(
+      user =>{
+        this.userType = user[0].tipeuser;
       if(this.userType == 1){
         this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
           data => {
@@ -73,10 +101,15 @@ export class ChatListPage implements OnInit {
     //console.log(this.datauser)
 
     this.getService("5s706EAvNbao1SinTloJdDisLaA3").subscribe(service => {console.log(service)})
-    this.serviceRequest = this.getService("5s706EAvNbao1SinTloJdDisLaA3")
-    
+    this.serviceRequest = this.getService("5s706EAvNbao1SinTloJdDisLaA3")*/
+    console.log(this.datapetsitter, this.datadono)
 
   }
+  ngOnDestroy(): void {
+    this.requestSubscription.unsubscribe();
+    this.userSubscription.unsubscribe();
+  }
+
   getService(user){
     this.servicesCollection = this.afs.collection('RequestService').snapshotChanges()
       .pipe(map(action => action.map(
