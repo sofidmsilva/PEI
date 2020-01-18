@@ -26,7 +26,7 @@ export class AllTabsPage implements OnInit {
 
       this.userSubscription = this.userServices.getDataUser(this.authService.getAuth().currentUser.uid).subscribe(
         data => {
-          console.log(data)
+          //console.log(data)
           this.typeuser=data[0].tipeuser;
          
         });

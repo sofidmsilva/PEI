@@ -22,50 +22,82 @@ export class ChatListPage implements OnInit {
   
   private ServicespetSubscription: Subscription;
   private userSubscription: Subscription;
-  private messageSubscription;
-  private datauser = new Array<User>();
+  public datauser = new Array<User>();
+  public teste;
+  public userType;
   public  CurrentUser;
-  private servicesPet;
-  private service;
-  private teste;
-  private servicesCollection : AngularFirestoreCollection<RequestService>;
+  private usersCollection;
+  private servicesCollection;
+  public serviceRequest;
+  private names;
+  //public servicesCollection : AngularFirestoreCollection<RequestService>;
+  //public userCollection : AngularFirestoreCollection<User>;
   documentToDomainObject = _ => {
     const object = _.payload.doc.data();
     object.id = _.payload.doc.id;
     return object;
   }
   constructor(private afs: AngularFirestore, 
-    private authServices: AuthService, private userServices: RegisterService,private servicespetServices: ServicespetService,) {
-    this.servicesCollection = this.afs.collection<RequestService>('RequestService');
-
+    public authServices: AuthService, public userServices: RegisterService,private servicespetServices: ServicespetService,) {
+    //this.servicesCollection = this.afs.collection<RequestService>('RequestService');
     this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
       data => {
-        data[0].dateofbirthday= data[0].dateofbirthday.split('T')[0];
-        this.datauser = data;
+        //data[0].dateofbirthday= data[0].dateofbirthday.split('T')[0];
+        this.datauser = data        
+        //console.log(this.datauser) //// ------- 1
     });
- 
+    console.log(this.datauser) //// ------- 2
   }
   ngOnInit() {
+
     this.CurrentUser = this.authServices.getAuth().currentUser
-    this.service = this.getserviceRequest("5s706EAvNbao1SinTloJdDisLaA3")
+    //console.log(this.userSubscription);
+    this.getDataUser(this.CurrentUser.uid).subscribe(user =>{this.userType = user[0].tipeuser;
+      if(this.userType == 1){
+        this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
+          data => {
+            for(let i=0; i< this.serviceRequest.length; i++){
+              //verificar tipo de user falta????
+              console.log(this.serviceRequest)
+              this.names.push(this.getDataUser(this.serviceRequest.subscribe(request =>{
+                request.from[i]
+              })))
+            }
+        });
+
+        //1 = dono ir ao to buscar id pra ir buscar nome de user
+        //2 = pets ir ao from buscar id pra ir buscar nome de user
+      }
+    })
     
+    //console.log(this.datauser)
+
+    this.getService("5s706EAvNbao1SinTloJdDisLaA3").subscribe(service => {console.log(service)})
+    this.serviceRequest = this.getService("5s706EAvNbao1SinTloJdDisLaA3")
+    
+
+  }
+  getService(user){
+    this.servicesCollection = this.afs.collection('RequestService').snapshotChanges()
+      .pipe(map(action => action.map(
+        this.documentToDomainObject
+      )
+        .filter(item => (item.to === user))
+        .filter(item2 => item2.accept == 5)
+        ));
+      return this.servicesCollection
+  }
+  getDataUser(newUser) {
+    this.usersCollection = this.afs.collection('Utilizador').snapshotChanges()
+      .pipe(map(action => action.map(
+        this.documentToDomainObject
+      )
+        .filter(item => (item.id === newUser))
+      ));
+    return this.usersCollection;
   }
 
-  getserviceRequest(user){
-    return this.servicesCollection.snapshotChanges().pipe(
-      map(actions => {
-        return actions.map( a =>{
-          const data = a.payload.doc.data();
-          const id =a.payload.doc.id;
-            return{id, ...data};
-        })
-        .filter(item => (item.from == user));
-      })
-    ).subscribe(result => {
-      this.teste = result;
-     // call methods that work with this.data from here
-    });
-  }
+  
 }
   
 

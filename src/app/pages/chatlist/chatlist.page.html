@@ -5,29 +5,11 @@
                             Lista de Conversas
                     </ion-label>
                   </ion-item>
-        <ion-item (click)="searchprofile()">
-            <ion-avatar slot="start">
-                <img src="/assets/img/iconperfil.png">
-            </ion-avatar>
-            <ion-label>
-                descricao
+        <ion-item *ngFor="let name of names | async">
+            <ion-label >
+                {{ name.name}}
             </ion-label>
         </ion-item>
-        <ion-item (click)="searchprofile()">
-            <ion-avatar slot="start">
-                <img src="/assets/img/iconperfil.png">
-            </ion-avatar>
-            <ion-label>
-                descricao2
-            </ion-label>
-        </ion-item>
-        <ion-item (click)="searchprofile()">
-            <ion-avatar slot="start">
-                <img src="/assets/img/iconperfil.png">
-            </ion-avatar>
-            <ion-label>
-                descricao3
-            </ion-label>
-        </ion-item>
+        
     </div>
 </ion-content>
