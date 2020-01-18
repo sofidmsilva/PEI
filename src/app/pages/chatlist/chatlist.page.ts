@@ -55,7 +55,7 @@ export class ChatListPage implements OnInit, OnDestroy {
       data => {
         this.requestservices = data;
         for (let i = 0; i <= this.requestservices.length - 1; i++) {
-          if(this.requestservices[i].from==this.authServices.getAuth().currentUser.uid){
+          if(this.requestservices[i].from==this.authServices.getAuth().currentUser.uid || this.requestservices[i].to==this.authServices.getAuth().currentUser.uid){
             var iddono=this.requestservices[i].from;
             var idpet= this.requestservices[i].to;
             for (let i = 0; i <= this.datauser.length - 1; i++) {
