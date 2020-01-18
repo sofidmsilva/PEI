@@ -647,15 +647,15 @@ private monthcalendar: string;
     this.imageloading = true;
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
-
       reader.readAsDataURL(event.target.files[0]);
       // para visualisar imagem
       reader.onload = (e: any) => {
         this.url = e.target.result;
       if(i==1){
+        
      // upload da imagem para firebase
      const fileraw = event.target.files[0];
-     const filePath = "/image/" + this.authServices.getAuth().currentUser.uid +"/animals"+ "/Photo/";
+     const filePath = "/image/" + this.authServices.getAuth().currentUser.uid +"/animals"+ "/Photo"+Math.floor(Math.random() * 3000);
      const result = this.SaveImageRef(filePath, fileraw);
      const ref = result.ref;
 
