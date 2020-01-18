@@ -104,7 +104,7 @@
     <ion-grid *ngIf="service.shownotification==4 && !service.rating ">
       <ion-row>
         <ion-note style="color: black; font-size:17px" align="center">{{ 'Notification.messagerating1' | translate }}:
-         <b>{{service.type}}</b>  {{ 'Notification.messagerating2' | translate }}
+         <b>{{service.type}}</b>  {{ 'Notification.messagerating2' | translate }} {{service.location}}
         </ion-note>
       </ion-row>
       <ion-row style="font-size: 30px; margin-top: 23px;">
@@ -123,7 +123,7 @@
     <ion-grid *ngIf="service.shownotification==5 && !service.rating">
       <ion-row>
         <ion-note style="color: black; font-size:17px" align="center">{{ 'Notification.messagerating' | translate }}:
-          <b>{{service.type}}</b> {{ 'Notification.messagerating2' | translate }}
+          <b>{{service.type}}</b> {{ 'Notification.messagerating2' | translate }} {{service.location}}
         </ion-note>
       </ion-row>
       <ion-row style="font-size: 30px; margin-top: 23px;">

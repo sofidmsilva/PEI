@@ -16,7 +16,9 @@
       "messageChangePass":"Antiga Password",
       "messageChangePass2":"Nova Password",
       "messageChangePass3":"Confirmar Password",
-      "change":"Mudar Password"
+      "change":"Mudar Password",
+      "day":"Dia",
+      "hour":"Hora"
    },
    "Home": {
       "Question": "Qual o serviço que procura?",

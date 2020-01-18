@@ -100,6 +100,7 @@ export class AllTabsPage implements OnInit, OnDestroy {
            if(this.requestservices[i].done==true && this.requestservices[i].ratingto==false){
             let eventCopy = {
               type: this.requestservices[i].type,
+              location: this.requestservices[i].location,
               id: this.requestservices[i].id,
               userId: this.requestservices[i].from,
               to: this.requestservices[i].to,
@@ -129,6 +130,7 @@ export class AllTabsPage implements OnInit, OnDestroy {
               let eventCopy = {
                 type: this.requestservices[i].type,
                 id: this.requestservices[i].id,
+                location: this.requestservices[i].location,
                 userId: this.requestservices[i].from,
                 to: this.requestservices[i].to,
                 rating: this.requestservices[i].ratingfrom,
