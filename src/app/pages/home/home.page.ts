@@ -270,7 +270,7 @@ export class HomePage implements OnInit, OnDestroy {
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Parabéns, ganhou um serviço gratuito!',
-      message: 'Por ter efetuado 10 requisições de serviços, o próximo serviço que realizar será gratuito',
+      message: 'Por ter efetuado 10 requisições de serviços, o próximo serviço (até 3 horas) que realizar será gratuito',
      
       buttons: ['OK']
     });
