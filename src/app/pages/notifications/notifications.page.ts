@@ -8,7 +8,6 @@ import { Calendar } from 'src/app/interfaces/calendar';
 import { RequestService } from 'src/app/interfaces/request-service';
 import { RegisterService } from 'src/app/services/register.service';
 import { Ratings } from 'src/app/interfaces/ratings';
-import { Stars } from 'src/app/interfaces/stars';
 
 @Component({
   selector: 'app-notifications',
@@ -30,6 +29,7 @@ export class NotificationsPage implements OnInit, OnDestroy {
   private showfreeservice: boolean = false;
   private showmessageleft: boolean = true;
   private unlockmessageboth = [];
+  private stars: string[] = [];
   private numberofstarts: number = 0;
   private Ratings: Ratings = {};
   private event: Calendar = { startTime: '', endTime: '' };
@@ -52,12 +52,14 @@ export class NotificationsPage implements OnInit, OnDestroy {
     this.NotificationRatings = this.navParams.get('value5');
     this.NotificationRatingsOwner = this.navParams.get('value6');
     this.typeuser = this.navParams.get('value7');
-console.log(this.stars)
+
   });
 }
 
   ngOnInit() {
-  
+    for (let i = 0; i < 5; i++) {
+      this.stars.push("star-outline");
+    }
   }
   ngOnDestroy(): void {
     this.notificationresponseservice = [];
@@ -223,7 +225,10 @@ console.log(this.stars)
     await alert.present();
   }
   async starClicked(index) {
-   
+    this.stars = [];
+    for (let i = 0; i < 5; i++) {
+      this.stars.push("star-outline");
+    }
     for (let i = 0; i <= index; i++) {
       this.stars[i] = "star";
     }
