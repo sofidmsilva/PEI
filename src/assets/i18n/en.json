@@ -46,7 +46,11 @@
     "totalservices":"Total services performed in",
     "consult":"See the calendar for more details",
     "consult2":"No Service to Do",
-    "consult3":"No Service Request"
+    "consult3":"No Service Request",
+    "messagechart":"When you perform the first service, a graph will appear to provide you with an overview of the services performed.",
+    "verifiedemail":"Check your email to use the application ",
+    "buttonverified":"Verified Email",
+    "messageTimeverfied":"Verification email sent at"
  },
  "Login": {
      "register":"Register",

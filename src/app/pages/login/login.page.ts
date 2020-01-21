@@ -11,6 +11,7 @@ import { EmailComposer } from '@ionic-native/email-composer/ngx';
 import { send } from 'q';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
+import { AngularFireAuth } from '@angular/fire/auth';
 declare var H: any;
 @Component({
   selector: 'app-login',
@@ -41,10 +42,10 @@ export class LoginPage implements OnInit {
     private popoverCtr: PopoverController,
     private translationservice: TranslateService,
     private registerServices: RegisterService,
-    public composer: EmailComposer,
     private router: Router,
     private storage: Storage,  public navCtrl: NavController ) {
-    
+  
+
      }
   ngOnInit() { }
 

@@ -16,6 +16,7 @@ import { Storage } from '@ionic/storage';
 
 import { User } from 'src/app/interfaces/user';
 import { Services } from 'src/app/interfaces/services';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 declare var google;
 @Component({
@@ -40,6 +41,9 @@ export class HomePage implements OnInit, OnDestroy {
   public requestservice: RequestService = {};
   private numberservicetodo: number;
   private numberservicetodoowner: number;
+  private verfifiedemail: boolean=true;
+  private sentTimestamp: any;
+
   constructor(private translateService: TranslateService,
     private router: Router,
     private userServices: RegisterService,
@@ -48,7 +52,13 @@ export class HomePage implements OnInit, OnDestroy {
     private servicespetServices: ServicespetService,
     private loadingCtrl: LoadingController,
     private toastCrt: ToastController, private route:ActivatedRoute, public alertController: AlertController,
-    private storage: Storage) {
+    private storage: Storage, private autg: AngularFireAuth) {
+      this.autg.authState.subscribe(user=>{
+        if(user)
+            this.verfifiedemail = this.autg.auth.currentUser.emailVerified;
+            console.log(user.emailVerified)
+      });
+
       route.params.subscribe(val => {
         this.showuser = null;
         this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
@@ -214,6 +224,7 @@ export class HomePage implements OnInit, OnDestroy {
         this.showmessagepie=false;
     }
    else{
+     this.showmessagepie=true;
         var data = google.visualization.arrayToDataTable([
         [this.translationservice.instant('Home.months'), this.translationservice.instant('Home.numberservices'), { role: "style" }],
         [this.translationservice.instant('Home.january'), this.servicepermonth.Jan, "#f4c430"],
@@ -254,6 +265,14 @@ export class HomePage implements OnInit, OnDestroy {
   }
   }
 
+  async sendverifiedEmail(){
+    this.autg.auth.currentUser.sendEmailVerification();
+    this.sentTimestamp= new Date();
+  }
+  reload(){
+    window.location.reload();
+    console.log(5)
+  }
   async servicedone(id: string) {
     await this.presentLoading();
     this.requestservice.done = true;

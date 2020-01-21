@@ -46,7 +46,11 @@
       "totalservices":"Total de Serviços efetuados em",
       "consult":"Consultar o calendário para mais detalhes",
       "consult2":"Nenhum serviço a fazer",
-      "consult3":"Nenhum serviço solicitado"
+      "consult3":"Nenhum serviço solicitado",
+      "messagechart":"Quando efetuar o primeiro serviço, um gráfico aparecerá para lhe fornecer uma visão global dos serviços efetuados.",
+      "verifiedemail":"Verifique o seu email para proceder a utilização da aplicação ",
+      "buttonverified":"Verificar Email ",
+      "messageTimeverfied":"Email de verificação enviado às"
    },
    "Login": {
       "register": "Registar",

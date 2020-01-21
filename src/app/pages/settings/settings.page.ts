@@ -4,6 +4,7 @@ import { AlertController, ToastController, LoadingController } from '@ionic/angu
 import { MessagestoTeam } from 'src/app/interfaces/messagesto-team';
 import { AuthService } from 'src/app/services/auth.service';
 import { MessageSupportTeamService } from 'src/app/services/message-support-team.service';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-settings',
@@ -18,7 +19,7 @@ export class SettingsPage implements OnInit {
   constructor(private translationservice: TranslateService, 
     private alertController: AlertController,
     private authServices: AuthService,private messageTeamSuport: MessageSupportTeamService,
-    private toastCrt: ToastController,private loadingCtrl: LoadingController) { }
+    private toastCrt: ToastController,private loadingCtrl: LoadingController,private autg: AngularFireAuth) { }
 
   ngOnInit() {
   }
@@ -119,44 +120,11 @@ async help(){
 }
 
 async changepassword(){
-  const alert = await this.alertController.create({
-    header: this.translationservice.instant('All.changepass'),
-    inputs: [
-      {
-        name: 'name1',
-        type: 'text',
-        placeholder: this.translationservice.instant('All.messageChangePass')
-      },
-      {
-        name: 'name2',
-        type: 'text',
-        placeholder: this.translationservice.instant('All.messageChangePass2')
-      },
-      {
-        name: 'name3',
-        type: 'text',
-        placeholder: this.translationservice.instant('All.messageChangePass3')
-      }
-    ],
-    buttons: [
-      {
-        text: 'Cancel',
-        role: 'cancel',
-        cssClass: 'secondary',
-        handler: () => {
-       
-        }
-      }, {
-        text:this.translationservice.instant('All.change'),
-        handler:async data => {
-          await this.presentLoading();
-
-        }
-      }
-    ]
+  this.autg.authState.subscribe(user=>{
+    if(user)
+         this.autg.auth.currentUser.updatePassword;
+        console.log(user.emailVerified)
   });
-
-  await alert.present();
 }
 
 async presentToast(message: string) {
