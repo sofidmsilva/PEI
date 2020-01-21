@@ -154,7 +154,9 @@ export class HomePage implements OnInit, OnDestroy {
     this.servicepermonth.October=0;
     this.servicepermonth.November=0;
     this.servicepermonth.December=0;
+   
     for (let i = 0; i <= this.lengthrequest - 1; i++) {
+      console.log(this.requestservices)
       if(this.requestservices[i].done==true){
         switch (this.requestservices[i].datedone) {
           case 'Jan':

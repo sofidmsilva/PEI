@@ -3,7 +3,22 @@
       "Cancel": "Cancelar",
       "continue": "Continuar",
       "add": "Adicionar",
-      "date":"Mês-Dia  Horas:Minutos"
+      "date":"Mês-Dia  Horas:Minutos",
+      "notificationheader":"Notificações",
+      "languages":"Idiomas",
+      "settings":"Definições",
+      "send":"Enviar",
+      "changepass":"Mudar Password",
+      "contactteamsupport":"Contactar Equipa de Suporte",
+      "help":"Ajuda",
+      "cancelAccount":"Cancelar Conta",
+      "messageCancelAccount":"Tem a certeza que quer cancelar a conta ? Perderá toda a sua atividade!",
+      "messageChangePass":"Antiga Password",
+      "messageChangePass2":"Nova Password",
+      "messageChangePass3":"Confirmar Password",
+      "change":"Mudar Password",
+      "day":"Dia",
+      "hour":"Hora"
    },
    "Home": {
       "Question": "Qual o serviço que procura?",
@@ -73,7 +88,8 @@
       "postalcode":"Código Postal",
       "city": "Cidade",
       "country": "País",
-      "district":"Distrito"
+      "district":"Distrito",
+      "message":"É de salientar que os animais ao qual pode solicitar ou disponibilizar serviços são os seguintes: "
    },
    "Profile": {
       "AddAnimal": "Adicionar Animal",
@@ -183,6 +199,12 @@
       "messagerating2":"que realizou em",
       "notificationphone1":"Tem notificações que podem ser importantes.Venha até ao PetUniverse",
       "notificationphone2":"Tem um serviço de graça. Venha a PetUniverse para descobrir!",
+      "messagepayment":"Faça o pagamento para poder conversar com o Pet Sitter escolhido para o serviço! ",
+      "datacard":"Dados do cartão",
+      "pay":"Pagar",
+      "messageconctteam":"Entre em contacto com a nossa equipa!",
+      "messageconctteam2":"Estamos prontos para resolver o seu problema.",
+      "messageconctteam3":"Introduza a mensagem aqui...",
       "alert":{
          "message":"Quer mesmo cancelar o serviço?"
       }

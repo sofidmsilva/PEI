@@ -109,6 +109,9 @@ export class LoginPage implements OnInit {
       } else {
         const NewUser = await this.authServices.register(this.userRegister);
         this.userRegister.verifycode = Math.floor(Math.random() * 3000);
+        if(this.userRegister.tipoutilizador==2){
+          this.userRegister.premium=false;
+        }
         await this.registerServices.addUser(this.userRegister, NewUser);
 
 

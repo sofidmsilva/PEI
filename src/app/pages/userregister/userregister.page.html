@@ -1,5 +1,5 @@
 <ion-content>
-  <div class="container">
+  <div style="height: auto;" class="container">
     <p><b>{{ 'UserRegister.title' | translate }}</b></p>
       <img class="center ion-margin-top"  *ngIf="alldatauser" [src]="alldatauser" >
     <ion-card class="ion-text-center" *ngIf="!isUploading && !isUploaded">
@@ -67,7 +67,19 @@
         <ion-label>{{ 'UserRegister.surface' | translate }}</ion-label>
         <ion-input placeholder="m2" [(ngModel)]="userRegister.surface"></ion-input>
       </ion-item>
+    </div><br>
+    <div align="center">
+      <ion-note > <b >{{ 'UserRegister.message' | translate }}
+        {{ 'TypeAnimals.cat' | translate }}, 
+        {{ 'TypeAnimals.dog' | translate }},
+        {{ 'TypeAnimals.turtle' | translate }},
+        {{ 'TypeAnimals.fish' | translate }},
+        {{ 'TypeAnimals.bird' | translate }},
+        {{ 'TypeAnimals.snake' | translate }},
+        {{ 'TypeAnimals.hamster' | translate }}. 
+      </b></ion-note>
     </div>
+   
     <ion-button class="ion-margin-top" (click)="uploadinformation()" color="medium">
       {{ 'UserRegister.continue' | translate }}
     </ion-button>

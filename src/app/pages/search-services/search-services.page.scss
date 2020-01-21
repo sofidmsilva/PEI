@@ -19,7 +19,10 @@
     }
 
     }
-
+    .img{
+        margin-top: 14px;
+        margin-right: 22px;
+    }
     .map{
         height: 450px;
         }
@@ -28,12 +31,16 @@
     // }
     ion-list{
         ion-item{
-            background: #d8ddf7;
+            background: #e8e7db;
+            margin-top: 4px;
             margin-left: 8px;
             margin-right: 8px;
-            border-radius: 4%;
+            border-radius: 1%;
             border-style: solid;
-            height: 103px;
+            border-color: #6b3f2f;        
+            height: auto;
+      
+            
 
             ion-label{
                 h2{

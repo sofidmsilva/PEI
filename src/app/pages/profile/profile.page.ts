@@ -22,6 +22,7 @@ import { Favorites } from 'src/app/interfaces/favorites';
 import { Filters } from 'src/app/interfaces/filters';
 import { Ratings } from 'src/app/interfaces/ratings';
 import { Storage } from '@ionic/storage';
+import { Morada } from 'src/app/interfaces/morada';
 
 
 
@@ -74,9 +75,11 @@ private monthcalendar: string;
   private servicesPet = new Array<Services>();
   private datauser = new Array<User>();
   private dataratings = new Array<Ratings>();
+  public morada:Morada =<Morada>{}
   public NewUser;
   public userRegister: User = {};
   private datacomment = new Array<Comments>();
+  private commentlenght:number;
   private datafavorites = new Array<Favorites>();
   private animalsSubscription: Subscription;
   private userSubscription: Subscription;
@@ -142,11 +145,22 @@ private monthcalendar: string;
             this.showwiconfav=true;
           }
         }
-        this.ispremium= data[0].premium;
+        if(this.datauser[0].tipoutilizador==2){
+          var l= new Date();
+          var num=  parseInt(this.datauser[0].Dateofpremium.split('/')[2]) +1 ;
+          if(this.datauser[0].Dateofpremium.split('/')[0] ==l.getDate().toString() && 
+          this.datauser[0].Dateofpremium.split('/')[1] ==l.toLocaleDateString().split('/')[1] &&
+          parseInt(this.datauser[0].Dateofpremium.split('/')[2]) ==num){
+            this.ispremium=false;
+          }
+          this.ispremium= data[0].premium;
+        }
+   
       });
     this.CommentsSubscription = this.userServices.getComments(this.profileid[3]).subscribe(
       data => {
         this.datacomment = data
+        this.commentlenght=this.datacomment.length;
       });
       this.FavoritesSubscription = this.userServices.getFavorites(this.profileid[3]).subscribe(
         data => {this.datafavorites=[];
@@ -272,9 +286,29 @@ private monthcalendar: string;
 
   }
 
-  async Updateprofile() {
+  async Updateprofile(user) {
     await this.presentLoading();
+  
+    this.userRegister.morada= user.morada;
+    this.userRegister.morada.Distrito= this.morada.Distrito?this.morada.Distrito : user.morada.Distrito;
+    this.userRegister.morada.Rua= this.morada.Rua? this.morada.Rua : user.morada.Rua  ;
+    this.userRegister.morada.NumPorta= this.morada.NumPorta? this.morada.NumPorta: user.morada.NumPorta ;
+    this.userRegister.morada.CodigoPostal= this.morada.CodigoPostal? this.morada.CodigoPostal : user.morada.CodigoPostal ;
+    this.userRegister.morada.Cidade= this.morada.Cidade? this.morada.Cidade : user.morada.Cidade;
+    this.userRegister.morada.Pais= this.morada.Pais?  this.morada.Pais : user.morada.Pais;
+    
 
+    let address=`${this.userRegister.morada.Rua}, ${this.userRegister.morada.NumPorta}, ${this.userRegister.morada.CodigoPostal}, ${this.userRegister.morada.Cidade}, 
+    ${this.userRegister.morada.Distrito}, ${this.userRegister.morada.Pais}`
+
+    this.userServices.getCityCoords(address).subscribe(async (response)=>{
+     let address=<Morada>{}
+     this.userRegister.morada= user.morada;
+     this.userRegister.morada.Coordenadas= this.morada.Coordenadas? this.morada.Coordenadas: user.morada.Coordenadas;
+     this.userRegister.morada.Coordenadas={ latitude: response[0].lat, longitude: response[0].lon};
+    
+     
+    }); 
     try {
       await this.userServices.updateUser(this.userRegister, this.NewUser);
       this.disabled = true;
@@ -595,7 +629,7 @@ private monthcalendar: string;
         {
           name: 'name1',
           type: 'number',
-          placeholder: 'Dados do Cartão'
+          placeholder: this.translationservice.instant('Notification.datacard')
         }
       ],
       buttons: [
@@ -609,9 +643,11 @@ private monthcalendar: string;
         }, {
           text: 'Pagar',
           handler:async () => {
+            var l= new Date()
+            this.userRegister.Dateofpremium= l.toLocaleDateString();
             this.userRegister.premium=true;
             await this.userServices.updateUser(this.userRegister, this.NewUser);
-            console.log('Confirm Ok');
+
           }
         }
       ]
@@ -624,15 +660,15 @@ private monthcalendar: string;
     this.imageloading = true;
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
-
       reader.readAsDataURL(event.target.files[0]);
       // para visualisar imagem
       reader.onload = (e: any) => {
         this.url = e.target.result;
       if(i==1){
+        
      // upload da imagem para firebase
      const fileraw = event.target.files[0];
-     const filePath = "/image/" + this.authServices.getAuth().currentUser.uid +"/animals"+ "/Photo/";
+     const filePath = "/image/" + this.authServices.getAuth().currentUser.uid +"/animals"+ "/Photo"+Math.floor(Math.random() * 3000);
      const result = this.SaveImageRef(filePath, fileraw);
      const ref = result.ref;
 

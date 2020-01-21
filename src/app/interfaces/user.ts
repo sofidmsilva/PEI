@@ -22,6 +22,7 @@ export interface User {
     morada?:Morada
     phonenumber?: number;
     image?: string;
+    Dateofpremium?:string;
     premium?:boolean;
     typeservice?:string;
  

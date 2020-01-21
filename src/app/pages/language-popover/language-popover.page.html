@@ -1,3 +1,8 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'All.languages' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-list>
   <ion-item button *ngFor="let lng of languages" (click)="select(lng.value)" detail="false">
     <img [src]="lng.img" slot="start" height="30" width="30">
