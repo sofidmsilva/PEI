@@ -67,7 +67,6 @@ export class NotificationsPage implements OnInit, OnDestroy {
       }
          this.listastars.push(eventCopy);  
     }
-    console.log(this.listastars)
       
     this.RatingSubscription = this.userServices.getAllRatings().subscribe(
       data => { this.dataratings=[];   
@@ -182,14 +181,18 @@ async payment(ev){
     } else {
       this.requestservice.confirmmessgefrom = true;
     }
-   
+   console.log(this.unlockmessageboth.length)
     await this.servicespetServices.updateRequestservice(this.requestservice, this.requestservice.id);
     for (let i = 0; i <= this.unlockmessageboth.length - 1; i++) {
       if (this.unlockmessageboth[i].accept == 5) {
         this.unlockmessageboth.slice(i, 1);
       }
     }
-    if (num = 1) {
+  this.unlockmessageboth=[];
+  this.notificationacceptservice=[];
+  this.notificationresponseservice=[];
+  console.log(this.notificationacceptservice,this.warningdateofservice.length,this.NotificationRatings.length)
+    if (num == 1) {
       if (this.notificationacceptservice.length == 0 &&
         this.warningdateofservice.length == 0 && this.NotificationRatings.length == 0) {
         this.showpop = false;

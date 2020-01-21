@@ -51,7 +51,7 @@
     </ion-item>
   </div>
   <div class="unlockmessage" *ngFor="let service of unlockmessageboth">
-    <ion-item *ngIf="service.accept==5 && service.finish==false">
+    <ion-item *ngIf="service.accept==5 && !service.finish">
       <ion-textarea disabled align="center">
         <ion-note *ngIf="service.shownotification==2">{{ 'Notification.messageunlockpayment' | translate }} </ion-note>
         <ion-note *ngIf="service.shownotification==1"> {{ 'Notification.messageunlockpayment2' | translate }}
