@@ -12,6 +12,8 @@ import { staticViewQueryIds } from '@angular/compiler';
 import { ServicespetService } from 'src/app/services/servicespet.service';
 import { RequestService } from 'src/app/interfaces/request-service';
 import { Servicespermonths } from 'src/app/interfaces/servicespermonths';
+import { Storage } from '@ionic/storage';
+
 import { User } from 'src/app/interfaces/user';
 import { Services } from 'src/app/interfaces/services';
 
@@ -44,7 +46,8 @@ export class HomePage implements OnInit, OnDestroy {
     private translationservice: TranslateService,
     private servicespetServices: ServicespetService,
     private loadingCtrl: LoadingController,
-    private toastCrt: ToastController, private route:ActivatedRoute,private alertController: AlertController) {
+    private toastCrt: ToastController, private route:ActivatedRoute, public alertController: AlertController,
+    private storage: Storage) {
       route.params.subscribe(val => {
         this.showuser = null;
         this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
@@ -89,13 +92,21 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    //adicionar aqui a verificação da contagem do numero de serviços
+    this.storage.get('currentActiveUser').then((userToken) => {
+    this.servicespetServices.countRequisitedServices(userToken).subscribe((res)=>{
+      console.log("SERVIÇOS REQUISITADOS", res.size)
+      if(res.size>0 && res.size % 10 === 0){
+        this.presentAlert()
+      }
+    })
+  })
   }
 
   ngOnDestroy() {
     this.requestSubscription.unsubscribe();
     this.userSubscription.unsubscribe();
     this.showuser = null;
-    console.log("ola")
   }
 
   slidesDidLoad(slides) {
@@ -257,5 +268,16 @@ export class HomePage implements OnInit, OnDestroy {
   async presentToast(message: string) {
     const toast = await this.toastCrt.create({ message, duration: 2000 });
     toast.present();
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Parabéns, ganhou um serviço gratuito!',
+      message: 'Por ter efetuado 10 requisições de serviços, o próximo serviço (até 3 horas) que realizar será gratuito',
+     
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 }

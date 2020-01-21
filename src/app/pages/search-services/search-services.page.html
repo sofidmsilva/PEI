@@ -32,11 +32,14 @@
             </ion-segment-button>
           </ion-segment>
         </ion-toolbar>
+      <div>
         <div class="ion-text-right">
+       
         <ion-button color="primary" (click)="openFilters()" style="padding-right: 10px;">
             <ion-icon name="ios-funnel" slot="icon-only"></ion-icon>
         </ion-button>
         </div>
+    </div>
         <div [ngSwitch]="option">
          
               <ion-list *ngSwitchCase="'relevance'" >
@@ -89,7 +92,19 @@
                         </ion-item>
                       </div>
                 </ion-list>
-                 <div class="map" [hidden]="option!='map'" #map id="map"></div>
+                 <div class="map" [hidden]="option!='map'" #map id="map">
+                    <div id=popup [style.visibility]="isDivVisible ? 'visible' : 'hidden'" class="ol-popup">
+                        <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+                        <div id="popup-content">
+                          <h3>{{userPopUpInfo.name}}</h3>
+                          <p>{{userPopUpInfo.rua}}, {{userPopUpInfo.numPorta}} - {{userPopUpInfo.cidade}}, {{userPopUpInfo.distrito}} </p>
+                          <img *ngIf="!alldatauser" src="../../../assets/img/computer-icons-user-profile-male-png-favpng-ZmC9dDrp9x27KFnnge0jKWKBs.jpg" alt="Smiley face" height="42" width="42" class="profile_logo">
+                          <img *ngIf="alldatauser" [src]="alldatauser" alt="Smiley face" height="42" width="42" class="profile_logo">
+                          <button type="button" (click)="router.navigate(['tabs/profile',userPopUpInfo.id]);" >Ver perfil</button>
+                        </div>
+                    </div>
+                 </div>
+                 
         </div>
        
     </div>
