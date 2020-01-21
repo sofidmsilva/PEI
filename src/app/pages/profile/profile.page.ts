@@ -488,7 +488,7 @@ private monthcalendar: string;
   async addrequestservice() {
     this.countRequisitedServices()
     const diff= +new Date(this.event.endTime)- +new Date(this.event.startTime)
-    if (this.requsitedServicesSize % 10 === 0 && diff > 10800000){
+    if (this.requsitedServicesSize > 0 && this.requsitedServicesSize % 10 === 0 && diff > 10800000){
       this.presentAlert();
       return;
     } 

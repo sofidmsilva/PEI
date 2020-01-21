@@ -95,7 +95,8 @@ export class HomePage implements OnInit, OnDestroy {
     //adicionar aqui a verificação da contagem do numero de serviços
     this.storage.get('currentActiveUser').then((userToken) => {
     this.servicespetServices.countRequisitedServices(userToken).subscribe((res)=>{
-      if(res.size % 10 === 0){
+      console.log("SERVIÇOS REQUISITADOS", res.size)
+      if(res.size>0 && res.size % 10 === 0){
         this.presentAlert()
       }
     })
