@@ -183,20 +183,25 @@ private monthcalendar: string;
         this.servicesPet = data
       });
       
+      
     this.CalendarPetSubscription = this.servicespetServices.getevents(this.profileid[3]).subscribe(
       data => {this.eventSource=[];
         this.calendarevent = data
-        for(let i = 0; i <= this.calendarevent.length - 1; i++){
+        console.log(this.calendarevent,2)
+        if(this.calendarevent){
+          for(let i = 0; i <= this.calendarevent.length - 1; i++){
           
-          let eventCopy = {
-            title: this.calendarevent[i].title,
-            startTime: new Date(this.calendarevent[i].startTime),
-            endTime: new Date(this.calendarevent[i].endTime),   
-            
-          }
-         
-        this.eventSource.push(eventCopy);
-        this.myCal.loadEvents();
+            let eventCopy = {
+              title: this.calendarevent[i].title,
+              startTime: new Date(this.calendarevent[i].startTime),
+              endTime: new Date(this.calendarevent[i].endTime),   
+              
+            }
+           
+          this.eventSource.push(eventCopy);
+          this.myCal.loadEvents();
+        }
+        
        
       }      
       

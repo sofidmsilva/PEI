@@ -59,6 +59,7 @@ export class NotificationsPage implements OnInit, OnDestroy {
     this.NotificationRatings = this.navParams.get('value5');
     this.NotificationRatingsOwner = this.navParams.get('value6');
     this.typeuser = this.navParams.get('value7');
+    console.log(this.notificationacceptservice)
  
     for (let i = 0; i <= this.NotificationRatingsOwner.length - 1; i++) {      
       let eventCopy={
@@ -97,9 +98,12 @@ async payment(ev){
   this.requestservice.id = ev.id;
   this.requestservice.accept = 5;
   this.event.title = ev.type + ' ' + ev.location;
-    this.event.startTime = new Date(ev.hoursbegin).toString();
-    this.event.endTime = new Date(ev.hoursend).toString();
+
+    this.event.startTime = ev.hoursbegin;
+    this.event.endTime = ev.hoursend;
+    this.event.petsitter=ev.petsitter;
     this.event.userID = this.authServices.getAuth().currentUser.uid;
+   
     await this.servicespetServices.addevents(this.event);
     await this.servicespetServices.updateRequestservice(this.requestservice, this.requestservice.id);
     for (let i = 0; i <= this.notificationresponseservice.length - 1; i++) {
@@ -181,7 +185,7 @@ async payment(ev){
     } else {
       this.requestservice.confirmmessgefrom = true;
     }
-   console.log(this.unlockmessageboth.length)
+  
     await this.servicespetServices.updateRequestservice(this.requestservice, this.requestservice.id);
     for (let i = 0; i <= this.unlockmessageboth.length - 1; i++) {
       if (this.unlockmessageboth[i].accept == 5) {
@@ -191,7 +195,7 @@ async payment(ev){
   this.unlockmessageboth=[];
   this.notificationacceptservice=[];
   this.notificationresponseservice=[];
-  console.log(this.notificationacceptservice,this.warningdateofservice.length,this.NotificationRatings.length)
+ 
     if (num == 1) {
       if (this.notificationacceptservice.length == 0 &&
         this.warningdateofservice.length == 0 && this.NotificationRatings.length == 0) {

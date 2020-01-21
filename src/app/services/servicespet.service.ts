@@ -109,7 +109,7 @@ export class ServicespetService {
       .pipe(map(action => action.map(
         this.documentToDomainObject
       )
-        .filter(item => (item.userID == newUser))
+        .filter(item => (item.petsitter == newUser))
       ));
     return this.calendarCollection;
   }
