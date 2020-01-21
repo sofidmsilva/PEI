@@ -29,6 +29,7 @@ export class HomePage implements OnInit, OnDestroy {
   private requestSubscription: Subscription;
   private ServicespetSubscription: Subscription;
   private showuser: number;
+  private showmessagepie:boolean=true;
   private filterUsers: Array<User>;
   private filterServicesPet = new Array<Services>();
   private requestservices: Array<RequestService>;
@@ -157,11 +158,10 @@ export class HomePage implements OnInit, OnDestroy {
     this.servicepermonth.December=0;
    
     for (let i = 0; i <= this.lengthrequest - 1; i++) {
-      console.log(this.requestservices)
       if(this.requestservices[i].done==true){
         switch (this.requestservices[i].datedone) {
           case 'Jan':
-          this.servicepermonth.Jan++;
+          this.servicepermonth.Jan=1;
             break;
           case 'Fev':
             this.servicepermonth.Fev++;
@@ -206,21 +206,31 @@ export class HomePage implements OnInit, OnDestroy {
 
   getPieChart() {
     this.getnumbermonths();
-    var data = google.visualization.arrayToDataTable([
-      [this.translationservice.instant('Home.months'), this.translationservice.instant('Home.numberservices'), { role: "style" }],
-      [this.translationservice.instant('Home.january'), this.servicepermonth.Jan, "#f4c430"],
-      [this.translationservice.instant('Home.february'), this.servicepermonth.Fev, "#5d8aa8"],
-      [this.translationservice.instant('Home.march'), this.servicepermonth.March, "red"],
-      [this.translationservice.instant('Home.april'), this.servicepermonth.April, "black"],
-      [this.translationservice.instant('Home.may'), this.servicepermonth.May, "blue"],
-      [this.translationservice.instant('Home.june'), this.servicepermonth.June, "yellow"],
-      [this.translationservice.instant('Home.july'), this.servicepermonth.July, "orange"],
-      [this.translationservice.instant('Home.august'), this.servicepermonth.August, "#702641"],
-      [this.translationservice.instant('Home.september'), this.servicepermonth.September, "green"],
-      [this.translationservice.instant('Home.october'), this.servicepermonth.October, "violet"],
-      [this.translationservice.instant('Home.november'), this.servicepermonth.November, "#e36461"],
-      [this.translationservice.instant('Home.december'), this.servicepermonth.December, "#bdb76b"]
-    ]);
+    
+    if(this.servicepermonth.Jan==0 && this.servicepermonth.Fev==0 && this.servicepermonth.March==0 && this.servicepermonth.April==0
+      && this.servicepermonth.May==0 && this.servicepermonth.June==0 && this.servicepermonth.July==0 && this.servicepermonth.August==0
+      && this.servicepermonth.September==0 && this.servicepermonth.October==0 && this.servicepermonth.November==0
+       && this.servicepermonth.December==0){
+        this.showmessagepie=false;
+    }
+   else{
+        var data = google.visualization.arrayToDataTable([
+        [this.translationservice.instant('Home.months'), this.translationservice.instant('Home.numberservices'), { role: "style" }],
+        [this.translationservice.instant('Home.january'), this.servicepermonth.Jan, "#f4c430"],
+        [this.translationservice.instant('Home.february'), this.servicepermonth.Fev, "#5d8aa8"],
+        [this.translationservice.instant('Home.march'), this.servicepermonth.March, "red"],
+        [this.translationservice.instant('Home.april'), this.servicepermonth.April, "black"],
+        [this.translationservice.instant('Home.may'), this.servicepermonth.May, "blue"],
+        [this.translationservice.instant('Home.june'), this.servicepermonth.June, "yellow"],
+        [this.translationservice.instant('Home.july'), this.servicepermonth.July, "orange"],
+        [this.translationservice.instant('Home.august'), this.servicepermonth.August, "#702641"],
+        [this.translationservice.instant('Home.september'), this.servicepermonth.September, "green"],
+        [this.translationservice.instant('Home.october'), this.servicepermonth.October, "violet"],
+        [this.translationservice.instant('Home.november'), this.servicepermonth.November, "#e36461"],
+        [this.translationservice.instant('Home.december'), this.servicepermonth.December, "#bdb76b"]
+      ]);
+    
+    
 
     var view = new google.visualization.DataView(data);
     view.setColumns([0, 1,
@@ -234,13 +244,14 @@ export class HomePage implements OnInit, OnDestroy {
 
     var options = {
       title: this.translationservice.instant('Home.totalservices') + ' ' + (new Date(Date.now()).getUTCFullYear()),
-      width: 380,
+      width: 360,
       height: 350,
       bar: { groupWidth: "80%" },
       legend: { position: "none" },
     };
     var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
     chart.draw(view, options);
+  }
   }
 
   async servicedone(id: string) {

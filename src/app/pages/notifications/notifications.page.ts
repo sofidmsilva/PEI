@@ -59,7 +59,7 @@ export class NotificationsPage implements OnInit, OnDestroy {
     this.NotificationRatings = this.navParams.get('value5');
     this.NotificationRatingsOwner = this.navParams.get('value6');
     this.typeuser = this.navParams.get('value7');
-    console.log(this.notificationacceptservice)
+  
  
     for (let i = 0; i <= this.NotificationRatingsOwner.length - 1; i++) {      
       let eventCopy={
