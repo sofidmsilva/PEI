@@ -1,3 +1,3 @@
 export interface Stars {
-    stars: Array<string>;
+     stars: string[];
 }

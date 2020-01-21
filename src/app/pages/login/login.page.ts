@@ -112,6 +112,7 @@ export class LoginPage implements OnInit {
         if(this.userRegister.tipoutilizador==2){
           this.userRegister.premium=false;
         }
+        this.userRegister.ratings=0;
         await this.registerServices.addUser(this.userRegister, NewUser);
 
 

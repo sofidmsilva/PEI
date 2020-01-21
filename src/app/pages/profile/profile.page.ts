@@ -124,6 +124,12 @@ private monthcalendar: string;
         data[0].dateofbirthday = data[0].dateofbirthday.split('T')[0];
         this.datauser = data;
         this.alldatauser = data[0].image;
+
+        for(let i =0; i<this.datauser[0].ratings; i++){
+          this.stars.push("star");
+        }   
+        this.length=this.datauser[0].ratings;
+        
         if(this.profileid[3]==this.authServices.getAuth().currentUser.uid){
           this.showuser = data[0].tipeuser;
           this.showusertabs= data[0].tipeuser;
@@ -190,21 +196,7 @@ private monthcalendar: string;
       
       });
 
-      this.RatingSubscription = this.userServices.getRatings(this.profileid[3]).subscribe(
-        data => { this.dataratings=[];
-          finalyrating=0;
-          this.dataratings = data
-          this.length=this.dataratings.length;
-           var soma = 0;
-          for(let i = 0; i <= this.dataratings.length-1; i++){
-           soma= this.dataratings[i].value +++ soma;
-          }
-          var finalyrating = soma/this.dataratings.length;
-       
-          for(let i =0; i<finalyrating; i++){
-            this.stars.push("star");
-          }         
-        });
+    
 
     this.typeanimals;
     this.sizeanimals;

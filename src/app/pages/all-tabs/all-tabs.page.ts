@@ -61,6 +61,7 @@ export class AllTabsPage implements OnInit, OnDestroy {
         this.warningdateofservice=[];
         this.NotificationRatings=[];
         this.NotificationRatingsOwner=[];
+        this.notificationfreeservice=0;
         this.requestservices = data;
         for (let i = 0; i <= this.requestservices.length - 1; i++) {
           if (this.requestservices[i].to == this.authService.getAuth().currentUser.uid) {
@@ -192,7 +193,7 @@ export class AllTabsPage implements OnInit, OnDestroy {
               data: { secret: 'key_data' }
               });
         }
-      });    
+      });   
     });
   }
 
@@ -222,10 +223,7 @@ export class AllTabsPage implements OnInit, OnDestroy {
    
       const popover = await this.popoverCtr.create({
         component: SettingsPage,
-        event: ev,
-        componentProps: { value: this.notificationacceptservice, value2: this.notificationresponseservice, 
-        value3: this.notificationfreeservice, value4: this.warningdateofservice, value5: this.NotificationRatings,
-        value6: this.NotificationRatingsOwner, value7: this.typeuser }
+        event: ev
       });
       await popover.present();
      

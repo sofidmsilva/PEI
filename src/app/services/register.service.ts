@@ -133,4 +133,11 @@ export class RegisterService {
       ));
     return this.usersFavoritesCollection;
   }
+  getAllRatings() {
+    this.usersFavoritesCollection = this.afs.collection('Ratings').snapshotChanges()
+      .pipe(map(action => action.map(
+        this.documentToDomainObject
+      ) ));
+    return this.usersFavoritesCollection;
+  }
 }

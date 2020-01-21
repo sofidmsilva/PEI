@@ -8,6 +8,8 @@ import { Calendar } from 'src/app/interfaces/calendar';
 import { RequestService } from 'src/app/interfaces/request-service';
 import { RegisterService } from 'src/app/services/register.service';
 import { Ratings } from 'src/app/interfaces/ratings';
+import { Subscription } from 'rxjs';
+import { User } from 'src/app/interfaces/user';
 
 @Component({
   selector: 'app-notifications',
@@ -29,10 +31,15 @@ export class NotificationsPage implements OnInit, OnDestroy {
   private showfreeservice: boolean = false;
   private showmessageleft: boolean = true;
   private unlockmessageboth = [];
-  private stars: string[] = [];
+  private stars: string[]=["star-outline","star-outline","star-outline","star-outline","star-outline"];
+  private listastars= [];
   private numberofstarts: number = 0;
   private Ratings: Ratings = {};
+  private Userrating: User = {};
   private event: Calendar = { startTime: '', endTime: '' };
+  private dataratings = new Array<Ratings>();
+  private RatingSubscription: Subscription;
+
   constructor(private navParams: NavParams, private route: Router, private authServices: AuthService,
     private popoverCtr: PopoverController, private translationservice: TranslateService,
     private servicespetServices: ServicespetService, private alertController: AlertController,
@@ -52,14 +59,27 @@ export class NotificationsPage implements OnInit, OnDestroy {
     this.NotificationRatings = this.navParams.get('value5');
     this.NotificationRatingsOwner = this.navParams.get('value6');
     this.typeuser = this.navParams.get('value7');
-
+ 
+    for (let i = 0; i <= this.NotificationRatingsOwner.length - 1; i++) {      
+      let eventCopy={
+        allstart:this.stars,
+        id:this.NotificationRatingsOwner[i].id
+      }
+         this.listastars.push(eventCopy);  
+    }
+    console.log(this.listastars)
+      
+    this.RatingSubscription = this.userServices.getAllRatings().subscribe(
+      data => { this.dataratings=[];   
+        this.dataratings = data      
+      });
+    
   });
+ 
 }
 
   ngOnInit() {
-    for (let i = 0; i < 5; i++) {
-      this.stars.push("star-outline");
-    }
+
   }
   ngOnDestroy(): void {
     this.notificationresponseservice = [];
@@ -74,6 +94,29 @@ export class NotificationsPage implements OnInit, OnDestroy {
 
     this.route.navigate(['/tabs/profile', this.authServices.getAuth().currentUser.uid]);
   }
+async payment(ev){
+  this.requestservice.id = ev.id;
+  this.requestservice.accept = 5;
+  this.event.title = ev.type + ' ' + ev.location;
+    this.event.startTime = new Date(ev.hoursbegin).toString();
+    this.event.endTime = new Date(ev.hoursend).toString();
+    this.event.userID = this.authServices.getAuth().currentUser.uid;
+    await this.servicespetServices.addevents(this.event);
+    await this.servicespetServices.updateRequestservice(this.requestservice, this.requestservice.id);
+    for (let i = 0; i <= this.notificationresponseservice.length - 1; i++) {
+      if (this.notificationresponseservice[i].id == this.requestservice.id) {
+        this.notificationresponseservice.splice(i, 1);
+
+      }
+    }
+
+    if ( this.notificationresponseservice.length == 0 &&
+      this.warningdateofservice.length == 0  && this.NotificationRatingsOwner.length == 0) {
+        if(this.notificationfreeservice!=10 ){
+          this.showpop = false;
+        }
+    }
+}
   async acceptrequestservice(ev) {
     this.requestservice.id = ev.id;
     this.requestservice.accept = 1;
@@ -225,13 +268,15 @@ export class NotificationsPage implements OnInit, OnDestroy {
     await alert.present();
   }
   async starClicked(index) {
+    console.log(index)
     this.stars = [];
-    for (let i = 0; i < 5; i++) {
+    for(let i =0; i<5 ; i++){
       this.stars.push("star-outline");
     }
-    for (let i = 0; i <= index; i++) {
-      this.stars[i] = "star";
+    for(let i =0; i<=index ; i++){
+      this.stars[i]= "star";
     }
+    
   }
   async saverating(service, num: number) {
     for (let i = 0; i < 5; i++) {
@@ -252,6 +297,22 @@ export class NotificationsPage implements OnInit, OnDestroy {
       this.NotificationRatingsOwner = [];
     }
 
+    
+    var soma = 0;
+    var lenght=0;
+    for(let i = 0; i <= this.dataratings.length-1; i++){
+      if(this.dataratings[i].to==service.to){
+        soma= this.dataratings[i].value +++ soma;
+        lenght ++;
+      }
+    }
+    soma=soma +++ this.numberofstarts;
+    lenght=lenght+1;
+    
+    var f=Math.round(soma/lenght);
+    this.Userrating.ratings = f;
+ 
+    await this.userServices.updateUser(this.Userrating,this.Ratings.to); 
     await this.userServices.addRatings(this.Ratings);
     await this.servicespetServices.updateRequestservice(this.requestservice, this.requestservice.id);
     if (num == 1) {
@@ -279,56 +340,6 @@ export class NotificationsPage implements OnInit, OnDestroy {
           }
     }
   }
-  }
-  async payment(ev) {
-    const alert = await this.alertController.create({
-      header: this.translationservice.instant('Notification.messagepayment'),
-      inputs: [
-        {
-          name: 'name1',
-          type: 'number',
-          placeholder: this.translationservice.instant('Notification.datacard')
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-
-          }
-        }, {
-          text: this.translationservice.instant('Notification.pay'),
-          handler:async () => {
-            this.requestservice.id = ev.id;
-            this.requestservice.accept = 4;
-            this.event.title = ev.type + ' ' + ev.location;
-              this.event.startTime = new Date(ev.hoursbegin).toString();
-              this.event.endTime = new Date(ev.hoursend).toString();
-              this.event.userID = this.authServices.getAuth().currentUser.uid;
-              await this.servicespetServices.addevents(this.event);
-              await this.servicespetServices.updateRequestservice(this.requestservice, this.requestservice.id);
-              for (let i = 0; i <= this.notificationresponseservice.length - 1; i++) {
-                if (this.notificationresponseservice[i].id == this.requestservice.id) {
-                  this.notificationresponseservice.splice(i, 1);
-          
-                }
-              }
-          
-              if ( this.notificationresponseservice.length == 0 &&
-                this.warningdateofservice.length == 0  && this.NotificationRatingsOwner.length == 0) {
-                  if(this.notificationfreeservice!=10 ){
-                    this.showpop = false;
-                  }
-              }
-
-          }
-        }
-      ]
-    });
-
-    await alert.present();
   }
   async presentToast(message: string) {
     const toast = await this.toastCrt.create({ message, duration: 2000 });
