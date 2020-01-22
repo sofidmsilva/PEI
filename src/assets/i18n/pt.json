@@ -130,6 +130,11 @@
       "welcome": "Seja Bem Vindo",
       "editphoto": "Editar Foto",
       "ratings":"Classificação: 1- 5 ",
+      "minRating":"Avaliação min.",
+      "evaluation": "Avaliação",
+      "lessThenOne":"<1 ano",
+      "lessThenFive":"<5 anos",
+      "moreThenFive":">5 anos",
       "Comment": {
          "title": "Comentários",
          "label": "Inserir Comentário...",

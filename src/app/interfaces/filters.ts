@@ -5,4 +5,5 @@ export interface Filters {
     drivinglicense?: string;
     typeservice?: string;
     AnimalType?: string;
+    minRating?: number;
 }

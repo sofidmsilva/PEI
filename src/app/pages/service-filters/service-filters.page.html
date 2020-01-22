@@ -25,12 +25,20 @@
             </ion-select>
         </ion-item>
         <ion-item>
-            <ion-label>{{ 'UserRegister.experience' | translate }}</ion-label>
+            <ion-label>{{ 'Profile.minRating' | translate }}</ion-label>
             <ion-row style="font-size: 30px;">
                 <ion-col *ngFor="let star of stars; let i = index" tappable (click)="starClicked(i)">
                     <ion-icon [name] = "star"></ion-icon>
                 </ion-col>
             </ion-row>
+        </ion-item>
+        <ion-item>
+            <ion-label>{{ 'UserRegister.experience' | translate }}</ion-label>
+            <ion-select placeholder="Select" interface="popover" [(ngModel)]="filters.experience">
+              <ion-select-option value="{{ 'Profile.lessThenOne'}}">{{ 'Profile.lessThenOne' | translate }}</ion-select-option>
+              <ion-select-option value="{{ 'Profile.lessThenFive'}}">{{ 'Profile.lessThenFive' | translate }}</ion-select-option>
+              <ion-select-option value="{{ 'Profile.moreThenFive'}}">{{ 'Profile.moreThenFive' | translate }}</ion-select-option>
+            </ion-select>
         </ion-item>
         <ion-item>
             <ion-label>{{ 'UserRegister.car' | translate }}</ion-label>
