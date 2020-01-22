@@ -653,7 +653,7 @@
                                             <ion-select-option value="euro">Euro</ion-select-option>
                                             <ion-select-option value="dolar">Dolar</ion-select-option>
                                         </ion-select>
-                                        <ion-select size="small" placeholder="{{ service.dayhour}}"
+                                        <ion-select size="small" placeholder="{{ service.dayhour | translate}}"
                                         [(ngModel)]="Services.dayhour">
                                         <ion-select-option value="dia">{{'All.day'| translate}}</ion-select-option>
                                         <ion-select-option value="hora">{{'All.hour'| translate}}</ion-select-option>

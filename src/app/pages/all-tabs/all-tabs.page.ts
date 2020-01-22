@@ -35,6 +35,7 @@ export class AllTabsPage implements OnInit, OnDestroy {
   private NotificationRatingsOwner=[];
   private notificationfreeservice:number=0;
   private typeuser: number;
+  private notificationgomessage: number=0;
   private showpop: boolean;
   private shownotification: number;
   private numberofnotification: number;
@@ -146,14 +147,20 @@ export class AllTabsPage implements OnInit, OnDestroy {
               this.notificationfreeservice++;
             }
           }
+          if(this.requestservices[i].accept == 5 && this.requestservices[i].confirmmessgeto==false){
+            this.notificationgomessage++;
+          }else{
+            if(this.requestservices[i].accept == 5 && this.requestservices[i].confirmmessgefrom==false)
+            this.notificationgomessage++;
+          }
           
         }
 
         if (this.notificationacceptservice.length != 0 || this.warningdateofservice.length!=0 
-          || this.NotificationRatings.length!=0 || this.NotificationRatingsOwner.length!=0) {
+          || this.NotificationRatings.length!=0 || this.NotificationRatingsOwner.length!=0 || this.notificationgomessage!=0) {
           this.showpop = true;
           this.numberofnotification = this.notificationacceptservice.length + this.warningdateofservice.length+this.NotificationRatings.length
-          +this.NotificationRatingsOwner.length;
+          +this.NotificationRatingsOwner.length +this.notificationgomessage;
         // Schedule a single notification
          this.localNotifications.schedule({
           id: 1,
@@ -165,9 +172,10 @@ export class AllTabsPage implements OnInit, OnDestroy {
           });
         } else {
           if (this.notificationresponseservice.length != 0 || this.NotificationRatings.length!=0 
-            || this.NotificationRatingsOwner.length!=0) {
+            || this.NotificationRatingsOwner.length!=0 || this.notificationgomessage!=0) {
             this.showpop = true;
-            this.numberofnotification = this.notificationresponseservice.length + this.NotificationRatings.length+this.NotificationRatingsOwner.length;
+            this.numberofnotification = this.notificationresponseservice.length + this.NotificationRatings.length
+            +this.NotificationRatingsOwner.length +this.notificationgomessage;
             // Schedule a single notification
          this.localNotifications.schedule({
           id: 1,
@@ -196,6 +204,7 @@ export class AllTabsPage implements OnInit, OnDestroy {
               data: { secret: 'key_data' }
               });
         }
+       
       });   
     });
   }
