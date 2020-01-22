@@ -172,7 +172,7 @@ export class HomePage implements OnInit, OnDestroy {
       if(this.requestservices[i].done==true){
         switch (this.requestservices[i].datedone) {
           case 'Jan':
-          this.servicepermonth.Jan=1;
+          this.servicepermonth.Jan++;
             break;
           case 'Fev':
             this.servicepermonth.Fev++;

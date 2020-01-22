@@ -3,6 +3,12 @@ import { Subscription } from 'rxjs';
 import { RegisterService } from 'src/app/services/register.service';
 import { User } from 'src/app/interfaces/user';
 import { Numberusers } from 'src/app/interfaces/numberusers';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { Servicespermonths } from 'src/app/interfaces/servicespermonths';
+import { ServicespetService } from 'src/app/services/servicespet.service';
+import { RequestService } from 'src/app/interfaces/request-service';
+import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 declare var google;
 
 @Component({
@@ -12,18 +18,22 @@ declare var google;
 })
 export class OverviewAdminPage implements OnInit {
   private userSubscription: Subscription;
+  private requestSubscription: Subscription;
   public datauser = new Array<User>();
+  private requestservices: Array<RequestService>;
   private numberpetsiitersowner: Numberusers={};
+  public servicepermonth: Servicespermonths={};
+  public lengthrequest: number;
 
-
-
-  constructor(private userServices: RegisterService) {
+  constructor(private userServices: RegisterService,private autg: AngularFireAuth, 
+    private servicespetServices: ServicespetService,private route:ActivatedRoute,
+    private translationservice: TranslateService) {
     
+      route.params.subscribe(val => {
     this.userSubscription = this.userServices.getAllUser().subscribe(
       data => {this.numberpetsiitersowner.numberowneranimal=0;
         this.numberpetsiitersowner.numberpetsitter=0;
         this.datauser=data;   
-
         for(let i =0; i<this.datauser.length; i++){
          if(data[i].tipeuser==1){
            
@@ -35,41 +45,121 @@ export class OverviewAdminPage implements OnInit {
           }
          }
         }  
-       
-        google.charts.setOnLoadCallback(this.drawChart);
-      google.charts.setOnLoadCallback(this.drawChartLine); 
+
+        this.drawChart();
       });
-      console.log(this.numberpetsiitersowner)
-   
- 
+      this.requestSubscription = this.servicespetServices.getAllrequestservice().subscribe(
+        data => {   
+          this.lengthrequest = data.length;
+          for (let i = 0; i <= data.length - 1; i++) {
+            if (data[i].datedone != null) {
+              data[i].datedone = data[i].datedone.split(' ')[1];
+            }
+          }
+          this.requestservices=data;
+          this.drawChartLine();
+        });  
+    
+      });
    }
 
   ngOnInit() {
   }
+
    drawChart() {
-   console.log(this.numberpetsiitersowner,2)
+
     var data = google.visualization.arrayToDataTable([
       ['Tipo', 'numero de users'],
-      ['Pet Sitter',     4],
-      ['DOno',      5]
+      ['Pet Sitter', this.numberpetsiitersowner.numberpetsitter],
+      [this.translationservice.instant('Admin.owner'), this.numberpetsiitersowner.numberowneranimal]
     ]);
 
     var options = {
-      title: 'tipo de users registados'
+      title: this.translationservice.instant('Admin.titlepichart')
     };
 
     var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
     chart.draw(data, options);
   }
-  async drawChartLine() {
 
+  getnumbermonths() {
+    this.servicepermonth.Jan=0;
+    this.servicepermonth.Fev=0;
+    this.servicepermonth.March=0;
+    this.servicepermonth.April=0;
+    this.servicepermonth.May=0;
+    this.servicepermonth.June=0;
+    this.servicepermonth.July=0;
+    this.servicepermonth.August=0;
+    this.servicepermonth.September=0;
+    this.servicepermonth.October=0;
+    this.servicepermonth.November=0;
+    this.servicepermonth.December=0;
+    console.log(this.requestservices)
+    for (let i = 0; i <= this.lengthrequest - 1; i++) {
+      if(this.requestservices[i].done==true){
+      
+        switch (this.requestservices[i].datedone) {
+          case 'Jan':
+          this.servicepermonth.Jan++;
+            break;
+          case 'Fev':
+            this.servicepermonth.Fev++;
+            break;
+          case 'Mar':
+            this.servicepermonth.March++;
+            break;
+          case 'Apr':
+            this.servicepermonth.April++;
+            break;
+          case 'May':
+            this.servicepermonth.May++;
+            break;
+          case 'Jun':
+            this.servicepermonth.June++;
+            break;
+          case 'Jul':
+            this.servicepermonth.July++;
+            break;
+          case 'Aug':
+            this.servicepermonth.August++;
+            break;
+          case 'Set':
+            this.servicepermonth.September++;
+            break;
+          case 'Oct':
+            this.servicepermonth.October++;
+            break;
+          case 'Nov':
+            this.servicepermonth.November++;
+            break;
+          case 'Dec':
+            this.servicepermonth.December++;
+            break;
+          default:
+  
+        }
+      }
+
+    }
+  }
+  async drawChartLine() {
+    this.getnumbermonths();
     var data = google.visualization.arrayToDataTable([
-      ["Element", "Density", { role: "style" } ],
-      ["Copper", 8.94, "#b87333"],
-      ["Silver", 10.49, "silver"],
-      ["Gold", 19.30, "gold"],
-      ["Platinum", 21.45, "color: #e5e4e2"]
+      [this.translationservice.instant('Home.months'), this.translationservice.instant('Home.numberservices'), { role: "style" }],
+      [this.translationservice.instant('Home.january'), this.servicepermonth.Jan, "#f4c430"],
+      [this.translationservice.instant('Home.february'), this.servicepermonth.Fev, "#5d8aa8"],
+      [this.translationservice.instant('Home.march'), this.servicepermonth.March, "red"],
+      [this.translationservice.instant('Home.april'), this.servicepermonth.April, "black"],
+      [this.translationservice.instant('Home.may'), this.servicepermonth.May, "blue"],
+      [this.translationservice.instant('Home.june'), this.servicepermonth.June, "yellow"],
+      [this.translationservice.instant('Home.july'), this.servicepermonth.July, "orange"],
+      [this.translationservice.instant('Home.august'), this.servicepermonth.August, "#702641"],
+      [this.translationservice.instant('Home.september'), this.servicepermonth.September, "green"],
+      [this.translationservice.instant('Home.october'), this.servicepermonth.October, "violet"],
+      [this.translationservice.instant('Home.november'), this.servicepermonth.November, "#e36461"],
+      [this.translationservice.instant('Home.december'), this.servicepermonth.December, "#bdb76b"]
     ]);
 
     var view = new google.visualization.DataView(data);
@@ -81,9 +171,9 @@ export class OverviewAdminPage implements OnInit {
                      2]);
 
     var options = {
-      title: "Density of Precious Metals, in g/cm^3",
+      title:this.translationservice.instant('Home.totalservices') + ' ' + (new Date(Date.now()).getUTCFullYear()),
       width: 350,
-      height: 400,
+      height: 300,
       bar: {groupWidth: "95%"},
       legend: { position: "none" },
     };
