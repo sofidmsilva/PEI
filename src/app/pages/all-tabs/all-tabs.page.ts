@@ -35,7 +35,6 @@ export class AllTabsPage implements OnInit, OnDestroy {
   private NotificationRatingsOwner=[];
   private notificationfreeservice:number=0;
   private typeuser: number;
-  private notificationgomessage: number=0;
   private showpop: boolean;
   private shownotification: number;
   private numberofnotification: number;
@@ -85,8 +84,8 @@ export class AllTabsPage implements OnInit, OnDestroy {
             }
             this.startdate=this.requestservices[i].datebegin.split('T')[0];
             var l = new Date;
-           if((this.requestservices[i].accept == 1 ||this.requestservices[i].accept == 3) &&
-           ((this.startdate.split('-')[2]==(l.getUTCDate()-1).toString()) || 
+           if(this.requestservices[i].accept == 5 &&
+           ((this.startdate.split('-')[2]==(l.getUTCDate()+1).toString()) || 
            (this.startdate.split('-')[2]==(l.getUTCDate()).toString())) &&
            (this.startdate.split('-')[1]==l.toLocaleDateString().split('/')[1]) &&
            (this.startdate.split('-')[0]==l.toLocaleDateString().split('/')[2])){
@@ -147,20 +146,15 @@ export class AllTabsPage implements OnInit, OnDestroy {
               this.notificationfreeservice++;
             }
           }
-          if(this.requestservices[i].accept == 5 && this.requestservices[i].confirmmessgeto==false){
-            this.notificationgomessage++;
-          }else{
-            if(this.requestservices[i].accept == 5 && this.requestservices[i].confirmmessgefrom==false)
-            this.notificationgomessage++;
-          }
+   
           
         }
 
         if (this.notificationacceptservice.length != 0 || this.warningdateofservice.length!=0 
-          || this.NotificationRatings.length!=0 || this.NotificationRatingsOwner.length!=0 || this.notificationgomessage!=0) {
+          || this.NotificationRatings.length!=0 ) {
           this.showpop = true;
-          this.numberofnotification = this.notificationacceptservice.length + this.warningdateofservice.length+this.NotificationRatings.length
-          +this.NotificationRatingsOwner.length +this.notificationgomessage;
+          this.numberofnotification = this.notificationacceptservice.length + this.warningdateofservice.length+this.NotificationRatings.length;
+         console.log(this.numberofnotification)
         // Schedule a single notification
          this.localNotifications.schedule({
           id: 1,
@@ -171,11 +165,11 @@ export class AllTabsPage implements OnInit, OnDestroy {
           data: { secret: 'key_data' }
           });
         } else {
-          if (this.notificationresponseservice.length != 0 || this.NotificationRatings.length!=0 
-            || this.NotificationRatingsOwner.length!=0 || this.notificationgomessage!=0) {
+          if (this.notificationresponseservice.length != 0
+            || this.NotificationRatingsOwner.length!=0 ) {
             this.showpop = true;
-            this.numberofnotification = this.notificationresponseservice.length + this.NotificationRatings.length
-            +this.NotificationRatingsOwner.length +this.notificationgomessage;
+            this.numberofnotification = this.notificationresponseservice.length
+            +this.NotificationRatingsOwner.length;
             // Schedule a single notification
          this.localNotifications.schedule({
           id: 1,
