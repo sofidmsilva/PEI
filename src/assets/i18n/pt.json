@@ -1,5 +1,10 @@
 {
    "All": {
+      "Profile":"Perfil",
+      "messages":"Mensagens",
+      "overview":"Visão Global",
+      "listuser":"Lista de Users",
+      "favorites":"Favoritos",
       "Cancel": "Cancelar",
       "continue": "Continuar",
       "add": "Adicionar",

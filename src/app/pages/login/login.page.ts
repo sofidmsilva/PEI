@@ -32,8 +32,9 @@ export class LoginPage implements OnInit {
   private _appId: string = 'cZhsObl98cbkEcgYHrwn';  
   private _appCode: string = 'JAkuOIaFZ4x_Zer-IbR0noK9ma5MO3BAQLfXC8wbz7s';  
   search: any;
+ 
 
-
+ 
   constructor(
     public nativekeyboard: NativeKeyboard,
     private loadingCtrl: LoadingController,
@@ -45,7 +46,7 @@ export class LoginPage implements OnInit {
     private router: Router,
     private storage: Storage,  public navCtrl: NavController ) {
   
-
+      
      }
   ngOnInit() { }
 
@@ -79,6 +80,8 @@ export class LoginPage implements OnInit {
       await this.authServices.login(this.userLogin).then((res)=>{
         this.storage.set('currentActiveUser', this.authServices.getAuth().currentUser.uid);
     });
+
+  
 }
     catch (error) {
     
@@ -139,6 +142,8 @@ export class LoginPage implements OnInit {
 
     this.loading.dismiss();
     this.router.navigate(['tabs/userregister']);
+    
+    
   }
 
   async presentLoading() {

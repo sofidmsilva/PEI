@@ -12,7 +12,7 @@
               <ion-icon name="notifications"></ion-icon>
               <ion-badge id="notifications-badge" color="danger">{{numberofnotification}}</ion-badge>
             </ion-button>
-            <ion-button (click)="settings($event)" slot="icon-only">
+            <ion-button *ngIf="typeuser==1 ||typeuser==2" (click)="settings($event)" slot="icon-only">
               <ion-icon name="settings"></ion-icon>
             </ion-button>
             <ion-button (click)="logout()" slot="icon-only">
@@ -26,23 +26,31 @@
   <ion-tabs >
       
     <ion-tab-bar slot="bottom" color="primary">
-      <ion-tab-button tab="home">
+      <ion-tab-button *ngIf="typeuser!=3 " tab="home">
         <ion-icon name="paw"></ion-icon>
         <ion-label>Home</ion-label>
       </ion-tab-button>
       
-      <ion-tab-button *ngIf="typeuser==1 " tab="favorites">
+      <ion-tab-button *ngIf="typeuser==1 || typeuser!=3" tab="favorites">
         <ion-icon name="heart"></ion-icon>
-        <ion-label>Favoritos</ion-label>
+        <ion-label>{{ 'All.favorites' | translate }}</ion-label>
       </ion-tab-button>
 
-      <ion-tab-button tab-selected  (click)="searchuser()">
+      <ion-tab-button  *ngIf="typeuser!=3 " tab-selected  (click)="searchuser()">
         <ion-icon name="contact"></ion-icon>
-        <ion-label>Perfil</ion-label>
+        <ion-label>{{ 'All.Profile' | translate }}</ion-label>
       </ion-tab-button>
-      <ion-tab-button tab="message">
+      <ion-tab-button  *ngIf="typeuser!=3 " tab="message">
         <ion-icon name="mail"></ion-icon>
-        <ion-label>Message</ion-label>
+        <ion-label>{{ 'All.messages' | translate }}</ion-label>
+      </ion-tab-button>
+      <ion-tab-button  *ngIf="typeuser==3 "tab="admin/overview-admin">
+        <ion-icon name="stats"></ion-icon>
+        <ion-label>{{ 'All.overview' | translate }}</ion-label>
+      </ion-tab-button>
+      <ion-tab-button  *ngIf="typeuser==3" tab="admin/listofuseradmin">
+        <ion-icon name="people"></ion-icon>
+        <ion-label>{{ 'All.listuser' | translate }}</ion-label>
       </ion-tab-button>
     </ion-tab-bar>
 

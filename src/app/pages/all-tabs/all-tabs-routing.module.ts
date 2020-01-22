@@ -4,7 +4,7 @@ import { AllTabsPage } from './all-tabs.page';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/tabs/home',
+    redirectTo: 'tabs',
     pathMatch: 'full'
   },
   {
@@ -40,6 +40,32 @@ const routes: Routes = [
             path: '',
             loadChildren: () =>
               import('../userregister/userregister.module').then(m => m.UserregisterPageModule)
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: '',
+    component: AllTabsPage,
+    children: [
+      {
+        path: 'admin',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../admin/admin.module').then(m => m.AdminPageModule)
+          },
+          {
+            path: 'overview-admin',
+            loadChildren: () =>
+              import('../overview-admin/overview-admin.module').then(m => m.OverviewAdminPageModule)
+          },
+          {
+            path: 'listofuseradmin',
+            loadChildren: () =>
+              import('../listofuseradmin/listofuseradmin.module').then(m => m.ListofuseradminPageModule)
           }
         ]
       }

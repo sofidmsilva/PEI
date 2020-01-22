@@ -65,6 +65,7 @@ export class HomePage implements OnInit, OnDestroy {
           data => {
             this.showuser = data[0].tipeuser;
             this.userServices.setCurrentUser(data); 
+       
           });
           this.requestSubscription = this.servicespetServices.getrequestservice(this.authServices.getAuth().currentUser.uid).subscribe(
             data => {this.numberservicetodo=0;
