@@ -18,7 +18,9 @@
       "messageChangePass3":"Confirmar Password",
       "change":"Mudar Password",
       "day":"Dia",
-      "hour":"Hora"
+      "hour":"Hora",
+      "messagechangePass":"Tem a certeza que quer alterar a sua password? Se obtar por continuar será enviado um email para a sua conta para proceder a alteração.",
+      "titlechangepass":"Mudar Password"
    },
    "Home": {
       "Question": "Qual o serviço que procura?",

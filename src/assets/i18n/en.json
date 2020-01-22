@@ -18,7 +18,9 @@
       "messageChangePass3":"Confirm Password",
       "change":"Change Password",
       "day":"Day",
-      "hour":"Hour"
+      "hour":"Hour",
+      "messagechangePass":"Are you sure you want to change your password? If you choose to continue, an email will be sent to your account to proceed with changing.",
+      "titlechangepass":"Change Password"
    },
  "Home": {
    "Question":"What service do you need?",

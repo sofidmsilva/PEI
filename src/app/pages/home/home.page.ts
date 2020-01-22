@@ -44,6 +44,7 @@ export class HomePage implements OnInit, OnDestroy {
   private verfifiedemail: boolean=true;
   private sentTimestamp: any;
 
+
   constructor(private translateService: TranslateService,
     private router: Router,
     private userServices: RegisterService,
@@ -56,7 +57,6 @@ export class HomePage implements OnInit, OnDestroy {
       this.autg.authState.subscribe(user=>{
         if(user)
             this.verfifiedemail = this.autg.auth.currentUser.emailVerified;
-            console.log(user.emailVerified)
       });
 
       route.params.subscribe(val => {
