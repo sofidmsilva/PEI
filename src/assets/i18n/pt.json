@@ -165,7 +165,8 @@
       "distance": "Distância",
       "price": "Preço",
       "applyfilters": "Aplicar Filtros",
-      "cleanfilters": "Limpar Filtros"
+      "cleanfilters": "Limpar Filtros",
+    "noResults": "Sem resultados"
    },
    "Favorites": {
       "title": "Favoritos"

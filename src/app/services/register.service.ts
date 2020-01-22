@@ -15,6 +15,7 @@ import { Ratings } from '../interfaces/ratings';
 export class RegisterService {
 
   private usersCollection;
+  private filterUsersCollection;
   private currentUser;
   private userCommentCollection;
   coords: any;
@@ -22,11 +23,11 @@ export class RegisterService {
   constructor(private afs: AngularFirestore, private authServices: AuthService, private http: HttpClient) {
 
   }
-  getUsersCollection(){
-    return this.usersCollection;
+  getFilterUsersCollection(){
+    return this.filterUsersCollection;
   }
-  setUsersCollection(usersCollection){
-    this.usersCollection = usersCollection;
+  setFilterUsersCollection(filterUsersCollection){
+    this.filterUsersCollection = filterUsersCollection;
   }
   getCurrentUser(){
     return this.currentUser;

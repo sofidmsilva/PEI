@@ -34,7 +34,6 @@
         </ion-toolbar>
       <div>
         <div class="ion-text-right">
-       
         <ion-button color="primary" (click)="openFilters()" style="padding-right: 10px;">
             <ion-icon name="ios-funnel" slot="icon-only"></ion-icon>
         </ion-button>
@@ -56,6 +55,10 @@
                       </ion-label>
                     </ion-item>
                   </div>
+                <div *ngIf="noResults" class="ion-text-center">
+                    <ion-icon name="md-search"></ion-icon>
+                  <ion-title>{{ 'SearchServices.noResults' | translate }}</ion-title>
+                </div>
               </ion-list>
           
          
@@ -74,6 +77,10 @@
                         </ion-label>
                       </ion-item>
                       </div>
+                      <div *ngIf="noResults" class="ion-text-center">
+                        <ion-icon name="md-search"></ion-icon>
+                      <ion-title>{{ 'SearchServices.noResults' | translate }}</ion-title>
+                    </div>
                   </ion-list>
            
          
@@ -91,6 +98,10 @@
                         </ion-label>
                         </ion-item>
                       </div>
+                      <div *ngIf="noResults" class="ion-text-center">
+                        <ion-icon name="md-search"></ion-icon>
+                      <ion-title>{{ 'SearchServices.noResults' | translate }}</ion-title>
+                    </div>
                 </ion-list>
                  <div class="map" [hidden]="option!='map'" #map id="map">
                     <div id=popup [style.visibility]="isDivVisible ? 'visible' : 'hidden'" class="ol-popup">

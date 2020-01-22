@@ -168,7 +168,8 @@
     "distance":"Distance",
     "price":"Price",
     "applyfilters": "Apply Filters",
-    "cleanfilters": "Clean Filters"
+    "cleanfilters": "Clean Filters",
+    "noResults": "No results"
  },
  "Favorites":{
     "title":"Favorites"

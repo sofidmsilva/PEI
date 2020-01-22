@@ -72,7 +72,7 @@ export class ServiceFiltersPage implements OnInit,OnDestroy {
     }
     this.filterUsers = Object.assign([], this.alluser);
     this.servicespetServices.setFilterServicesCollection(this.servicesPet);
-    this.userServices.setUsersCollection(this.filterUsers);
+    this.userServices.setFilterUsersCollection(this.filterUsers);
   }
   applyFilters(){
     this.filterUsers = Object.assign([], this.alluser);
@@ -111,7 +111,7 @@ export class ServiceFiltersPage implements OnInit,OnDestroy {
     }
     this.servicespetServices.setServiceType(this.filters.typeservice);
     this.servicespetServices.setFilterServicesCollection(this.filterServicesPet);
-    this.userServices.setUsersCollection(this.filterUsers);
+    this.userServices.setFilterUsersCollection(this.filterUsers);
     this.router.navigate(['tabs/home/search-services']);
   }
 

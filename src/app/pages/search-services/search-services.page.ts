@@ -36,6 +36,7 @@ export class SearchServicesPage implements OnInit {
   @ViewChild('map', { static: false }) map;
 
   private filterUsers: Array<User>;
+  private noResults: boolean;
   private orderprice: Array<number>;
   public animalsPosition: number = 0;
   public animalsDifference: number = 100;
@@ -53,9 +54,9 @@ export class SearchServicesPage implements OnInit {
 
   constructor(private router: Router,
     private userServices: RegisterService, private service: ServicespetService, private storage: Storage, route:ActivatedRoute) {
-      this.filterUsers = Object.assign([], this.userServices.getUsersCollection());
+      this.filterUsers = Object.assign([], this.userServices.getFilterUsersCollection());
       route.params.subscribe(val => {
-        this.filterUsers = Object.assign([], this.userServices.getUsersCollection());
+        this.filterUsers = Object.assign([], this.userServices.getFilterUsersCollection());
       });
   }
 
@@ -263,12 +264,14 @@ export class SearchServicesPage implements OnInit {
           for(let j = 0; j < this.filterUsers.length; j++){
             if(this.filterUsers[j].id == servicesList[i].userID){
               this.filterUsers[j].typeservice = servicesList[i].typeservice;
+              this.filterUsers[j].price = servicesList[i].price;
               var userToAdd = Object.assign([], this.filterUsers[j]);
               usersList.push(userToAdd);
               break;
             }
           }
         }
+        this.noResults = usersList.filter(X => X.premium == true).length == 0;
         return usersList.filter(X => X.premium == true);
         break;
       case 'distance':
@@ -276,12 +279,14 @@ export class SearchServicesPage implements OnInit {
           for(let j = 0; j < this.filterUsers.length; j++){
             if(this.filterUsers[j].id == servicesList[i].userID){
               this.filterUsers[j].typeservice = servicesList[i].typeservice;
+              this.filterUsers[j].price = servicesList[i].price;
               var userToAdd = Object.assign([], this.filterUsers[j]);
               usersList.push(userToAdd);
               break;
             }
           }
         }
+        this.noResults = usersList.filter(X => X.morada.Cidade == this.userServices.getCurrentUser()[0].morada.Cidade).length == 0;
         return usersList.filter(X => X.morada.Cidade == this.userServices.getCurrentUser()[0].morada.Cidade);
         break;
       case 'price':
@@ -290,12 +295,14 @@ export class SearchServicesPage implements OnInit {
           for(let j = 0; j < this.filterUsers.length; j++){
             if(this.filterUsers[j].id == servicesList[i].userID){
               this.filterUsers[j].typeservice = servicesList[i].typeservice;
+              this.filterUsers[j].price = servicesList[i].price;
               var userToAdd = Object.assign([], this.filterUsers[j]);
               usersList.push(userToAdd);
               break;
             }
           }
         }
+        this.noResults = usersList.length == 0;
         return usersList;
         break;
       default:

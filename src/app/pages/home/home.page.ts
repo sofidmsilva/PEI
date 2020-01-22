@@ -147,7 +147,7 @@ export class HomePage implements OnInit, OnDestroy {
               this.filterUsers.splice(i,1);
               }
             }
-            this.userServices.setUsersCollection(this.filterUsers);
+            this.userServices.setFilterUsersCollection(this.filterUsers);
             this.servicespetServices.setServiceType(typeservice);
             this.servicespetServices.setFilterServicesCollection(this.filterServicesPet);
             this.router.navigate(['tabs/home/search-services']);
