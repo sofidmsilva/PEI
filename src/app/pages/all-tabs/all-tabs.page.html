@@ -31,7 +31,7 @@
         <ion-label>Home</ion-label>
       </ion-tab-button>
       
-      <ion-tab-button *ngIf="typeuser==1 || typeuser!=3" tab="favorites">
+      <ion-tab-button *ngIf="typeuser==1 && typeuser!=3" tab="favorites">
         <ion-icon name="heart"></ion-icon>
         <ion-label>{{ 'All.favorites' | translate }}</ion-label>
       </ion-tab-button>

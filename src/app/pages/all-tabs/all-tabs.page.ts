@@ -51,6 +51,7 @@ export class AllTabsPage implements OnInit, OnDestroy {
     this.userSubscription = this.userServices.getDataUser(this.authService.getAuth().currentUser.uid).subscribe(
       data => {
         this.typeuser = data[0].tipeuser;
+      
         if(this.typeuser==3){
           this.route.navigate(['tabs/admin/overview-admin']);
         }
