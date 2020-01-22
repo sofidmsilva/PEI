@@ -266,12 +266,15 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   async sendverifiedEmail(){
-    this.autg.auth.currentUser.sendEmailVerification();
+    this.autg.auth.currentUser.sendEmailVerification().then(function() {
+      // Email sent.
+    }).catch(function(error) {
+      // An error happened.
+    });
     this.sentTimestamp= new Date();
   }
   reload(){
     window.location.reload();
-    console.log(5)
   }
   async servicedone(id: string) {
     await this.presentLoading();

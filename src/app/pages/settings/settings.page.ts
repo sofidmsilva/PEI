@@ -102,7 +102,12 @@ export class SettingsPage implements OnInit, OnDestroy {
           text: 'Ok',
           handler: async () => {
             try {
-   
+            var user = this.autg.auth.currentUser;
+            user.delete().then(function() {
+              // User deleted.
+            }).catch(function(error) {
+              // An error happened.
+            });
             }
             catch (error) {
               this.presentToast('erro ao apagar');
@@ -151,10 +156,15 @@ async changepassword(){
         text: this.translationservice.instant('All.continue'),
         handler: async () => {
           try {
-            this.autg.auth.sendPasswordResetEmail(this.emailuser);
+            this.autg.auth.sendPasswordResetEmail(this.emailuser).then(function() {
+              // Email sent.
+            }).catch(function(error) {
+              // An error happened.
+            });
+            
           }
           catch (error) {
-            this.presentToast('erro ao apagar');
+            this.presentToast('erro. tente de novo');
           } finally {
 
           }
