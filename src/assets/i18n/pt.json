@@ -27,6 +27,10 @@
       "messagechangePass":"Tem a certeza que quer alterar a sua password? Se obtar por continuar será enviado um email para a sua conta para proceder a alteração.",
       "titlechangepass":"Mudar Password"
    },
+   "Admin":{
+      "titlepichart":"Número de utilizadores registados por tipo",
+      "owner":"Dono Animal"
+   },
    "Home": {
       "Question": "Qual o serviço que procura?",
       "Done":"Feito",
