@@ -4,10 +4,10 @@
             <ion-segment-button checked value="profile">
                 <ion-label>{{ 'Profile.myprofile' | translate }}</ion-label>
             </ion-segment-button>
-            <ion-segment-button *ngIf="showusertabs == 1" value="animals">
+            <ion-segment-button *ngIf="showusertabs == 1 " value="animals">
                 <ion-label>{{ 'Profile.myanimals' | translate }}</ion-label>
             </ion-segment-button>
-            <ion-segment-button *ngIf="showusertabs == 2" value="animals">
+            <ion-segment-button *ngIf="showusertabs == 2 && showuser==2" value="animals">
                 <ion-label>{{ 'Profile.services' | translate }}</ion-label>
             </ion-segment-button>
         </ion-segment>
@@ -308,10 +308,17 @@
                         
                         <ion-item *ngFor="let comment of datacomment">
                            
-                            <ion-avatar slot="start">
-                                <img src="/assets/img/iconperfil.png">
+                            <ion-avatar class="commentprofile" slot="start">
+                                <img style="width: auto;
+                                margin: auto;
+                                height: auto;" class="center ion-margin-top" *ngIf="imageprofilecomments" [src]="imageprofilecomments">
+                                <img *ngIf="!imageprofilecomments"src="/assets/img/iconperfil.png">
+                                
                             </ion-avatar>
+                         
+                         
                             <ion-label>
+                                <b>{{nameusercomments}}</b><br>
                                 {{ comment.content }}
                             </ion-label>
                                 <ion-button *ngIf="showusertabs == showuser" class="ion-margin-top"
