@@ -78,12 +78,12 @@ export class LoginPage implements OnInit {
 
     try {
       await this.authServices.login(this.userLogin).then((res)=>{   
-        // this.registerServices.getIfUserIsValid(res.user.uid).subscribe(resp=>{
-        //   if(resp.data().isActive==false){
-        //     this.presentAlert();
-        //     this.authServices.logout();
-        //   }
-        // })
+        this.registerServices.getIfUserIsValid(res.user.uid).subscribe(resp=>{
+          if(resp.data().isActive==false){
+            this.presentAlert();
+            this.authServices.logout();
+          }
+        })
         this.storage.set('currentActiveUser', this.authServices.getAuth().currentUser.uid);
     });
 

@@ -12,7 +12,9 @@
            </ion-avatar>
           <ion-label>
             <h3>{{ user.name }}: {{ user.typeservice}}</h3>
-            <button class="disableProfile" type="button" (click)="deleteProfile(user.id)"><ion-icon class="icon" name="close-circle"></ion-icon></button>
+            <button class="disableProfile" *ngIf="user.isActive===undefined || user.isActive===true" type="button" (click)="deleteProfile(user.id)"><ion-icon class="icon" name="close-circle"></ion-icon></button>
+            <button class="enableProfile" *ngIf="user.isActive===false" type="button" (click)="enableProfile(user.id)"><ion-icon class="iconCheck" name="checkmark"></ion-icon></button>
+
           </ion-label>
         </ion-item>
       

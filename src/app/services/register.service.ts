@@ -49,6 +49,15 @@ export class RegisterService {
       docRef.update(user);
     })
   }
+
+  enableUser(id:string){
+    var docRef = this.afs.collection("Utilizador").doc(id);
+    docRef.get().subscribe(res=>{
+      let user=res.data();
+      user.isActive=true;
+      docRef.update(user);
+    })
+  }
   documentToDomainObject = _ => {
     const object = _.payload.doc.data();
     object.id = _.payload.doc.id;
