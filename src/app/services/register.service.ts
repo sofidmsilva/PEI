@@ -35,6 +35,20 @@ export class RegisterService {
   setCurrentUser(currentUser){
     this.currentUser = currentUser;
   }
+
+  getIfUserIsValid(id){
+    // console.log("Entrou aqui")
+    return this.afs.collection("Utilizador").doc(id).get();
+  }
+
+  removeUser(id:string){
+    var docRef = this.afs.collection("Utilizador").doc(id);
+    docRef.get().subscribe(res=>{
+      let user=res.data();
+      user.isActive=false;
+      docRef.update(user);
+    })
+  }
   documentToDomainObject = _ => {
     const object = _.payload.doc.data();
     object.id = _.payload.doc.id;

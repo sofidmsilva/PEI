@@ -1,0 +1,58 @@
+
+
+    ion-title{
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        text-align: center;
+    }
+    ion-segment{
+        width: 100%;
+        ion-segment-button{
+        width: 2%;
+    }
+    ion-label{
+        font-size: 10px;;
+    }
+
+    }
+
+    ion-list{
+        ion-item{
+            background: #e8e7db;
+            margin-top: 4px;
+            margin-left: 8px;
+            margin-right: 8px;
+            border-radius: 1%;
+            // border-style: solid;
+            // border-color: #6b3f2f;        
+            height: auto;
+            width: 100%;
+      
+            
+
+            ion-label{
+                h2{
+                    color: #192567;
+                }
+            }
+        }
+
+    }
+
+    .disableProfile{
+        position: absolute;
+        left: 84%;
+        top: 30%;
+        background-color: red;
+        border: none;
+        margin: 0px;
+        padding: 0px;
+        border-radius: 113% 50%;
+    }
+
+    .icon{
+        color: white;
+        height: 30px;
+        width: 30px;
+        padding: 0px;
+        margin: 0px;
+    }

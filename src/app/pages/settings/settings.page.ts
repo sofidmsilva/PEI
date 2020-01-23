@@ -121,6 +121,40 @@ export class SettingsPage implements OnInit, OnDestroy {
     await alert.present();
   }
 
+  async CancelAccountAdmin(){
+    const alert = await this.alertController.create({
+      header: this.translationservice.instant('All.cancelAccount'),
+      message: this.translationservice.instant('All.messageCancelAccount'),
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+          }
+        }, {
+          text: 'Ok',
+          handler: async () => {
+            try {
+            var user = this.autg.auth.currentUser;
+            user.delete().then(function() {
+              // User deleted.
+            }).catch(function(error) {
+              // An error happened.
+            });
+            }
+            catch (error) {
+              this.presentToast('erro ao apagar');
+            } finally {
+
+            }
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
 async help(){
   const alert = await this.alertController.create({
     header: this.translationservice.instant('All.help'),
