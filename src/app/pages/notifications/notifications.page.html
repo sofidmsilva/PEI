@@ -100,7 +100,7 @@
     </ion-item>
   </div>
 
-  <ion-item *ngFor="let service of NotificationRatings">
+  <ion-item *ngFor="let service of NotificationRatings; let j = index">
     <ion-grid *ngIf="service.shownotification==4 && !service.rating ">
       <ion-row>
         <ion-note style="color: black; font-size:17px" align="center">{{ 'Notification.messagerating1' | translate }}:
@@ -108,18 +108,20 @@
         </ion-note>
       </ion-row>
       <ion-row style="font-size: 30px; margin-top: 38px;">
-        <ion-col *ngFor="let star of stars; let i = index" tappable (click)="starClicked(i)">
-          <ion-icon [name]="star"></ion-icon>
+        <ion-col *ngFor="let star of starsPetSitter[j].stars; let i = index">
+          <div class="ion-text-center">
+            <ion-icon [name]="star" tappable (click)="starClickedPetSitter(j,i)"></ion-icon>
+          </div>
         </ion-col>
       </ion-row>
       <ion-row><br>
-        <ion-button class="rating" align="right"  color="danger" (click)="saverating(service,1)">
+        <ion-button class="rating" align="right"  color="danger" (click)="saverating(service,1,j)">
           avaliar
         </ion-button>
       </ion-row>
     </ion-grid>
   </ion-item>
-  <ion-item *ngFor="let service of NotificationRatingsOwner">
+  <ion-item *ngFor="let service of NotificationRatingsOwner; let k = index">
     <ion-grid *ngIf="service.shownotification==5 && !service.rating">
       <ion-row>
         <ion-note style="color: black; font-size:17px" align="center">{{ 'Notification.messagerating' | translate }}:
@@ -127,12 +129,14 @@
         </ion-note>
       </ion-row>
       <ion-row style="font-size: 30px; margin-top: 38px;">
-        <ion-col *ngFor="let star of stars; let i = index" tappable (click)="starClicked(i)">
-          <ion-icon [name]="star"></ion-icon>
+        <ion-col *ngFor="let star of starsOwner[k].stars; let i = index">
+          <div class="ion-text-center">
+            <ion-icon [name]="star" tappable (click)="starClickedOwner(k,i)"></ion-icon>
+          </div>
         </ion-col>
       </ion-row>
       <ion-row><br>
-        <ion-button class="rating" align="right"  color="danger" (click)="saverating(service)">
+        <ion-button class="rating" align="right"  color="danger" (click)="saverating(service,2,k)">
           avaliar
         </ion-button>
       </ion-row>
