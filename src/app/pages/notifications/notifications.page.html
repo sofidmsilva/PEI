@@ -51,7 +51,7 @@
     </ion-item>
   </div>
   <div class="unlockmessage" *ngFor="let service of unlockmessageboth">
-    <ion-item *ngIf="service.accept==5 && service.finish==false">
+    <ion-item *ngIf="service.accept==5 && !service.finish">
       <ion-textarea disabled align="center">
         <ion-note *ngIf="service.shownotification==2">{{ 'Notification.messageunlockpayment' | translate }} </ion-note>
         <ion-note *ngIf="service.shownotification==1"> {{ 'Notification.messageunlockpayment2' | translate }}
@@ -104,10 +104,10 @@
     <ion-grid *ngIf="service.shownotification==4 && !service.rating ">
       <ion-row>
         <ion-note style="color: black; font-size:17px" align="center">{{ 'Notification.messagerating1' | translate }}:
-         <b>{{service.type}}</b>  {{ 'Notification.messagerating2' | translate }}
+         <b>{{service.type}}</b>  {{ 'Notification.messagerating2' | translate }} {{service.location}}
         </ion-note>
       </ion-row>
-      <ion-row style="font-size: 30px; margin-top: 23px;">
+      <ion-row style="font-size: 30px; margin-top: 38px;">
         <ion-col *ngFor="let star of stars; let i = index" tappable (click)="starClicked(i)">
           <ion-icon [name]="star"></ion-icon>
         </ion-col>
@@ -123,10 +123,10 @@
     <ion-grid *ngIf="service.shownotification==5 && !service.rating">
       <ion-row>
         <ion-note style="color: black; font-size:17px" align="center">{{ 'Notification.messagerating' | translate }}:
-          <b>{{service.type}}</b> {{ 'Notification.messagerating2' | translate }}
+          <b>{{service.type}}</b> {{ 'Notification.messagerating2' | translate }} {{service.location}}
         </ion-note>
       </ion-row>
-      <ion-row style="font-size: 30px; margin-top: 23px;">
+      <ion-row style="font-size: 30px; margin-top: 38px;">
         <ion-col *ngFor="let star of stars; let i = index" tappable (click)="starClicked(i)">
           <ion-icon [name]="star"></ion-icon>
         </ion-col>

@@ -1,5 +1,10 @@
 {
    "All":{
+      "Profile":"Profile",
+      "messages":"Messages",
+      "overview":"Overview",
+      "listuser":"List of Users",
+      "favorites":"Favorites",
       "Cancel":"Cancel",
       "continue":"Continue",
       "add":"ADD",
@@ -16,7 +21,15 @@
       "messageChangePass":"Old Password",
       "messageChangePass2":"New Password",
       "messageChangePass3":"Confirm Password",
-      "change":"Change Password"
+      "change":"Change Password",
+      "day":"Day",
+      "hour":"Hour",
+      "messagechangePass":"Are you sure you want to change your password? If you choose to continue, an email will be sent to your account to proceed with changing.",
+      "titlechangepass":"Change Password"
+   },
+   "Admin":{
+      "titlepichart":"Number of registered users by type",
+      "owner":"Animal Owner"
    },
  "Home": {
    "Question":"What service do you need?",
@@ -44,7 +57,11 @@
     "totalservices":"Total services performed in",
     "consult":"See the calendar for more details",
     "consult2":"No Service to Do",
-    "consult3":"No Service Request"
+    "consult3":"No Service Request",
+    "messagechart":"When you perform the first service, a graph will appear to provide you with an overview of the services performed.",
+    "verifiedemail":"Check your email to use the application ",
+    "buttonverified":"Verified Email",
+    "messageTimeverfied":"Verification email sent at"
  },
  "Login": {
      "register":"Register",
@@ -107,7 +124,7 @@
       "myprofile":"Profile",
       "myanimals":"Animals",
       "services":"Services",
-      "typeservice":"Kind of service",
+      "typeservice":"Service Type",
       "addservice":"Add Service",
       "AnimalTypeservices":"Intended for these animals",
       "caregiven":"Care Given",
@@ -115,6 +132,11 @@
       "welcome":"Welcome",
       "editphoto":"Edit Photo",
       "ratings":"Ratings: 1- 5 ",
+      "minRating":"Minimum rating",
+      "evaluation": "Rating",
+      "lessThenOne":"<1 year",
+      "lessThenFive":"<5 years",
+      "moreThenFive":">5 years",
       "Comment":{
          "title":"Comments",
          "label":"Insert comment...",
@@ -155,7 +177,8 @@
     "distance":"Distance",
     "price":"Price",
     "applyfilters": "Apply Filters",
-    "cleanfilters": "Clean Filters"
+    "cleanfilters": "Clean Filters",
+    "noResults": "No results"
  },
  "Favorites":{
     "title":"Favorites"

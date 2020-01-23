@@ -1,135 +1,160 @@
 <ion-content>
-        <ion-item>
-                <ion-slides #mySlider class="slides" (ionSlidesDidLoad)="slidesDidLoad(mySlider)">
-                        <ion-slide>
-                                <img src="assets/img/adverts/Imagem1.png" />
-                        </ion-slide>
-                        <ion-slide>
-                                <img src="assets/img/adverts/Imagem2.png" />
-                        </ion-slide>
-                        <ion-slide>
-                                <img src="assets/img/adverts/Imagem3.png" />
-                        </ion-slide>
-                        <ion-slide>
-                                <img src="assets/img/adverts/Imagem4.png" />
-                        </ion-slide>
-                </ion-slides>
-        </ion-item>
-        <ion-item>
-                <div class="homepetsitter" align="center">
-                        <ion-title align="left" style="margin-top: 16px;">{{ 'Home.hello' | translate }}</ion-title>
-                        <ion-list>
-                                <ion-list-header *ngIf="showuser == 1">
-                                        {{'Home.Services2'| translate}}<br>
-
-                                </ion-list-header>
-                                <ion-list-header *ngIf="showuser == 2">
-                                        {{'Home.Services'| translate}}<br>
-
-                                </ion-list-header>
-                                <ion-note *ngIf="numberservicetodo!=0 && showuser == 2 " class="subtitle">
-                                        {{'Home.consult'| translate}}</ion-note>
-                                <ion-note *ngIf="numberservicetodo==0 && showuser == 2" class="subtitle">
-                                        {{'Home.consult2'| translate}}</ion-note>
-                                <ion-note *ngIf="numberservicetodoowner==0 && showuser == 1" class="subtitle">
-                                        {{'Home.consult3'| translate}}</ion-note>
-                                <div *ngIf="showuser == 2">
-                                        <ion-item-sliding *ngFor="let servi of requestservices">
-                                                <ion-item color="Warning" *ngIf="servi.accept && !servi.done">
-                                                        <ion-note> <b
-                                                                        style="font-size: 15px; ">{{'Profile.typeservice'| translate}}</b><br>
-                                                                {{ servi.type }} </ion-note>
-                                                        <ion-note>&nbsp;&nbsp;<b
-                                                                        style="font-size: 15px;">{{'Profile.Calendar.begindate'| translate}}</b><br>&nbsp;&nbsp;
-                                                                {{ servi.datebegin }}</ion-note>
-                                                </ion-item>
-                                                <ion-item-options side="end">
-                                                        <ion-item-option color="success"
-                                                                (click)="servicedone(servi.id)">
-                                                                {{ 'Home.Done' | translate }}</ion-item-option>
-                                                </ion-item-options>
-                                        </ion-item-sliding>
-                                </div>
-
-                                <div *ngIf="showuser == 1">
-                                        <ion-item-sliding *ngFor="let servi of requestserviceowner">
-                                                <ion-item color="Warning" *ngIf="servi.accept && !servi.done">
-                                                        <ion-note> <b
-                                                                        style="font-size: 15px;">{{'Profile.typeservice'| translate}}</b><br>
-                                                                {{ servi.type }} </ion-note>
-                                                        <ion-note>&nbsp;&nbsp;<b
-                                                                        style="font-size: 15px;">{{'Profile.Calendar.begindate'| translate}}</b><br>&nbsp;&nbsp;
-                                                                {{ servi.datebegin }}</ion-note>
-                                                </ion-item>
-                                        </ion-item-sliding>
-                                </div>
-
-                        </ion-list>
+        <div *ngIf="!verfifiedemail">
+                <ion-item style="border-radius: 10px; border-style: dashed;margin-top: 32px; margin-right: 15px;left:8px" color="light">
+                      <ion-note align="center" style="color: white; font-size: 16px;"> {{'Home.verifiedemail'| translate}} 
+                        <ion-icon name="glasses"></ion-icon></ion-note>  
+                
+                </ion-item>
+                <div align="center" style="    margin-top: 15px;">
+                        <ion-button (click)="sendverifiedEmail()" color="success" icon-start>{{'Home.buttonverified'| translate}}
+                                <ion-icon name="mail"></ion-icon>
+                                </ion-button>
+                        <ion-button (click)="reload()" color="secondary" icon-start>Refresh
+                        <ion-icon name="refresh"></ion-icon>
+                </ion-button>
                 </div>
-        </ion-item>
-        <ion-item *ngIf="showuser == 1">
-                <div>
-                        <ion-title class="ion-text-center" color="dark">{{ 'Home.Question' | translate }}</ion-title>
-                        <ion-card color="tertiary">
-                                <img src="assets/img/petwalking.png" />
-                                <ion-card-content>
-                                        <ion-card-title style="color:black;">
-                                                Pet Walking
-                                        </ion-card-title>
-                                        <p> {{ 'Home.PetWalking' | translate }}</p>
-                                </ion-card-content>
-                                <ion-row ion-no-padding>
-                                        <ion-col ion-text-right>
-                                                <ion-button (click)="searchServices('Pet Walking')" tab="services"
-                                                        color="danger" icon-start>
-                                                        <ion-icon name="arrow-forward" slot="icon-only"></ion-icon>
-                                                </ion-button>
-                                        </ion-col>
-                                </ion-row>
-                        </ion-card>
-
-                        <ion-card color="warning">
-                                <img src="assets/img/petCare.png" />
-                                <ion-card-content>
-                                        <ion-card-title style="color:black;">
-                                                Pet Care
-                                        </ion-card-title>
-                                        <p>{{ 'Home.PetCare' | translate }}</p>
-
-                                </ion-card-content>
-                                <ion-row ion-no-padding>
-                                        <ion-col ion-text-right>
-                                                <ion-button (click)="searchServices('Pet Care')" tab="services"
-                                                        color="danger" icon-start>
-                                                        <ion-icon name="arrow-forward" slot="icon-only"></ion-icon>
-                                                </ion-button>
-                                        </ion-col>
-                                </ion-row>
-
-                        </ion-card>
-                        <ion-card color="medium">
-                                <img class="center" src="assets/img/petSitting.png" />
-                                <ion-card-content>
-                                        <ion-card-title style="color:black;">
-                                                Pet Sitting
-                                        </ion-card-title>
-                                        <p>{{ 'Home.PetSitting' | translate }}</p>
-                                </ion-card-content>
-                                <ion-row ion-no-padding>
-                                        <ion-col ion-text-right>
-                                                <ion-button (click)="searchServices('Pet Sitting')" tab="services"
-                                                        color="danger" icon-start>
-                                                        <ion-icon name="arrow-forward" slot="icon-only"></ion-icon>
-                                                </ion-button>
-                                        </ion-col>
-                                </ion-row>
-                        </ion-card>
+             
+        <div *ngIf="sentTimestamp">
+                {{'Home.messageTimeverfied'| translate}} {{sentTimestamp | date:'medium'}}
+        </div>
+               
+        </div>
+        <div *ngIf="verfifiedemail">
+                <ion-item>
+                        <ion-slides #mySlider class="slides" (ionSlidesDidLoad)="slidesDidLoad(mySlider)">
+                                <ion-slide>
+                                        <img src="assets/img/adverts/Imagem1.png" />
+                                </ion-slide>
+                                <ion-slide>
+                                        <img src="assets/img/adverts/Imagem2.png" />
+                                </ion-slide>
+                                <ion-slide>
+                                        <img src="assets/img/adverts/Imagem3.png" />
+                                </ion-slide>
+                                <ion-slide>
+                                        <img src="assets/img/adverts/Imagem4.png" />
+                                </ion-slide>
+                        </ion-slides>
+                </ion-item>
+                <ion-item>
+                        <div class="homepetsitter" align="center">
+                                <ion-title align="left" style="margin-top: 16px;">{{ 'Home.hello' | translate }}</ion-title>
+                                <ion-list>
+                                        <ion-list-header *ngIf="showuser == 1">
+                                                {{'Home.Services2'| translate}}<br>
+        
+                                        </ion-list-header>
+                                        <ion-list-header *ngIf="showuser == 2">
+                                                {{'Home.Services'| translate}}<br>
+        
+                                        </ion-list-header>
+                                        <ion-note *ngIf="numberservicetodo!=0 && showuser == 2 " class="subtitle">
+                                                {{'Home.consult'| translate}}</ion-note>
+                                        <ion-note *ngIf="numberservicetodo==0 && showuser == 2" class="subtitle">
+                                                {{'Home.consult2'| translate}}</ion-note>
+                                        <ion-note *ngIf="numberservicetodoowner==0 && showuser == 1" class="subtitle">
+                                                {{'Home.consult3'| translate}}</ion-note>
+                                        <div *ngIf="showuser == 2">
+                                                <ion-item-sliding *ngFor="let servi of requestservices">
+                                                        <ion-item color="Warning" *ngIf="servi.accept && !servi.done">
+                                                                <ion-note> <b
+                                                                                style="font-size: 15px; ">{{'Profile.typeservice'| translate}}</b><br>
+                                                                        {{ servi.type }} </ion-note>
+                                                                <ion-note>&nbsp;&nbsp;<b
+                                                                                style="font-size: 15px;">{{'Profile.Calendar.begindate'| translate}}</b><br>&nbsp;&nbsp;
+                                                                        {{ servi.datebegin }}</ion-note>
+                                                        </ion-item>
+                                                        <ion-item-options side="end">
+                                                                <ion-item-option color="success"
+                                                                        (click)="servicedone(servi.id)">
+                                                                        {{ 'Home.Done' | translate }}</ion-item-option>
+                                                        </ion-item-options>
+                                                </ion-item-sliding>
+                                        </div>
+        
+                                        <div *ngIf="showuser == 1">
+                                                <ion-item-sliding *ngFor="let servi of requestserviceowner">
+                                                        <ion-item color="Warning" *ngIf="servi.accept && !servi.done">
+                                                                <ion-note> <b
+                                                                                style="font-size: 15px;">{{'Profile.typeservice'| translate}}</b><br>
+                                                                        {{ servi.type }} </ion-note>
+                                                                <ion-note>&nbsp;&nbsp;<b
+                                                                                style="font-size: 15px;">{{'Profile.Calendar.begindate'| translate}}</b><br>&nbsp;&nbsp;
+                                                                        {{ servi.datebegin }}</ion-note>
+                                                        </ion-item>
+                                                </ion-item-sliding>
+                                        </div>
+        
+                                </ion-list>
+                        </div>
+                </ion-item>
+                <ion-item *ngIf="showuser == 1">
+                        <div>
+                                <ion-title class="ion-text-center" color="dark">{{ 'Home.Question' | translate }}</ion-title>
+                                <ion-card color="tertiary">
+                                        <img src="assets/img/petwalking.png" />
+                                        <ion-card-content>
+                                                <ion-card-title style="color:black;">
+                                                        Pet Walking
+                                                </ion-card-title>
+                                                <p> {{ 'Home.PetWalking' | translate }}</p>
+                                        </ion-card-content>
+                                        <ion-row ion-no-padding>
+                                                <ion-col ion-text-right>
+                                                        <ion-button (click)="searchServices('Pet Walking')" tab="services"
+                                                                color="danger" icon-start>
+                                                                <ion-icon name="arrow-forward" slot="icon-only"></ion-icon>
+                                                        </ion-button>
+                                                </ion-col>
+                                        </ion-row>
+                                </ion-card>
+        
+                                <ion-card color="warning">
+                                        <img src="assets/img/petCare.png" />
+                                        <ion-card-content>
+                                                <ion-card-title style="color:black;">
+                                                        Pet Care
+                                                </ion-card-title>
+                                                <p>{{ 'Home.PetCare' | translate }}</p>
+        
+                                        </ion-card-content>
+                                        <ion-row ion-no-padding>
+                                                <ion-col ion-text-right>
+                                                        <ion-button (click)="searchServices('Pet Care')" tab="services"
+                                                                color="danger" icon-start>
+                                                                <ion-icon name="arrow-forward" slot="icon-only"></ion-icon>
+                                                        </ion-button>
+                                                </ion-col>
+                                        </ion-row>
+        
+                                </ion-card>
+                                <ion-card color="medium">
+                                        <img class="center" src="assets/img/petSitting.png" />
+                                        <ion-card-content>
+                                                <ion-card-title style="color:black;">
+                                                        Pet Sitting
+                                                </ion-card-title>
+                                                <p>{{ 'Home.PetSitting' | translate }}</p>
+                                        </ion-card-content>
+                                        <ion-row ion-no-padding>
+                                                <ion-col ion-text-right>
+                                                        <ion-button (click)="searchServices('Pet Sitting')" tab="services"
+                                                                color="danger" icon-start>
+                                                                <ion-icon name="arrow-forward" slot="icon-only"></ion-icon>
+                                                        </ion-button>
+                                                </ion-col>
+                                        </ion-row>
+                                </ion-card>
+                        </div>
+                </ion-item>
+        
+        
+                <div id="barchart_values" *ngIf="showuser == 2"></div>
+                <div *ngIf="!showmessagepie" style="margin-top: 13px;">
+                        <ion-item>
+                               <b align="center">{{ 'Home.messagechart' | translate }}</b> 
+                        </ion-item><br>
+                        
                 </div>
-        </ion-item>
-
-
-        <div id="barchart_values" *ngIf="showuser == 2"></div>
-
-
-
+        </div>
 </ion-content>

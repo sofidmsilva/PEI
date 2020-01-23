@@ -51,6 +51,10 @@ export class AllTabsPage implements OnInit, OnDestroy {
     this.userSubscription = this.userServices.getDataUser(this.authService.getAuth().currentUser.uid).subscribe(
       data => {
         this.typeuser = data[0].tipeuser;
+      
+        if(this.typeuser==3){
+          this.route.navigate(['tabs/admin/overview-admin']);
+        }
 
       });
 
@@ -61,6 +65,7 @@ export class AllTabsPage implements OnInit, OnDestroy {
         this.warningdateofservice=[];
         this.NotificationRatings=[];
         this.NotificationRatingsOwner=[];
+        this.notificationfreeservice=0;
         this.requestservices = data;
         for (let i = 0; i <= this.requestservices.length - 1; i++) {
           if (this.requestservices[i].to == this.authService.getAuth().currentUser.uid) {
@@ -83,8 +88,8 @@ export class AllTabsPage implements OnInit, OnDestroy {
             }
             this.startdate=this.requestservices[i].datebegin.split('T')[0];
             var l = new Date;
-           if((this.requestservices[i].accept == 1 ||this.requestservices[i].accept == 3) &&
-           ((this.startdate.split('-')[2]==(l.getUTCDate()-1).toString()) || 
+           if(this.requestservices[i].accept == 5 &&
+           ((this.startdate.split('-')[2]==(l.getUTCDate()+1).toString()) || 
            (this.startdate.split('-')[2]==(l.getUTCDate()).toString())) &&
            (this.startdate.split('-')[1]==l.toLocaleDateString().split('/')[1]) &&
            (this.startdate.split('-')[0]==l.toLocaleDateString().split('/')[2])){
@@ -100,6 +105,7 @@ export class AllTabsPage implements OnInit, OnDestroy {
            if(this.requestservices[i].done==true && this.requestservices[i].ratingto==false){
             let eventCopy = {
               type: this.requestservices[i].type,
+              location: this.requestservices[i].location,
               id: this.requestservices[i].id,
               userId: this.requestservices[i].from,
               to: this.requestservices[i].to,
@@ -116,6 +122,9 @@ export class AllTabsPage implements OnInit, OnDestroy {
                 type: this.requestservices[i].type,
                 startTime: this.requestservices[i].datebegin.split('T')[0],
                 endTime: this.requestservices[i].dateend.split('T')[0],
+                hoursbegin: this.requestservices[i].datebegin,
+                hoursend: this.requestservices[i].dateend,
+                petsitter: this.requestservices[i].to,
                 location: this.requestservices[i].location,
                 accept: this.requestservices[i].accept,
                 id: this.requestservices[i].id,
@@ -129,6 +138,7 @@ export class AllTabsPage implements OnInit, OnDestroy {
               let eventCopy = {
                 type: this.requestservices[i].type,
                 id: this.requestservices[i].id,
+                location: this.requestservices[i].location,
                 userId: this.requestservices[i].from,
                 to: this.requestservices[i].to,
                 rating: this.requestservices[i].ratingfrom,
@@ -140,14 +150,15 @@ export class AllTabsPage implements OnInit, OnDestroy {
               this.notificationfreeservice++;
             }
           }
+   
           
         }
 
         if (this.notificationacceptservice.length != 0 || this.warningdateofservice.length!=0 
-          || this.NotificationRatings.length!=0 || this.NotificationRatingsOwner.length!=0) {
+          || this.NotificationRatings.length!=0 ) {
           this.showpop = true;
-          this.numberofnotification = this.notificationacceptservice.length + this.warningdateofservice.length+this.NotificationRatings.length
-          +this.NotificationRatingsOwner.length;
+          this.numberofnotification = this.notificationacceptservice.length + this.warningdateofservice.length+this.NotificationRatings.length;
+         console.log(this.numberofnotification)
         // Schedule a single notification
          this.localNotifications.schedule({
           id: 1,
@@ -158,10 +169,11 @@ export class AllTabsPage implements OnInit, OnDestroy {
           data: { secret: 'key_data' }
           });
         } else {
-          if (this.notificationresponseservice.length != 0 || this.NotificationRatings.length!=0 
-            || this.NotificationRatingsOwner.length!=0) {
+          if (this.notificationresponseservice.length != 0
+            || this.NotificationRatingsOwner.length!=0 ) {
             this.showpop = true;
-            this.numberofnotification = this.notificationresponseservice.length + this.NotificationRatings.length+this.NotificationRatingsOwner.length;
+            this.numberofnotification = this.notificationresponseservice.length
+            +this.NotificationRatingsOwner.length;
             // Schedule a single notification
          this.localNotifications.schedule({
           id: 1,
@@ -190,7 +202,8 @@ export class AllTabsPage implements OnInit, OnDestroy {
               data: { secret: 'key_data' }
               });
         }
-      });    
+       
+      });   
     });
   }
 
@@ -220,10 +233,7 @@ export class AllTabsPage implements OnInit, OnDestroy {
    
       const popover = await this.popoverCtr.create({
         component: SettingsPage,
-        event: ev,
-        componentProps: { value: this.notificationacceptservice, value2: this.notificationresponseservice, 
-        value3: this.notificationfreeservice, value4: this.warningdateofservice, value5: this.NotificationRatings,
-        value6: this.NotificationRatingsOwner, value7: this.typeuser }
+        event: ev
       });
       await popover.present();
      

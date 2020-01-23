@@ -10,6 +10,10 @@ const routes: Routes = [
   { path: 'language-popover', loadChildren: './pages/language-popover/language-popover.module#LanguagePopoverPageModule' },
   { path: 'notifications', loadChildren: './pages/notifications/notifications.module#NotificationsPageModule' },
   { path: 'settings', loadChildren: './pages/settings/settings.module#SettingsPageModule' },
+  { path: 'overview-admin', loadChildren: './pages/overview-admin/overview-admin.module#OverviewAdminPageModule' },
+  { path: 'listofuseradmin', loadChildren: './pages/listofuseradmin/listofuseradmin.module#ListofuseradminPageModule' },
+
+
 
 
 ];

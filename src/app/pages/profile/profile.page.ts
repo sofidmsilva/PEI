@@ -21,6 +21,7 @@ import { RequestService } from 'src/app/interfaces/request-service';
 import { Favorites } from 'src/app/interfaces/favorites';
 import { Filters } from 'src/app/interfaces/filters';
 import { Ratings } from 'src/app/interfaces/ratings';
+import { Storage } from '@ionic/storage';
 import { Morada } from 'src/app/interfaces/morada';
 
 
@@ -99,6 +100,8 @@ private monthcalendar: string;
   private Services: Services = {};
   private event: Calendar = {startTime: '',endTime:''};
   public profileid = this.router.url.split('/');
+  public displayPromotionTag:boolean
+  requsitedServicesSize: number;
   constructor(private translationservice: TranslateService,
     private router: Router,
     private authServices: AuthService,
@@ -111,7 +114,10 @@ private monthcalendar: string;
     private route:ActivatedRoute,
     private afs: AngularFirestore,
     private alertController: AlertController,
-    public modalController: ModalController) {
+    public modalController: ModalController,
+    private storage: Storage) {
+
+
       route.params.subscribe(val => {
     this.animalsSubscription = this.animalServices.getAnimals(this.profileid[3]).subscribe(
       data => {
@@ -124,6 +130,12 @@ private monthcalendar: string;
         data[0].dateofbirthday = data[0].dateofbirthday.split('T')[0];
         this.datauser = data;
         this.alldatauser = data[0].image;
+
+        for(let i =0; i<this.datauser[0].ratings; i++){
+          this.stars.push("star");
+        }   
+        this.length=this.datauser[0].ratings;
+        
         if(this.profileid[3]==this.authServices.getAuth().currentUser.uid){
           this.showuser = data[0].tipeuser;
           this.showusertabs= data[0].tipeuser;
@@ -171,40 +183,31 @@ private monthcalendar: string;
         this.servicesPet = data
       });
       
+      
     this.CalendarPetSubscription = this.servicespetServices.getevents(this.profileid[3]).subscribe(
       data => {this.eventSource=[];
         this.calendarevent = data
-        for(let i = 0; i <= this.calendarevent.length - 1; i++){
+        console.log(this.calendarevent,2)
+        if(this.calendarevent){
+          for(let i = 0; i <= this.calendarevent.length - 1; i++){
           
-          let eventCopy = {
-            title: this.calendarevent[i].title,
-            startTime: new Date(this.calendarevent[i].startTime),
-            endTime: new Date(this.calendarevent[i].endTime),   
-            
-          }
-         
-        this.eventSource.push(eventCopy);
-        this.myCal.loadEvents();
+            let eventCopy = {
+              title: this.calendarevent[i].title,
+              startTime: new Date(this.calendarevent[i].startTime),
+              endTime: new Date(this.calendarevent[i].endTime),   
+              
+            }
+           
+          this.eventSource.push(eventCopy);
+          this.myCal.loadEvents();
+        }
+        
        
       }      
       
       });
 
-      this.RatingSubscription = this.userServices.getRatings(this.profileid[3]).subscribe(
-        data => { this.dataratings=[];
-          finalyrating=0;
-          this.dataratings = data
-          this.length=this.dataratings.length;
-           var soma = 0;
-          for(let i = 0; i <= this.dataratings.length-1; i++){
-           soma= this.dataratings[i].value +++ soma;
-          }
-          var finalyrating = soma/this.dataratings.length;
-       
-          for(let i =0; i<finalyrating; i++){
-            this.stars.push("star");
-          }         
-        });
+    
 
     this.typeanimals;
     this.sizeanimals;
@@ -215,6 +218,7 @@ private monthcalendar: string;
   ngOnInit() {
     this.resetEvents();
     this.NewUser = this.authServices.getAuth().currentUser.uid;
+    this.countRequisitedServices();
 
   }
 
@@ -479,6 +483,13 @@ private monthcalendar: string;
     await alert.present();
   }
   async addrequestservice() {
+    this.countRequisitedServices()
+    const diff= +new Date(this.event.endTime)- +new Date(this.event.startTime)
+    if (this.requsitedServicesSize > 0 && this.requsitedServicesSize % 10 === 0 && diff > 10800000){
+      this.presentAlert();
+      return;
+    } 
+    else {
     await this.presentLoading();
     var to = this.router.url.split('/');
     try {
@@ -502,15 +513,14 @@ private monthcalendar: string;
       this.requestservice = {};
       this.resetEvents();
       
-    }
-    catch (error) {
+      }
+      catch (error) {
 
-      this.presentToast('erro a guardar');
-    } finally {
-      this.loading.dismiss();
+        this.presentToast('erro a guardar');
+      } finally {
+        this.loading.dismiss();
     }
-
-    this.loading.dismiss();
+  }
   }
   async addservice() {
     await this.presentLoading();
@@ -757,5 +767,24 @@ private monthcalendar: string;
       (ev.events !== undefined && ev.events.lenght !== 0) + ',disabled: ' + ev.disabled);
 
       this.monthcalendar=new Date(ev.selectedTime).toString().split(' ')[1];
+  }
+
+  countRequisitedServices(){
+    this.storage.get('currentActiveUser').then((userToken) => {
+      this.servicespetServices.countRequisitedServices(userToken).subscribe(resp=>{
+        this.requsitedServicesSize = resp.size;
+        
+      })
+    })
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Erro',
+      message: 'Como está a ultilizar um serviço gratuito o periodo de requisição não pode ser superior a 3 horas',
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 }

@@ -6,7 +6,7 @@ export interface Morada {
     CodigoPostal?:''
     NumPorta?:''
     Coordenadas?:{
-        latitude:''
-        longitude:''
+        latitude
+        longitude
     } 
 }

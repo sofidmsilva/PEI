@@ -8,6 +8,7 @@ export interface RequestService {
     type?: string;
     accept?:number;
     done?:boolean;
+    freeservice?:boolean
     location?:string;
     confirmmessgeto?:boolean;
     confirmmessgefrom?:boolean;

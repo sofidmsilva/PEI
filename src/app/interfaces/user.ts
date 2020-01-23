@@ -25,8 +25,5 @@ export interface User {
     Dateofpremium?:string;
     premium?:boolean;
     typeservice?:string;
- 
-    
-
-
+    price?: number;
 }

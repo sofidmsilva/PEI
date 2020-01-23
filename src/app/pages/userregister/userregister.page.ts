@@ -175,7 +175,7 @@ export class UserregisterPage implements OnInit {
       let address=<Morada>{}
 
       this.userRegister.morada=this.morada;
-      this.userRegister.morada.Coordenadas={ latitude: response[0].lat, longitude: response[0].lon};
+      this.userRegister.morada.Coordenadas={ latitude: parseFloat(response[0].lat), longitude: parseFloat(response[0].lon)};
       try {
         await this.registerServices.updateUser(this.userRegister,this.NewUser);
         this.storage.set('currentActiveUser', this.authServices.getAuth().currentUser.uid);
@@ -206,12 +206,5 @@ export class UserregisterPage implements OnInit {
     const toast = await this.toastCrt.create({ message, duration: 2000 });
     toast.present();
   }
-
-  // getLocalFile(){
-  //    this.registerServices.getLocalFile().subscribe((res)=>{
-  //   })
-  // }
-
-
   
 }

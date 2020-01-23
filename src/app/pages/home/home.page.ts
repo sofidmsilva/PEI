@@ -12,8 +12,11 @@ import { staticViewQueryIds } from '@angular/compiler';
 import { ServicespetService } from 'src/app/services/servicespet.service';
 import { RequestService } from 'src/app/interfaces/request-service';
 import { Servicespermonths } from 'src/app/interfaces/servicespermonths';
+import { Storage } from '@ionic/storage';
+
 import { User } from 'src/app/interfaces/user';
 import { Services } from 'src/app/interfaces/services';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 declare var google;
 @Component({
@@ -27,6 +30,7 @@ export class HomePage implements OnInit, OnDestroy {
   private requestSubscription: Subscription;
   private ServicespetSubscription: Subscription;
   private showuser: number;
+  private showmessagepie:boolean=true;
   private filterUsers: Array<User>;
   private filterServicesPet = new Array<Services>();
   private requestservices: Array<RequestService>;
@@ -37,6 +41,10 @@ export class HomePage implements OnInit, OnDestroy {
   public requestservice: RequestService = {};
   private numberservicetodo: number;
   private numberservicetodoowner: number;
+  private verfifiedemail: boolean=true;
+  private sentTimestamp: any;
+
+
   constructor(private translateService: TranslateService,
     private router: Router,
     private userServices: RegisterService,
@@ -44,13 +52,20 @@ export class HomePage implements OnInit, OnDestroy {
     private translationservice: TranslateService,
     private servicespetServices: ServicespetService,
     private loadingCtrl: LoadingController,
-    private toastCrt: ToastController, private route:ActivatedRoute,private alertController: AlertController) {
+    private toastCrt: ToastController, private route:ActivatedRoute, public alertController: AlertController,
+    private storage: Storage, private autg: AngularFireAuth) {
+      this.autg.authState.subscribe(user=>{
+        if(user)
+            this.verfifiedemail = this.autg.auth.currentUser.emailVerified;
+      });
+
       route.params.subscribe(val => {
         this.showuser = null;
         this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
           data => {
             this.showuser = data[0].tipeuser;
             this.userServices.setCurrentUser(data); 
+       
           });
           this.requestSubscription = this.servicespetServices.getrequestservice(this.authServices.getAuth().currentUser.uid).subscribe(
             data => {this.numberservicetodo=0;
@@ -89,13 +104,21 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    //adicionar aqui a verificação da contagem do numero de serviços
+    this.storage.get('currentActiveUser').then((userToken) => {
+    this.servicespetServices.countRequisitedServices(userToken).subscribe((res)=>{
+      console.log("SERVIÇOS REQUISITADOS", res.size)
+      if(res.size>0 && res.size % 10 === 0){
+        this.presentAlert()
+      }
+    })
+  })
   }
 
   ngOnDestroy() {
     this.requestSubscription.unsubscribe();
     this.userSubscription.unsubscribe();
     this.showuser = null;
-    console.log("ola")
   }
 
   slidesDidLoad(slides) {
@@ -124,7 +147,7 @@ export class HomePage implements OnInit, OnDestroy {
               this.filterUsers.splice(i,1);
               }
             }
-            this.userServices.setUsersCollection(this.filterUsers);
+            this.userServices.setFilterUsersCollection(this.filterUsers);
             this.servicespetServices.setServiceType(typeservice);
             this.servicespetServices.setFilterServicesCollection(this.filterServicesPet);
             this.router.navigate(['tabs/home/search-services']);
@@ -146,7 +169,6 @@ export class HomePage implements OnInit, OnDestroy {
     this.servicepermonth.December=0;
    
     for (let i = 0; i <= this.lengthrequest - 1; i++) {
-      console.log(this.requestservices)
       if(this.requestservices[i].done==true){
         switch (this.requestservices[i].datedone) {
           case 'Jan':
@@ -195,21 +217,32 @@ export class HomePage implements OnInit, OnDestroy {
 
   getPieChart() {
     this.getnumbermonths();
-    var data = google.visualization.arrayToDataTable([
-      [this.translationservice.instant('Home.months'), this.translationservice.instant('Home.numberservices'), { role: "style" }],
-      [this.translationservice.instant('Home.january'), this.servicepermonth.Jan, "#f4c430"],
-      [this.translationservice.instant('Home.february'), this.servicepermonth.Fev, "#5d8aa8"],
-      [this.translationservice.instant('Home.march'), this.servicepermonth.March, "red"],
-      [this.translationservice.instant('Home.april'), this.servicepermonth.April, "black"],
-      [this.translationservice.instant('Home.may'), this.servicepermonth.May, "blue"],
-      [this.translationservice.instant('Home.june'), this.servicepermonth.June, "yellow"],
-      [this.translationservice.instant('Home.july'), this.servicepermonth.July, "orange"],
-      [this.translationservice.instant('Home.august'), this.servicepermonth.August, "#702641"],
-      [this.translationservice.instant('Home.september'), this.servicepermonth.September, "green"],
-      [this.translationservice.instant('Home.october'), this.servicepermonth.October, "violet"],
-      [this.translationservice.instant('Home.november'), this.servicepermonth.November, "#e36461"],
-      [this.translationservice.instant('Home.december'), this.servicepermonth.December, "#bdb76b"]
-    ]);
+    
+    if(this.servicepermonth.Jan==0 && this.servicepermonth.Fev==0 && this.servicepermonth.March==0 && this.servicepermonth.April==0
+      && this.servicepermonth.May==0 && this.servicepermonth.June==0 && this.servicepermonth.July==0 && this.servicepermonth.August==0
+      && this.servicepermonth.September==0 && this.servicepermonth.October==0 && this.servicepermonth.November==0
+       && this.servicepermonth.December==0){
+        this.showmessagepie=false;
+    }
+   else{
+     this.showmessagepie=true;
+        var data = google.visualization.arrayToDataTable([
+        [this.translationservice.instant('Home.months'), this.translationservice.instant('Home.numberservices'), { role: "style" }],
+        [this.translationservice.instant('Home.january'), this.servicepermonth.Jan, "#f4c430"],
+        [this.translationservice.instant('Home.february'), this.servicepermonth.Fev, "#5d8aa8"],
+        [this.translationservice.instant('Home.march'), this.servicepermonth.March, "red"],
+        [this.translationservice.instant('Home.april'), this.servicepermonth.April, "black"],
+        [this.translationservice.instant('Home.may'), this.servicepermonth.May, "blue"],
+        [this.translationservice.instant('Home.june'), this.servicepermonth.June, "yellow"],
+        [this.translationservice.instant('Home.july'), this.servicepermonth.July, "orange"],
+        [this.translationservice.instant('Home.august'), this.servicepermonth.August, "#702641"],
+        [this.translationservice.instant('Home.september'), this.servicepermonth.September, "green"],
+        [this.translationservice.instant('Home.october'), this.servicepermonth.October, "violet"],
+        [this.translationservice.instant('Home.november'), this.servicepermonth.November, "#e36461"],
+        [this.translationservice.instant('Home.december'), this.servicepermonth.December, "#bdb76b"]
+      ]);
+    
+    
 
     var view = new google.visualization.DataView(data);
     view.setColumns([0, 1,
@@ -223,7 +256,7 @@ export class HomePage implements OnInit, OnDestroy {
 
     var options = {
       title: this.translationservice.instant('Home.totalservices') + ' ' + (new Date(Date.now()).getUTCFullYear()),
-      width: 380,
+      width: 360,
       height: 350,
       bar: { groupWidth: "80%" },
       legend: { position: "none" },
@@ -231,7 +264,19 @@ export class HomePage implements OnInit, OnDestroy {
     var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
     chart.draw(view, options);
   }
+  }
 
+  async sendverifiedEmail(){
+    this.autg.auth.currentUser.sendEmailVerification().then(function() {
+      // Email sent.
+    }).catch(function(error) {
+      // An error happened.
+    });
+    this.sentTimestamp= new Date();
+  }
+  reload(){
+    window.location.reload();
+  }
   async servicedone(id: string) {
     await this.presentLoading();
     this.requestservice.done = true;
@@ -257,5 +302,16 @@ export class HomePage implements OnInit, OnDestroy {
   async presentToast(message: string) {
     const toast = await this.toastCrt.create({ message, duration: 2000 });
     toast.present();
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Parabéns, ganhou um serviço gratuito!',
+      message: 'Por ter efetuado 10 requisições de serviços, o próximo serviço (até 3 horas) que realizar será gratuito',
+     
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 }

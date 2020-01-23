@@ -50,6 +50,32 @@ const routes: Routes = [
     component: AllTabsPage,
     children: [
       {
+        path: 'admin',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../admin/admin.module').then(m => m.AdminPageModule)
+          },
+          {
+            path: 'overview-admin',
+            loadChildren: () =>
+              import('../overview-admin/overview-admin.module').then(m => m.OverviewAdminPageModule)
+          },
+          {
+            path: 'listofuseradmin',
+            loadChildren: () =>
+              import('../listofuseradmin/listofuseradmin.module').then(m => m.ListofuseradminPageModule)
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: '',
+    component: AllTabsPage,
+    children: [
+      {
         path: 'service-filters',
         children: [
           {

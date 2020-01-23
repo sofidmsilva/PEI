@@ -11,6 +11,7 @@ import { EmailComposer } from '@ionic-native/email-composer/ngx';
 import { send } from 'q';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
+import { AngularFireAuth } from '@angular/fire/auth';
 declare var H: any;
 @Component({
   selector: 'app-login',
@@ -31,8 +32,9 @@ export class LoginPage implements OnInit {
   private _appId: string = 'cZhsObl98cbkEcgYHrwn';  
   private _appCode: string = 'JAkuOIaFZ4x_Zer-IbR0noK9ma5MO3BAQLfXC8wbz7s';  
   search: any;
+ 
 
-
+ 
   constructor(
     public nativekeyboard: NativeKeyboard,
     private loadingCtrl: LoadingController,
@@ -41,10 +43,10 @@ export class LoginPage implements OnInit {
     private popoverCtr: PopoverController,
     private translationservice: TranslateService,
     private registerServices: RegisterService,
-    public composer: EmailComposer,
     private router: Router,
     private storage: Storage,  public navCtrl: NavController ) {
-    
+  
+      
      }
   ngOnInit() { }
 
@@ -78,6 +80,8 @@ export class LoginPage implements OnInit {
       await this.authServices.login(this.userLogin).then((res)=>{
         this.storage.set('currentActiveUser', this.authServices.getAuth().currentUser.uid);
     });
+
+  
 }
     catch (error) {
     
@@ -112,6 +116,7 @@ export class LoginPage implements OnInit {
         if(this.userRegister.tipoutilizador==2){
           this.userRegister.premium=false;
         }
+        this.userRegister.ratings=0;
         await this.registerServices.addUser(this.userRegister, NewUser);
 
 
@@ -137,6 +142,8 @@ export class LoginPage implements OnInit {
 
     this.loading.dismiss();
     this.router.navigate(['tabs/userregister']);
+    
+    
   }
 
   async presentLoading() {

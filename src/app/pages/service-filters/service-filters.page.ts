@@ -53,8 +53,8 @@ export class ServiceFiltersPage implements OnInit,OnDestroy {
 
   starClicked(index) {
     console.log(index)
-    let experiencia = index+1;
-    this.filters.experience = "<"+ experiencia;
+    let rating = index+1;
+    this.filters.minRating = rating;
     this.stars = [];
     for(let i =0; i<5 ; i++){
       this.stars.push("star-outline");
@@ -72,13 +72,30 @@ export class ServiceFiltersPage implements OnInit,OnDestroy {
     }
     this.filterUsers = Object.assign([], this.alluser);
     this.servicespetServices.setFilterServicesCollection(this.servicesPet);
-    this.userServices.setUsersCollection(this.filterUsers);
+    this.userServices.setFilterUsersCollection(this.filterUsers);
   }
   applyFilters(){
     this.filterUsers = Object.assign([], this.alluser);
     this.filterServicesPet = Object.assign([], this.servicesPet);
+    if(this.filters.minRating){
+      this.filterUsers = this.filterUsers.filter(X => X.ratings >= this.filters.minRating);
+    }
     if(this.filters.experience){
-      this.filterUsers = this.filterUsers.filter(X => X.experience == this.filters.experience);
+      let aux;
+      switch (this.filters.experience) {
+        case 'Profile.lessThenOne':
+          aux = '<1'
+          break;
+        case 'Profile.lessThenFive':
+          aux = '<5'
+          break;
+        case 'Profile.moreThenFive':
+          aux = '>5'
+          break;
+        default:
+          break;
+      }
+      this.filterUsers = this.filterUsers.filter(X => aux == "<5" ? X.experience == aux || X.experience == "<1" : X.experience == aux);
     }
     if(this.filters.garden){
       this.filterUsers = this.filterUsers.filter(X => X.garden == this.filters.garden);
@@ -111,7 +128,7 @@ export class ServiceFiltersPage implements OnInit,OnDestroy {
     }
     this.servicespetServices.setServiceType(this.filters.typeservice);
     this.servicespetServices.setFilterServicesCollection(this.filterServicesPet);
-    this.userServices.setUsersCollection(this.filterUsers);
+    this.userServices.setFilterUsersCollection(this.filterUsers);
     this.router.navigate(['tabs/home/search-services']);
   }
 

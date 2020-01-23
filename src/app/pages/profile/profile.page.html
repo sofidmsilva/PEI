@@ -31,6 +31,7 @@
                             </ion-col>
                         </ion-row>
                     </ion-grid>
+                 
                     <div align="right" *ngIf="showwiconfav">
                         <ion-button *ngIf="liked" color="warning" (click)="RemoveFavorites()">
                             <ion-icon color="danger" name="heart"></ion-icon>
@@ -652,9 +653,15 @@
                                             <ion-select-option value="euro">Euro</ion-select-option>
                                             <ion-select-option value="dolar">Dolar</ion-select-option>
                                         </ion-select>
+                                        <ion-select size="small" placeholder="{{ service.dayhour | translate}}"
+                                        [(ngModel)]="Services.dayhour">
+                                        <ion-select-option value="dia">{{'All.day'| translate}}</ion-select-option>
+                                        <ion-select-option value="hora">{{'All.hour'| translate}}</ion-select-option>
+                                    </ion-select>
+                                        
                                     </div>
                                     <ion-label align="right" style="color: black;" *ngIf="enableeditservice">
-                                        {{ service.price}} {{ service.typemoney}}</ion-label>
+                                        {{ service.price}} {{ service.typemoney}}/{{ service.dayhour | translate}}</ion-label>
                                 </ion-item>
                             </ion-row>
                             <ion-row>
@@ -720,9 +727,14 @@
                             <ion-input type="number" [(ngModel)]="Services.price"
                                 placeholder="{{'SearchServices.price'| translate}}"></ion-input>
                             <ion-select placeholder="Select" [(ngModel)]="Services.typemoney">
-                                <ion-select-option value="euro">Euro</ion-select-option>
+                                <ion-select-option selected  value="euro">Euro</ion-select-option>
                                 <ion-select-option value="dolar">Dolar</ion-select-option>
                             </ion-select>
+                            <ion-select size="small" placeholder="Select"
+                            [(ngModel)]="Services.dayhour">
+                            <ion-select-option value="dia">{{'All.day'| translate}}</ion-select-option>
+                            <ion-select-option value="hora">{{'All.hour'| translate}}</ion-select-option>
+                        </ion-select>
                         </ion-item>
                         <ion-item class="ion-margin-top" lines="none">
                             <ion-label>{{'UserRegister.location'| translate}}:</ion-label>
