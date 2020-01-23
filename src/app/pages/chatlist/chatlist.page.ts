@@ -9,6 +9,8 @@ import { User } from 'src/app/interfaces/user';
 import { map } from 'rxjs/operators';
 import { ServicespetService } from 'src/app/services/servicespet.service';
 import { RequestService } from 'src/app/interfaces/request-service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 //import { reverse } from 'dns';
 
 @Component({
@@ -34,7 +36,12 @@ export class ChatListPage implements OnInit, OnDestroy {
   private usersCollection;
   private servicesCollection;
   public serviceRequest;
+  private messageSubscription;
+  private messages;
+  private chat;
   private names;
+  public aceptedServices= new Array<RequestService>();
+  
   //public servicesCollection : AngularFirestoreCollection<RequestService>;
   //public userCollection : AngularFirestoreCollection<User>;
   documentToDomainObject = _ => {
@@ -42,9 +49,11 @@ export class ChatListPage implements OnInit, OnDestroy {
     object.id = _.payload.doc.id;
     return object;
   }
-  constructor(private afs: AngularFirestore, 
+  
+  constructor(private afs: AngularFirestore,
+    private route: Router,
     public authServices: AuthService, public userServices: RegisterService,private servicespetServices: ServicespetService,) {
-
+  
     this.userSubscription = this.userServices.getAllUser().subscribe(
       data => {
    
@@ -55,56 +64,61 @@ export class ChatListPage implements OnInit, OnDestroy {
       data => {
         this.requestservices = data;
         for (let i = 0; i <= this.requestservices.length - 1; i++) {
-          if(this.requestservices[i].from==this.authServices.getAuth().currentUser.uid || this.requestservices[i].to==this.authServices.getAuth().currentUser.uid){
+          if(this.requestservices[i].from==this.authServices.getAuth().currentUser.uid || this.requestservices[i].to==this.authServices.getAuth().currentUser.uid && this.requestservices[i].accept == 5 && this.requestservices[i].done !=true){
             var iddono=this.requestservices[i].from;
             var idpet= this.requestservices[i].to;
+            var idservice = this.requestservices[i].id
             for (let i = 0; i <= this.datauser.length - 1; i++) {
                 if(iddono==this.datauser[i].id){
+                  Object.assign(this.datauser[i], {servID: idservice});
                  this.datadono.push(this.datauser[i]);
+                 
                 }
                 else{
                   if(idpet==this.datauser[i].id){
+                    Object.assign(this.datauser[i], {servID: idservice});
                     this.datapetsitter.push(this.datauser[i]);
                   }
                 }
             }
           }
-        }
-       console.log(this.datadono, this.datapetsitter)
+        }    
       }
-     
     );
-   
- 
   }
   ngOnInit() {
-    /*this.getDataUser(this.authServices.getAuth().currentUser).subscribe(
-      user =>{
-        this.userType = user[0].tipeuser;
-      if(this.userType == 1){
-        this.userSubscription = this.userServices.getDataUser(this.authServices.getAuth().currentUser.uid).subscribe(
-          data => {
-            for(let i=0; i< this.serviceRequest.length; i++){
-              //verificar tipo de user falta????
-              console.log(this.serviceRequest)
-              this.names.push(this.getDataUser(this.serviceRequest.subscribe(request =>{
-                request.from[i]
-              })))
-            }
-        });
-
-        //1 = dono ir ao to buscar id pra ir buscar nome de user
-        //2 = pets ir ao from buscar id pra ir buscar nome de user
-      }
-    })
-    
-    //console.log(this.datauser)
-
-    this.getService("5s706EAvNbao1SinTloJdDisLaA3").subscribe(service => {console.log(service)})
-    this.serviceRequest = this.getService("5s706EAvNbao1SinTloJdDisLaA3")*/
-  
-
+    this.CurrentUser = this.authServices.getAuth().currentUser
   }
+  verifyChat(pet,dono){
+    this.messageSubscription = this.afs.collection('Chat').snapshotChanges()
+      .pipe(map(action => action.map(
+        this.documentToDomainObject
+      )
+        .filter(item => (item.to  == pet[0].id))
+        .filter(item2 => (item2.from == dono[0].id))
+      ));
+    this.messageSubscription
+    .subscribe(
+        result => {
+            if (result.length != 0) {
+              this.route.navigate(['/tabs/chat', result[0]])
+            } else {
+               //criar array pro chat com to e from e enviar id to chat
+              this.afs.collection('Chat').add({
+                to: pet[0].id,
+                toName: pet[0].name,
+                from: dono[0].id,
+                fromName: dono[0].name,
+                messages : []
+              })
+            }
+        },
+        error => {
+            console.log("Ocorreu um erro:",error);
+        }
+      );
+  }
+
   ngOnDestroy(): void {
     this.requestSubscription.unsubscribe();
     this.userSubscription.unsubscribe();

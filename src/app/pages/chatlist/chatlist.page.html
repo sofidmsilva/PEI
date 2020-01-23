@@ -1,15 +1,31 @@
 <ion-content>
     <div class="container">
             <ion-item  color="light" >
-                    <ion-label style="color: rgb(226, 216, 216);font-size: 30px;">
-                            Lista de Conversas
-                    </ion-label>
-                  </ion-item>
-        <ion-item *ngFor="let name of names | async">
-            <ion-label >
-                {{ name.name}}
-            </ion-label>
-        </ion-item>
+                <ion-label style="color: rgb(226, 216, 216);font-size: 30px;">
+                    Lista de conversas
+                </ion-label>
+            </ion-item>
         
+        <div *ngFor="let info of datapetsitter">
+            <ion-item  *ngIf="info.id != CurrentUser.uid">
+                <ion-avatar slot="start">
+                    <img  class="center ion-margin-top" *ngIf="info.image" [src]="info.image">
+                </ion-avatar>
+                <ion-label (click)="verifyChat(datapetsitter,datadono)">
+                    {{info.name}}
+                </ion-label>
+            </ion-item>
+        </div>
+        <div *ngFor="let info of datadono" >
+            <ion-item *ngIf="info.id != CurrentUser.uid">
+                <ion-avatar slot="start">
+                    <img  class="center ion-margin-top" *ngIf="info.image" [src]="info.image">
+                </ion-avatar>
+                <ion-label (click)="verifyChat(datapetsitter,datadono)">
+                    {{info.name}}
+                </ion-label>
+            </ion-item>
+        </div>
     </div>
 </ion-content>
+

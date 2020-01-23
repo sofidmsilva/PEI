@@ -1,4 +1,7 @@
 export interface Chat {
-    date?: Date;
-    content?: string;
+    from?: string;
+    fromName?: string;
+    messages?: Array<string>;
+    to?: string;
+    toName?: string;
 }

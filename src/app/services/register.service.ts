@@ -91,10 +91,10 @@ export class RegisterService {
   deleteComment(id: string) {
     return this.afs.collection('Comentarios').doc(id).delete();
   }
-
+  /*
   sendMessage(message: Chat){
     return this.afs.collection('Chat').add(message);
-  }
+  }*/
 
   getMessage(){
   }

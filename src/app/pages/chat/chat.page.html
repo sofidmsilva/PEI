@@ -1,14 +1,26 @@
 <ion-header>
-    <ion-title>Chat</ion-title>
+    <ion-item  color="light" >
+        <ion-label style="color: rgb(226, 216, 216);font-size: 30px;">
+            Chat
+        </ion-label>
+    </ion-item>
 </ion-header>
 
 <ion-content>
-    <div id="chatMessages">
-        <div class="message" *ngFor="let message of messages" >
+    <div id="chatMessages" *ngIf="conteudo.messages">
+        <div class="message" *ngFor="let message of conteudo.messages" >
+            <!--<div [class]="message.messages.sendID == CurrentUser.uid ? 
+            ' innerMessage messageRight ' : 'innerMessage messageLeft'">
+                <div class="send">{{message.messages.sendID}}</div>
+                <div class="message">{{message.messages.message}}</div>
+            </div>-->
             <div [class]="message.sendID == CurrentUser.uid ? 
             ' innerMessage messageRight ' : 'innerMessage messageLeft'">
-                <div class="send">{{message.sendID}}</div>
-                <div class="message">{{message.message}}</div>
+                <div class="send">{{message.sendName}}</div>
+                <div *ngIf="message.message" class="message">{{message.message}}</div>
+                <div *ngIf="message.image" class="message"><img src={{message.image}} alt="Smiley face" height="70" width="70"></div>
+
+                
             </div>
         </div>
     </div>
@@ -18,7 +30,11 @@
     <ion-toolbar>
         <div id="footer">
             <div class="elem"><ion-input type= "text" [(ngModel)]="message" required></ion-input></div>
-            <div class="elem"><button ion-button icon-only (click)="sendMessage()"><ion-icon class= "icon" name="send"></ion-icon></button></div>
+            <div class="custom-file-upload"><button ion-button icon-only (click)="sendMessage()"><ion-icon class= "icon" name="send"></ion-icon></button></div>
+            <label class="custom-file-upload">
+                <input type="file"(change)="uploadImage($event,1)" />
+                <ion-icon class= "icon" name="camera"></ion-icon>
+            </label>
         </div>        
     </ion-toolbar>
 </ion-footer>

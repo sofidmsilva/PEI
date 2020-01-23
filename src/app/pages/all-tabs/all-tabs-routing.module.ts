@@ -107,7 +107,22 @@ const routes: Routes = [
         ]
       }
     ]
-  },
+  },{
+    path: '',
+    component: AllTabsPage,
+    children: [
+      {
+        path: 'chat',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../chat/chat.module').then(m => m.ChatPageModule)
+          }
+        ]
+      }
+    ]
+  }
  
 ];
 

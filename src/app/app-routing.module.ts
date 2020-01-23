@@ -8,8 +8,8 @@ const routes: Routes = [
   { path: 'tabs', loadChildren: ()=>import('./pages/all-tabs/all-tabs.module').then(m=>m.AllTabsPageModule),canActivate:[AuthGuard] },
   { path: 'login', loadChildren: ()=>import('./pages/login/login.module').then(m=>m.LoginPageModule),canActivate:[LoginGuard] },
   { path: 'language-popover', loadChildren: './pages/language-popover/language-popover.module#LanguagePopoverPageModule' },
-  { path: 'notifications', loadChildren: './pages/notifications/notifications.module#NotificationsPageModule' },  { path: 'settings', loadChildren: './pages/settings/settings.module#SettingsPageModule' },
-
+  { path: 'notifications', loadChildren: './pages/notifications/notifications.module#NotificationsPageModule' },
+  { path: 'settings', loadChildren: './pages/settings/settings.module#SettingsPageModule' },
 
 
 ];
