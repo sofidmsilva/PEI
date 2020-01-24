@@ -27,9 +27,10 @@ export class ChatListPage implements OnInit, OnDestroy {
   private userSubscription: Subscription;
   private requestSubscription: Subscription;
   public datauser = new Array<User>();
-  public datadono=new Array<User>();
-  public datapetsitter=new Array<User>();
+  public datadono=[];
+  public datapetsitter=[];
   private requestservices: Array<RequestService>;
+  private typeofservice: string;
   public teste;
   public userType;
   public  CurrentUser;
@@ -70,15 +71,26 @@ export class ChatListPage implements OnInit, OnDestroy {
         this.requestservices = data;
         for (let i = 0; i <= this.requestservices.length - 1; i++) {
           if(this.requestservices[i].accept == 5 && this.requestservices[i].done !=true){
-         
+
             for (let a = 0; a <= this.datauser.length - 1; a++) {
               if(this.requestservices[i].to==this.datauser[a].id){
-                Object.assign(this.datauser[a], {servID: this.requestservices[i].id});
-                this.datapetsitter.push(this.datauser[a]);
+                var f= this.datauser[a];
+                let y={servie:this.requestservices[i].id};
+                let nameservice={nameservice:this.requestservices[i].type}
+                let location={location:this.requestservices[i].location}
+                Object.assign(y,f,nameservice,location);
+                this.datapetsitter.push(y);
+  
+               
               }
               if(this.requestservices[i].from==this.datauser[a].id){     
-                Object.assign(this.datauser[a], {servID: this.requestservices[i].id});
-               this.datadono.push(this.datauser[a]);
+                let u={servie:this.requestservices[i].id};
+                var p= this.datauser[a];
+                let nameservice={nameservice:this.requestservices[i].type}
+                let location={location:this.requestservices[i].location}
+                Object.assign(u, p,nameservice,location);
+               this.datadono.push(u);
+            
               }
               if(this.requestservices[i].from==this.authServices.getAuth().currentUser.uid){
                 this.showlistowner=false;
@@ -92,7 +104,7 @@ export class ChatListPage implements OnInit, OnDestroy {
           }
   
         }    
-        console.log(this.showlistowner)
+        console.log(this.datapetsitter)
         
       });
     }); 
