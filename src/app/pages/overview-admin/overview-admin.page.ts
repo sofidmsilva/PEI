@@ -24,6 +24,7 @@ export class OverviewAdminPage implements OnInit {
   private numberpetsiitersowner: Numberusers={};
   public servicepermonth: Servicespermonths={};
   public lengthrequest: number;
+  private showmessagepie:boolean=true;
 
   constructor(private userServices: RegisterService,private autg: AngularFireAuth, 
     private servicespetServices: ServicespetService,private route:ActivatedRoute,
@@ -56,10 +57,11 @@ export class OverviewAdminPage implements OnInit {
               data[i].datedone = data[i].datedone.split(' ')[1];
             }
           }
+       
           this.requestservices=data;
           this.drawChartLine();
         });  
-    
+         
       });
    }
 
@@ -146,38 +148,48 @@ export class OverviewAdminPage implements OnInit {
   }
   async drawChartLine() {
     this.getnumbermonths();
-    var data = google.visualization.arrayToDataTable([
-      [this.translationservice.instant('Home.months'), this.translationservice.instant('Home.numberservices'), { role: "style" }],
-      [this.translationservice.instant('Home.january'), this.servicepermonth.Jan, "#f4c430"],
-      [this.translationservice.instant('Home.february'), this.servicepermonth.Fev, "#5d8aa8"],
-      [this.translationservice.instant('Home.march'), this.servicepermonth.March, "red"],
-      [this.translationservice.instant('Home.april'), this.servicepermonth.April, "black"],
-      [this.translationservice.instant('Home.may'), this.servicepermonth.May, "blue"],
-      [this.translationservice.instant('Home.june'), this.servicepermonth.June, "yellow"],
-      [this.translationservice.instant('Home.july'), this.servicepermonth.July, "orange"],
-      [this.translationservice.instant('Home.august'), this.servicepermonth.August, "#702641"],
-      [this.translationservice.instant('Home.september'), this.servicepermonth.September, "green"],
-      [this.translationservice.instant('Home.october'), this.servicepermonth.October, "violet"],
-      [this.translationservice.instant('Home.november'), this.servicepermonth.November, "#e36461"],
-      [this.translationservice.instant('Home.december'), this.servicepermonth.December, "#bdb76b"]
-    ]);
-
-    var view = new google.visualization.DataView(data);
-    view.setColumns([0, 1,
-                     { calc: "stringify",
-                       sourceColumn: 1,
-                       type: "string",
-                       role: "annotation" },
-                     2]);
-
-    var options = {
-      title:this.translationservice.instant('Home.totalservices') + ' ' + (new Date(Date.now()).getUTCFullYear()),
-      width: 350,
-      height: 300,
-      bar: {groupWidth: "95%"},
-      legend: { position: "none" },
-    };
-    var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
-    chart.draw(view, options);
-  }
+    if(this.servicepermonth.Jan==0 && this.servicepermonth.Fev==0 && this.servicepermonth.March==0 && this.servicepermonth.April==0
+      && this.servicepermonth.May==0 && this.servicepermonth.June==0 && this.servicepermonth.July==0 && this.servicepermonth.August==0
+      && this.servicepermonth.September==0 && this.servicepermonth.October==0 && this.servicepermonth.November==0
+       && this.servicepermonth.December==0){
+        this.showmessagepie=false;
+    }
+    else{
+      this.showmessagepie=true;
+      var data = google.visualization.arrayToDataTable([
+        [this.translationservice.instant('Home.months'), this.translationservice.instant('Home.numberservices'), { role: "style" }],
+        [this.translationservice.instant('Home.january'), this.servicepermonth.Jan, "#f4c430"],
+        [this.translationservice.instant('Home.february'), this.servicepermonth.Fev, "#5d8aa8"],
+        [this.translationservice.instant('Home.march'), this.servicepermonth.March, "red"],
+        [this.translationservice.instant('Home.april'), this.servicepermonth.April, "black"],
+        [this.translationservice.instant('Home.may'), this.servicepermonth.May, "blue"],
+        [this.translationservice.instant('Home.june'), this.servicepermonth.June, "yellow"],
+        [this.translationservice.instant('Home.july'), this.servicepermonth.July, "orange"],
+        [this.translationservice.instant('Home.august'), this.servicepermonth.August, "#702641"],
+        [this.translationservice.instant('Home.september'), this.servicepermonth.September, "green"],
+        [this.translationservice.instant('Home.october'), this.servicepermonth.October, "violet"],
+        [this.translationservice.instant('Home.november'), this.servicepermonth.November, "#e36461"],
+        [this.translationservice.instant('Home.december'), this.servicepermonth.December, "#bdb76b"]
+      ]);
+  
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation" },
+                       2]);
+  
+      var options = {
+        title:this.translationservice.instant('Home.totalservices') + ' ' + (new Date(Date.now()).getUTCFullYear()),
+        width: 350,
+        height: 300,
+        bar: {groupWidth: "95%"},
+        legend: { position: "none" },
+      };
+      var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
+      chart.draw(view, options);
+    }
+    }
+   
 }

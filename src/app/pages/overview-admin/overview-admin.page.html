@@ -6,7 +6,10 @@
 
 <ion-content>
   <div id="piechart" style="width: 400px; height: 300px; margin-bottom: -31px;"></div>
-  <div id="barchart_values"></div>
+  <div *ngIf="showmessagepie" id="barchart_values"></div>
+  <div *ngIf="!showmessagepie">
+    Ainda não foram realizados serviços
+  </div>
 <ion-item>
  
 </ion-item>
