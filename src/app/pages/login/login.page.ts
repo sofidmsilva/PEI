@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonSlides, LoadingController, ToastController, PopoverController, NavController } from '@ionic/angular';
+import { IonSlides, LoadingController, ToastController, PopoverController, NavController,AlertController } from '@ionic/angular';
 import { NativeKeyboard } from '@ionic-native/native-keyboard/ngx';
 import { User } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -44,7 +44,7 @@ export class LoginPage implements OnInit {
     private translationservice: TranslateService,
     private registerServices: RegisterService,
     private router: Router,
-    private storage: Storage,  public navCtrl: NavController ) {
+    private storage: Storage,  public navCtrl: NavController,  public alertController: AlertController ) {
   
       
      }
@@ -77,7 +77,13 @@ export class LoginPage implements OnInit {
     await this.presentLoading();
 
     try {
-      await this.authServices.login(this.userLogin).then((res)=>{
+      await this.authServices.login(this.userLogin).then((res)=>{   
+        this.registerServices.getIfUserIsValid(res.user.uid).subscribe(resp=>{
+          if(resp.data().isActive==false){
+            this.presentAlert();
+            this.authServices.logout();
+          }
+        })
         this.storage.set('currentActiveUser', this.authServices.getAuth().currentUser.uid);
     });
 
@@ -162,6 +168,17 @@ export class LoginPage implements OnInit {
       event: ev
     });
     await popover.present();
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Bloqueado',
+      message: 'O seu perfil encontra-se bloqueado pelo seu administrador, por favor contacte o suporte para mais informações',
+     
+      buttons: ['OK']
+    });
+
+    await alert.present();
   }
 
 }

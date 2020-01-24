@@ -3,9 +3,21 @@
     <ion-title align="center" style="color: black;">{{ 'All.listuser' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
+  <ion-content>
+    <div *ngFor="let user of users">
+    <ion-item >
+        <ion-item style="width: 100%" color="Warning">
+           <ion-avatar slot="start"> 
+           <img style="position: relative;top:-15px;" class="center ion-margin-top" [src]="user.image"> 
+           </ion-avatar>
+          <ion-label>
+            <h3>{{ user.name }}: {{ user.typeservice}}</h3>
+            <button class="disableProfile" *ngIf="user.isActive===undefined || user.isActive===true" type="button" (click)="deleteProfile(user.id)"><ion-icon class="icon" name="close-circle"></ion-icon></button>
+            <button class="enableProfile" *ngIf="user.isActive===false" type="button" (click)="enableProfile(user.id)"><ion-icon class="iconCheck" name="checkmark"></ion-icon></button>
 
-<ion-content>
-<ion-item>
-  Colocar aqui a lista de user com a possibilidade de cancelar a conta
-</ion-item>
-</ion-content>
+          </ion-label>
+        </ion-item>
+      
+    </ion-item>
+  </div>
+  </ion-content>
