@@ -344,12 +344,12 @@ async payment(ev){
     await this.servicespetServices.updateRequestservice(this.requestservice, this.requestservice.id);
     if (num == 1) {
       if (this.notificationacceptservice.length == 0 &&
-        this.warningdateofservice.length == 0 && this.NotificationRatings.length == 0 && this.NotificationRatingsOwner.length == 0) {
+        this.warningdateofservice.length == 0 && this.NotificationRatings.length == 0 ) {
         this.showpop = false;
       }
       else {
         if ( this.notificationresponseservice.length == 0 &&
-          this.warningdateofservice.length == 0 && this.NotificationRatings.length == 0 && 
+          this.warningdateofservice.length == 0 && 
           this.NotificationRatingsOwner.length == 0 && this.notificationfreeservice!=10) {
           this.showpop = false;
         }

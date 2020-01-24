@@ -137,7 +137,6 @@ private monthcalendar: string;
         for(let i =0; i<this.datauser[0].ratings; i++){
           this.stars.push("star");
         }   
-        this.length=this.datauser[0].ratings;
         
         if(this.profileid[3]==this.authServices.getAuth().currentUser.uid){
           this.showuser = data[0].tipeuser;
@@ -225,6 +224,10 @@ private monthcalendar: string;
       }      
       
       });
+      this.RatingSubscription = this.userServices.getRatings(this.profileid[3]).subscribe(
+        data => { this.dataratings=[];
+          this.dataratings = data
+          this.length=this.dataratings.length;});
 
     
 
