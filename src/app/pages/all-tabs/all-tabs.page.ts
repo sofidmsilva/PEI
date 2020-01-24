@@ -188,8 +188,9 @@ export class AllTabsPage implements OnInit, OnDestroy {
               this.numberofnotification = 0;  
           } 
         }
-          
+        console.log(this.notificationfreeservice)
         if((this.notificationfreeservice%10)==0 && this.notificationfreeservice!=0){
+          console.log(2)
           this.numberofnotification=this.numberofnotification + 1;
           this.showpop=true;
              // Schedule a single notification
