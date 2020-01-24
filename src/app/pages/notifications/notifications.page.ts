@@ -10,6 +10,7 @@ import { RegisterService } from 'src/app/services/register.service';
 import { Ratings } from 'src/app/interfaces/ratings';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/interfaces/user';
+import { Stars } from 'src/app/interfaces/stars';
 
 @Component({
   selector: 'app-notifications',
@@ -31,8 +32,8 @@ export class NotificationsPage implements OnInit, OnDestroy {
   private showfreeservice: boolean = false;
   private showmessageleft: boolean = true;
   private unlockmessageboth = [];
-  private stars: string[]=["star-outline","star-outline","star-outline","star-outline","star-outline"];
-  private listastars= [];
+  private starsPetSitter = new Array<Stars>();
+  private starsOwner = new Array<Stars>();
   private numberofstarts: number = 0;
   private Ratings: Ratings = {};
   private Userrating: User = {};
@@ -60,16 +61,17 @@ export class NotificationsPage implements OnInit, OnDestroy {
     this.NotificationRatingsOwner = this.navParams.get('value6');
     this.typeuser = this.navParams.get('value7');
   
- 
-    for (let i = 0; i <= this.NotificationRatings.length - 1; i++) {      
-      let eventCopy={
-        allstart:this.stars,
-        number: 2
-      }
-         this.listastars.push(eventCopy);  
-         console.log(this.listastars)
+    for (let i = 0; i <= this.NotificationRatingsOwner.length - 1; i++) {
+      this.starsOwner.push({ 
+        stars : ["star-outline","star-outline","star-outline","star-outline","star-outline"]
+      })
     }
-    
+ 
+    for (let i = 0; i <= this.NotificationRatings.length - 1; i++) {
+      this.starsPetSitter.push({ 
+        stars : ["star-outline","star-outline","star-outline","star-outline","star-outline"]
+      })
+    }
     this.RatingSubscription = this.userServices.getAllRatings().subscribe(
       data => { this.dataratings=[];   
         this.dataratings = data      
@@ -275,36 +277,53 @@ async payment(ev){
     });
     await alert.present();
   }
-  async starClicked(index) {
-    console.log(index)
-    this.stars = [];
+  async starClickedPetSitter(index, star) {
+    this.starsPetSitter[index].stars = [];
     for(let i =0; i<5 ; i++){
-      this.stars.push("star-outline");
+      this.starsPetSitter[index].stars.push("star-outline");
     }
-    for(let i =0; i<=index ; i++){
-      this.stars[i]= "star";
-    }
-    
+    for(let i =0; i<=star ; i++){
+      this.starsPetSitter[index].stars[i]= "star";
+    } 
   }
-  async saverating(service, num: number) {
-    for (let i = 0; i < 5; i++) {
-      if (this.stars[i] == "star") {
-        this.numberofstarts++;
 
-      }
+  async starClickedOwner(index, star) {
+    this.starsOwner[index].stars = [];
+    for(let i =0; i<5 ; i++){
+      this.starsOwner[index].stars.push("star-outline");
     }
-    this.Ratings.from = service.userId;
-    this.Ratings.to = service.to;
-    this.Ratings.value = this.numberofstarts;
-    this.requestservice.id = service.id;
+    for(let i =0; i<=star ; i++){
+      this.starsOwner[index].stars[i]= "star";
+    } 
+  }
+
+
+  async saverating(service, num: number, index: number) {
+    this.numberofstarts == 0;
     if (num == 1) {
       this.requestservice.ratingto = true;
+      this.Ratings.from = service.to;
+      this.Ratings.to = service.userId;
       this.NotificationRatings = [];
+      for (let i = 0; i < 5; i++) {
+        if (this.starsPetSitter[index].stars[i] == "star") {
+          this.numberofstarts++;
+        }
+      }
     } else {
       this.requestservice.ratingfrom = true;
+      this.Ratings.from = service.userId;
+      this.Ratings.to = service.to;
       this.NotificationRatingsOwner = [];
+      for (let i = 0; i < 5; i++) {
+        if (this.starsOwner[index].stars[i] == "star") {
+          this.numberofstarts++;
+        }
+      }
     }
 
+    this.Ratings.value = this.numberofstarts;
+    this.requestservice.id = service.id;
     
     var soma = 0;
     var lenght=0;
@@ -325,12 +344,12 @@ async payment(ev){
     await this.servicespetServices.updateRequestservice(this.requestservice, this.requestservice.id);
     if (num == 1) {
       if (this.notificationacceptservice.length == 0 &&
-        this.warningdateofservice.length == 0 && this.NotificationRatings.length == 0 && this.NotificationRatingsOwner.length == 0) {
+        this.warningdateofservice.length == 0 && this.NotificationRatings.length == 0 ) {
         this.showpop = false;
       }
       else {
         if ( this.notificationresponseservice.length == 0 &&
-          this.warningdateofservice.length == 0 && this.NotificationRatings.length == 0 && 
+          this.warningdateofservice.length == 0 && 
           this.NotificationRatingsOwner.length == 0 && this.notificationfreeservice!=10) {
           this.showpop = false;
         }

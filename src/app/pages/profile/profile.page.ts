@@ -10,9 +10,9 @@ import { RegisterService } from 'src/app/services/register.service';
 import { User } from 'src/app/interfaces/user';
 import { Comments } from 'src/app/interfaces/comments';
 import { CalendarComponent } from 'ionic2-calendar/calendar';
-import { AngularFireStorage } from '@angular/fire/storage';
 import { Services } from 'src/app/interfaces/services';
 import { ServicespetService } from 'src/app/services/servicespet.service';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Image } from 'src/app/interfaces/image';
 import { Calendar } from 'src/app/interfaces/calendar';
@@ -74,6 +74,9 @@ private monthcalendar: string;
   private animals = new Array<Animals>();
   private servicesPet = new Array<Services>();
   private datauser = new Array<User>();
+  private allusers = new Array<User>();
+  private imageprofilecomments: string;
+  private nameusercomments: string;
   private dataratings = new Array<Ratings>();
   public morada:Morada =<Morada>{}
   public NewUser;
@@ -134,7 +137,6 @@ private monthcalendar: string;
         for(let i =0; i<this.datauser[0].ratings; i++){
           this.stars.push("star");
         }   
-        this.length=this.datauser[0].ratings;
         
         if(this.profileid[3]==this.authServices.getAuth().currentUser.uid){
           this.showuser = data[0].tipeuser;
@@ -149,8 +151,10 @@ private monthcalendar: string;
             this.showuser=1;
             this.showusertabs= data[0].tipeuser;
             this.showwiconfav=true;
+            
           }
         }
+      
         if(this.datauser[0].tipoutilizador==2){
           var l= new Date();
           var num=  parseInt(this.datauser[0].Dateofpremium.split('/')[2]) +1 ;
@@ -163,11 +167,26 @@ private monthcalendar: string;
         }
    
       });
-    this.CommentsSubscription = this.userServices.getComments(this.profileid[3]).subscribe(
-      data => {
-        this.datacomment = data
-        this.commentlenght=this.datacomment.length;
-      });
+      this.userSubscription = this.userServices.getAllUser().subscribe(
+        data => {
+          this.allusers=data;
+          this.CommentsSubscription = this.userServices.getComments(this.profileid[3]).subscribe(
+            data => {
+              this.datacomment = data;
+              console.log(this.allusers.length)
+              for(let s =0; s<this.allusers.length; s++){
+                for(let i =0; i<this.datacomment.length; i++){
+                  if(this.allusers[s].id==this.datacomment[i].from){
+                    this.imageprofilecomments= this.allusers[s].image;
+                    this.nameusercomments=this.allusers[s].name;
+                }
+                }            
+              }
+              console.log(this.imageprofilecomments)
+              this.commentlenght=this.datacomment.length;
+            });
+        });
+
       this.FavoritesSubscription = this.userServices.getFavorites(this.profileid[3]).subscribe(
         data => {this.datafavorites=[];
             this.datafavorites = data
@@ -187,7 +206,6 @@ private monthcalendar: string;
     this.CalendarPetSubscription = this.servicespetServices.getevents(this.profileid[3]).subscribe(
       data => {this.eventSource=[];
         this.calendarevent = data
-        console.log(this.calendarevent,2)
         if(this.calendarevent){
           for(let i = 0; i <= this.calendarevent.length - 1; i++){
           
@@ -206,6 +224,10 @@ private monthcalendar: string;
       }      
       
       });
+      this.RatingSubscription = this.userServices.getRatings(this.profileid[3]).subscribe(
+        data => { this.dataratings=[];
+          this.dataratings = data
+          this.length=this.dataratings.length;});
 
     
 

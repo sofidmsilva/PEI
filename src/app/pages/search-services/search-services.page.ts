@@ -206,6 +206,7 @@ export class SearchServicesPage implements OnInit {
   }
 
   searchprofile(event) {
+    console.log(event)
     this.router.navigate(['/tabs/profile', event]);
   }
 

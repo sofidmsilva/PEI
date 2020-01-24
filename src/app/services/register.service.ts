@@ -4,6 +4,7 @@ import { User } from '../interfaces/user';
 import { map } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { Comments } from '../interfaces/comments';
+import { Chat } from '../interfaces/chat';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -114,7 +115,13 @@ export class RegisterService {
   deleteComment(id: string) {
     return this.afs.collection('Comentarios').doc(id).delete();
   }
+  /*
+  sendMessage(message: Chat){
+    return this.afs.collection('Chat').add(message);
+  }*/
 
+  getMessage(){
+  }
   getLocalFile(){
     return this.http.get('assets/cidades.json').pipe(
         map(res => res));

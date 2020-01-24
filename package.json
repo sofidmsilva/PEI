@@ -32,6 +32,7 @@
     "@ionic/storage": "^2.2.0",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
+    "angularfire2": "^5.2.3",
     "@types/ol": "^5.3.6",
     "chart.js": "^2.9.3",
     "cordova-android": "^8.1.0",
@@ -47,12 +48,14 @@
     "core-js": "^2.5.4",
     "firebase": "^7.3.0",
     "firebase-admin": "^8.9.1",
+    "gradle": "^1.0.9",
     "ionic2-calendar": "^0.5.7",
     "ionic4-auto-complete": "^2.4.1",
     "ng2-charts": "^2.3.0",
     "ol": "^6.1.1",
     "phonegap-plugin-multidex": "^1.0.0",
     "rxjs": "~6.5.1",
+    "rxjs-compat": "^6.5.3",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
   },
@@ -91,7 +94,10 @@
   "description": "An Ionic project",
   "cordova": {
     "plugins": {
-      "cordova-plugin-native-keyboard": {},
+      "cordova-plugin-native-keyboard": {
+        "LICENSE": "TRIAL",
+        "LIC_ANDROID": "TRIAL"
+      },
       "cordova-plugin-whitelist": {},
       "cordova-plugin-statusbar": {},
       "cordova-plugin-device": {},

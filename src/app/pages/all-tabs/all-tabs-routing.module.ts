@@ -118,7 +118,37 @@ const routes: Routes = [
         ]
       }
     ]
-  },
+  },{
+    path: '',
+    component: AllTabsPage,
+    children: [
+      {
+        path: 'chatlist',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../chatlist/chatlist.module').then(m => m.ChatListPageModule)
+          }
+        ]
+      }
+    ]
+  },{
+    path: '',
+    component: AllTabsPage,
+    children: [
+      {
+        path: 'chat',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../chat/chat.module').then(m => m.ChatPageModule)
+          }
+        ]
+      }
+    ]
+  }
  
 ];
 

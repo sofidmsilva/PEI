@@ -52,7 +52,6 @@ export class ServiceFiltersPage implements OnInit,OnDestroy {
   }
 
   starClicked(index) {
-    console.log(index)
     let rating = index+1;
     this.filters.minRating = rating;
     this.stars = [];
