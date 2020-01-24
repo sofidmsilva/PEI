@@ -11,7 +11,7 @@
                 <ion-avatar slot="start">
                     <img  class="center ion-margin-top" *ngIf="info.image" [src]="info.image">
                 </ion-avatar>
-                <ion-label (click)="verifyChat(datapetsitter,datadono)">
+                <ion-label (click)="verifyChat(datapetsitter,datadono, info)">
                     {{info.name}} ({{info.nameservice}} {{info.location}})
                 </ion-label>
             </ion-item>
@@ -21,7 +21,7 @@
                 <ion-avatar slot="start">
                     <img  class="center ion-margin-top" *ngIf="info.image" [src]="info.image">
                 </ion-avatar>
-                <ion-label (click)="verifyChat(datapetsitter,datadono)">
+                <ion-label (click)="verifyChat(datapetsitter,datadono, info)">
                     {{info.name}} ({{info.nameservice}} {{info.location}})
                 </ion-label>
             </ion-item>

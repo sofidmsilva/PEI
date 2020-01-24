@@ -104,7 +104,7 @@ export class ChatListPage implements OnInit, OnDestroy {
           }
   
         }    
-        console.log(this.datapetsitter)
+        //console.log(this.datapetsitter, this.datadono)
         
       });
     }); 
@@ -112,34 +112,42 @@ export class ChatListPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.CurrentUser = this.authServices.getAuth().currentUser
   }
-  verifyChat(pet,dono){
-    this.messageSubscription = this.afs.collection('Chat').snapshotChanges()
-      .pipe(map(action => action.map(
-        this.documentToDomainObject
-      )
-        .filter(item => (item.to  == pet[0].id))
-        .filter(item2 => (item2.from == dono[0].id))
-      ));
-    this.messageSubscription
-    .subscribe(
-        result => {
-            if (result.length != 0) {
-              this.route.navigate(['/tabs/chat', result[0]])
-            } else {
-               //criar array pro chat com to e from e enviar id to chat
-              this.afs.collection('Chat').add({
-                to: pet[0].id,
-                toName: pet[0].name,
-                from: dono[0].id,
-                fromName: dono[0].name,
-                messages : []
-              })
-            }
-        },
-        error => {
-            console.log("Ocorreu um erro:",error);
+  verifyChat(pet,dono, info){
+      for(let i=0; i<=pet.length -1; i++){
+        if(info.servie == pet[i].servie){
+          this.messageSubscription = this.afs.collection('Chat').snapshotChanges()
+        .pipe(map(action => action.map(
+          this.documentToDomainObject
+        )
+          .filter(item => (item.to  == pet[i].id))
+          .filter(item2 => (item2.from == dono[i].id))
+          .filter(item3 => (item3.service == pet[i].servie))
+        ));
+      
+      this.messageSubscription
+      .subscribe(
+          result => {
+              console.log(result)
+              if (result.length != 0) {
+                this.route.navigate(['/tabs/chat', result[0]])
+              } else {
+                //criar array pro chat com to e from e enviar id to chat
+                this.afs.collection('Chat').add({
+                  to: pet[0].id,
+                  toName: pet[i].name,
+                  from: dono[i].id,
+                  fromName: dono[i].name,
+                  messages : [],
+                  service: pet[i].servie
+                })
+              }
+          },
+          error => {
+              console.log("Ocorreu um erro:",error);
+          }
+        );
         }
-      );
+    }
   }
 
   ngOnDestroy() {
