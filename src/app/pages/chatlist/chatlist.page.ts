@@ -127,7 +127,6 @@ export class ChatListPage implements OnInit, OnDestroy {
       this.messageSubscription
       .subscribe(
           result => {
-              console.log(result)
               if (result.length != 0) {
                 this.route.navigate(['/tabs/chat', result[0]])
               } else {
