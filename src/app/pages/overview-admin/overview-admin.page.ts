@@ -30,7 +30,7 @@ export class OverviewAdminPage implements OnInit {
     private servicespetServices: ServicespetService,private route:ActivatedRoute,
     private translationservice: TranslateService) {
     
-      route.params.subscribe(val => {
+     
     this.userSubscription = this.userServices.getAllUser().subscribe(
       data => {this.numberpetsiitersowner.numberowneranimal=0;
         this.numberpetsiitersowner.numberpetsitter=0;
@@ -62,7 +62,7 @@ export class OverviewAdminPage implements OnInit {
           this.drawChartLine();
         });  
          
-      });
+     
    }
 
   ngOnInit() {
