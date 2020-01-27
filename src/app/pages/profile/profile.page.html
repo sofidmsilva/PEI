@@ -390,6 +390,14 @@
                                             [(ngModel)]="AnimalsRegister.age" placeholder=" {{ animal.age}}">
                                         </ion-input>
                                         <ion-item *ngIf="enableeditanimal">
+                                            <b style="color: #222428; font-size: 15px;">{{ 'Profile.Breed' | translate }}:</b>
+                                            <b> {{ animal.breed | translate}}</b><br>
+                                        </ion-item>
+                                        <b *ngIf="!enableeditanimal" style="color: #222428; font-size: 15px;">{{ 'Profile.Breed' | translate }}:</b>
+                                        <ion-input *ngIf="!enableeditanimal" type="text"
+                                            [(ngModel)]="AnimalsRegister.breed"
+                                            placeholder=" {{ animal.breed | translate}}"></ion-input>
+                                        <ion-item *ngIf="enableeditanimal">
                                             <b style="color: #222428;">{{ 'Profile.Size' | translate }}:</b>
                                             <b >{{ animal.size | translate}}</b><br>
                                         </ion-item>
@@ -512,12 +520,8 @@
                             </ion-select>
                         </ion-item>
                         <ion-item class="ion-margin-top" lines="none">
-                            <ion-label>{{ 'Profile.Breed' | translate }}</ion-label>
-                            <ion-select placeholder="Select" interface="popover" [(ngModel)]="AnimalsRegister.breed">
-                                <ion-select-option *ngFor="let item of typeanimals" value="{{item}}">
-                                    {{item}}
-                                </ion-select-option>
-                            </ion-select>
+                            <ion-input type="text" [(ngModel)]="AnimalsRegister.breed"
+                                placeholder="{{ 'Profile.Breed' | translate }}"></ion-input>
                         </ion-item>
                         <ion-list>
                             <ion-radio-group lines="none" [(ngModel)]="AnimalsRegister.vaccination">
