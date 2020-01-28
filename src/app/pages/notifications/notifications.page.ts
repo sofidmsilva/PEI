@@ -297,7 +297,10 @@ async payment(ev){
     } 
   }
 
-
+async seeprofile(service){
+console.log(service);
+  this.route.navigate(['/tabs/profile', service.userId]);
+}
   async saverating(service, num: number, index: number) {
     this.numberofstarts == 0;
     if (num == 1) {

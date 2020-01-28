@@ -154,7 +154,7 @@ private monthcalendar: string;
             
           }
         }
-      
+      console.log(this.showuser, this.showusertabs,"ola")
         if(this.datauser[0].tipoutilizador==2){
           var l= new Date();
           var num=  parseInt(this.datauser[0].Dateofpremium.split('/')[2]) +1 ;

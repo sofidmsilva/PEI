@@ -18,6 +18,9 @@
         <ion-button class="buttonrefuse" color="danger" (click)="recuserequestservice(service)">
           <ion-icon name="close"></ion-icon>
         </ion-button>
+        <ion-button style="margin-bottom: -64px" color="danger" (click)="seeprofile(service)">
+          <ion-icon name="eye"></ion-icon>Ver perfil
+        </ion-button>
       </ion-textarea>
       <ion-button *ngIf="service.shownotification==1 && service.accept==0" class="buttoncalendar" color="warning"
         (click)="calendar()">
