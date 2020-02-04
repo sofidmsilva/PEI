@@ -67,7 +67,6 @@ export class ChatPage implements OnInit {
   ngOnInit() {
     this.activatedRoute.params.subscribe((params) => {
      this.info = params
-     console.log(this.info,"aaaaaa")
     });
     this.messageSubscription = this.afs.collection('Chat')
     .snapshotChanges()
@@ -78,9 +77,12 @@ export class ChatPage implements OnInit {
       )).subscribe( dados => {this.conteudo=[];
         this.messagesBD=[];
           this.conteudo = dados[0];
-          if(this.conteudo.length!=0){
+          console.log(dados.length,"fhwekjhqfejhqfjwhik")
+          if(dados.length!=0){
             this.messagesBD.push(this.conteudo.messages)
-          }  
+          } else{
+            this.conteudo=[];
+          } 
       });
     this.CurrentUser = this.authServices.getAuth().currentUser
 
