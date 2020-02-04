@@ -11,6 +11,8 @@ import { ServicespetService } from 'src/app/services/servicespet.service';
 import { RequestService } from 'src/app/interfaces/request-service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RouterModule, Routes } from '@angular/router';
+import { MessageSupportTeamService } from 'src/app/services/message-support-team.service';
+import { Chat } from 'src/app/interfaces/chat';
 //import { reverse } from 'dns';
 
 @Component({
@@ -43,18 +45,21 @@ export class ChatListPage implements OnInit, OnDestroy {
   private names;
   public aceptedServices= new Array<RequestService>();
   private showlistowner: boolean=false;
+  private allmessagesuser=new Array<Chat>();
+  private AddChat: Chat = {};
   
   //public servicesCollection : AngularFirestoreCollection<RequestService>;
   //public userCollection : AngularFirestoreCollection<User>;
-  documentToDomainObject = _ => {
-    const object = _.payload.doc.data();
-    object.id = _.payload.doc.id;
-    return object;
-  }
+
   
   constructor(private afs: AngularFirestore,
     private route: Router,
-    public authServices: AuthService, public userServices: RegisterService,private servicespetServices: ServicespetService,private router:ActivatedRoute) {
+    public authServices: AuthService, 
+    public userServices: RegisterService,
+    private servicespetServices: ServicespetService,
+    private router:ActivatedRoute,
+    private messageservice: MessageSupportTeamService,) {
+
     this.userSubscription = this.userServices.getAllUser().subscribe(
       data => {
    
@@ -82,7 +87,7 @@ export class ChatListPage implements OnInit, OnDestroy {
                   let location={location:this.requestservices[i].location}
                   Object.assign(y,f,nameservice,location);
                   this.datapetsitter.push(y);
-    
+  
                  
                 }
              
@@ -93,6 +98,7 @@ export class ChatListPage implements OnInit, OnDestroy {
                   let location={location:this.requestservices[i].location}
                   Object.assign(u, p,nameservice,location);
                  this.datadono.push(u);
+               
     
                 }
               }
@@ -106,6 +112,7 @@ export class ChatListPage implements OnInit, OnDestroy {
                   this.showlistowner=true;
                 }
                 }
+             
             }
           }
   
@@ -113,77 +120,56 @@ export class ChatListPage implements OnInit, OnDestroy {
         //console.log(this.datapetsitter, this.datadono)
         
       });
+      this.messageSubscription = this.messageservice.getAllmessagesusers().subscribe(
+        data => {
+            this.allmessagesuser=data;
+        });
+
     }); 
   }
   ngOnInit() {
     this.CurrentUser = this.authServices.getAuth().currentUser
   }
-  verifyChat(pet,dono, info){
-      for(let i=0; i<=pet.length -1; i++){
-        if(info.servie == pet[i].servie){
-          this.messageSubscription = this.afs.collection('Chat').snapshotChanges()
-        .pipe(map(action => action.map(
-          this.documentToDomainObject
-        )
-          .filter(item => (item.to  == pet[i].id))
-          .filter(item2 => (item2.from == dono[i].id))
-          .filter(item3 => (item3.service == pet[i].servie))
-        ));
-
-      this.messageSubscription
-      .subscribe(
-          result => {
-              if (result.length != 0) {
-                this.route.navigate(['/tabs/chat', result[0]])
-              } else {
-                //criar array pro chat com to e from e enviar id to chat
-                this.afs.collection('Chat').add({
-                  to: pet[0].id,
-                  toName: pet[i].name,
-                  from: dono[i].id,
-                  fromName: dono[i].name,
-                  messages : [],
-                  service: pet[i].servie
-                })
-              }
-          },
-          error => {
-              console.log("Ocorreu um erro:",error);
-          }
-        );
+ async verifyChat(pet,dono, info){
+       var a=0;
+       console.log(pet,dono,info)
+       console.log(this.allmessagesuser,"allmessage")
+      for(let i=0; i<=this.allmessagesuser.length -1; i++){
+        if(info.servie == this.allmessagesuser[i].service){
+          this.route.navigate(['/tabs/chat', this.allmessagesuser[i]])
+          var a=1;
         }
-    }
-  }
+      }
+      if(a==0){
+        for(let i=0; i<=pet.length -1; i++){
+          if(info.servie ==pet[i].servie){
+          this.AddChat.messages=[];
+          this.AddChat.to=pet[0].id;
+          this.AddChat.toName= pet[i].name;
+          this.AddChat.from= dono[i].id;
+          this.AddChat.fromName= dono[i].name;
+          this.AddChat.service= pet[i].servie;
+          }
+         
+        }
+        await this.messageservice.addarrayformessage(this.AddChat);
+        this.route.navigate(['/tabs/chat'])
+      }
+          
+        
+ 
+  
+}
 
   ngOnDestroy() {
     this.requestSubscription.unsubscribe();
     this.userSubscription.unsubscribe();
+    this.messageSubscription.unsubscribe();
     this.datadono=[];
     this.datapetsitter=[];
     console.log("ok")
   }
 
-  getService(user){
-    this.servicesCollection = this.afs.collection('RequestService').snapshotChanges()
-      .pipe(map(action => action.map(
-        this.documentToDomainObject
-      )
-        .filter(item => (item.to === user))
-        .filter(item2 => item2.accept == 5)
-        ));
-      return this.servicesCollection
-  }
-  getDataUser(newUser) {
-    this.usersCollection = this.afs.collection('Utilizador').snapshotChanges()
-      .pipe(map(action => action.map(
-        this.documentToDomainObject
-      )
-        .filter(item => (item.id === newUser))
-      ));
-    return this.usersCollection;
-  }
-
-  
 }
   
 

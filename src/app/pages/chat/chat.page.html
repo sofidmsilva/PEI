@@ -7,7 +7,7 @@
 </ion-header>
 
 <ion-content>
-    <div id="chatMessages" *ngIf="conteudo.messages">
+    <div id="chatMessages" *ngIf="conteudo.messages || havemessages">
         <div class="message" *ngFor="let message of conteudo.messages" >
             <!--<div [class]="message.messages.sendID == CurrentUser.uid ? 
             ' innerMessage messageRight ' : 'innerMessage messageLeft'">

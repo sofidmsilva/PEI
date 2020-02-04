@@ -44,6 +44,7 @@ export class ChatPage implements OnInit {
   private chatPhoto;
   private alldatauser;
   private editimage;
+
   conteudo = <any>{};
   documentToDomainObject = _ => {
     const object = _.payload.doc.data();
@@ -64,9 +65,9 @@ export class ChatPage implements OnInit {
   }
 
   ngOnInit() {
-    console.log(8);
     this.activatedRoute.params.subscribe((params) => {
      this.info = params
+     console.log(this.info,"aaaaaa")
     });
     this.messageSubscription = this.afs.collection('Chat')
     .snapshotChanges()
@@ -74,12 +75,15 @@ export class ChatPage implements OnInit {
         this.documentToDomainObject
       )
       .filter(item => (item.id == this.info.id))
-      )).subscribe( dados => {
-          this.conteudo = dados[0]
-          this.messagesBD.push(this.conteudo.messages)
+      )).subscribe( dados => {this.conteudo=[];
+        this.messagesBD=[];
+          this.conteudo = dados[0];
+          if(this.conteudo.length!=0){
+            this.messagesBD.push(this.conteudo.messages)
+          }  
       });
-    
     this.CurrentUser = this.authServices.getAuth().currentUser
+
   }
   ngOnDestroy(): void {
     this.messageSubscription.unsubscribe();
@@ -87,18 +91,20 @@ export class ChatPage implements OnInit {
   }
   
   sendMessage(image){
-    console.log(1);
+
     if(this.CurrentUser.uid == this.conteudo.from){
       this.sendID = this.CurrentUser.uid
       this.recvID = this.conteudo.to
       this.sendName = this.conteudo.fromName
       this.recvName = this.conteudo.toName
+   
     }
     else{
       this.sendID = this.conteudo.to
       this.recvID = this.CurrentUser.uid
       this.sendName = this.conteudo.toName
       this.recvName = this.conteudo.fromName
+
     }
     if(image){
         let cont = [{
@@ -114,6 +120,7 @@ export class ChatPage implements OnInit {
           messages: firebase.firestore.FieldValue.arrayUnion(cont[0])
         });
         cont = [];
+      
     }else{
       if(this.message != ''){
         let cont = [{
@@ -129,10 +136,11 @@ export class ChatPage implements OnInit {
           messages: firebase.firestore.FieldValue.arrayUnion(cont[0])
         });
         cont = [];
+     
       }
     }
     
-    
+    this.message="";
   }
   
   //formatar a data

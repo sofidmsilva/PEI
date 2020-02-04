@@ -4,4 +4,6 @@ export interface Chat {
     messages?: Array<string>;
     to?: string;
     toName?: string;
+    id?:number;
+    service?:string;
 }
