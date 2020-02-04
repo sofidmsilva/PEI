@@ -8,7 +8,11 @@ describe('new App', () => {
   });
 
   it('should display welcome message', () => {
-    page.navigateTo();
-    expect(page.getPageTitle()).toContain('Tab One');
+    page.navigateTo('/login');
+    page.enterInputText('#email-input', 'tudofinal@gmail.com');
+    page.enterInputText('#password-input', 'sofia1997');
+    page.clickButton('#login-button');
+    page.waitUntilVisible('#pet_sitter')
+    expect(page.getPageTitle('#pet-sitter-title')).toBe('Olá!');
   });
 });
