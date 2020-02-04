@@ -6,7 +6,17 @@ export class AppPage {
   }
 
   getPageTitle(sel: string) {
-    return element(by.css(`${sel}`)).getText();
+    console.log(sel)
+    return element(by.css(`${sel} ion-title`)).getText();
+  }
+  waitForError() {
+    browser.wait(
+      ExpectedConditions.presenceOf(element(by.css('.toast-message'))),
+      3000
+    );
+  }
+  getErrorMessage() {
+    return element(by.css('.error')).getText();
   }
 
   enterInputText(sel: string, text: string) {
@@ -23,6 +33,6 @@ export class AppPage {
 
   waitUntilVisible(sel: string) {
     const el = element(by.css(`${sel}`));
-    browser.wait(ExpectedConditions.visibilityOf(el), 3000);
+    browser.wait(ExpectedConditions.visibilityOf(el), 20000);
   }
 }

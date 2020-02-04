@@ -77,7 +77,6 @@ export class ChatPage implements OnInit {
       )).subscribe( dados => {this.conteudo=[];
         this.messagesBD=[];
           this.conteudo = dados[0];
-          console.log(dados.length,"fhwekjhqfejhqfjwhik")
           if(dados.length!=0){
             this.messagesBD.push(this.conteudo.messages)
           } else{

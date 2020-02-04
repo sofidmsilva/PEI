@@ -345,7 +345,7 @@
                             
                             <ion-grid>                                                       
                                 <ion-row>
-                                    <div *ngIf="enableeditanimal &&(showusertabs ==1 && showuser==1)" style="margin: auto">
+                                    <div *ngIf="enableeditanimal &&(showusertabs ==1 && showuser==1)">
                                         <ion-button class="ion-margin-top" (click)="editdata(4)" size="small"
                                             shape="round" color="dark">
                                             <ion-icon name="create"></ion-icon>
@@ -356,7 +356,7 @@
                                         </ion-button>
                                     </div>
                                     <div *ngIf="enableeditanimal">
-                                            <img style="margin-left: 73px;" class="center ion-margin-top" *ngIf="animal.image" [src]="animal.image">
+                                            <img  class="center ion-margin-top" *ngIf="animal.image" [src]="animal.image">
                                     </div>
                            
                                     <ion-title style="margin-bottom: 14px;" *ngIf="!enableeditanimal">

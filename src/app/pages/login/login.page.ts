@@ -102,7 +102,7 @@ export class LoginPage implements OnInit {
           break;
       }
       console.log(error);
-      this.presentToast(error);
+      this.presentToast(message);
     } finally {
       this.loading.dismiss();
     }
