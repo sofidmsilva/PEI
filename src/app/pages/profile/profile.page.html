@@ -718,7 +718,7 @@
                         <ion-title>{{ 'Profile.addservice' | translate }}</ion-title>
                         <ion-item class="ion-margin-top" lines="none">
                             <ion-label>{{ 'Profile.typeservice' | translate }}</ion-label>
-                            <ion-select placeholder="Select" [(ngModel)]="Services.typeservice">
+                            <ion-select  id="type-service" placeholder="Select" [(ngModel)]="Services.typeservice">
                                 <ion-select-option *ngFor="let servi of typeservices" lines="none" value="{{servi}}">
                                     {{ servi}}
                                 </ion-select-option>
@@ -726,22 +726,22 @@
                         </ion-item>
                         <ion-item class="ion-margin-top" lines="none">
                             <ion-label>{{ 'Profile.AnimalType' | translate }}</ion-label>
-                            <ion-select placeholder="Select" multiple="true" interface="alert"
+                            <ion-select id="type-animal" placeholder="Select" multiple="true" interface="alert"
                                 [(ngModel)]="Services.typeanimals">
-                                <ion-select-option *ngFor="let item of typeanimals" value="{{item}}">
+                                <ion-select-option  *ngFor="let item of typeanimals" value="{{item}}">
                                     {{ item | translate}}
                                 </ion-select-option>
                             </ion-select>
                         </ion-item>
                         <ion-item class="ion-margin-top" lines="none">
                             <ion-label>{{'SearchServices.price'| translate}}:</ion-label>
-                            <ion-input type="number" [(ngModel)]="Services.price"
+                            <ion-input id="price-service" type="number" [(ngModel)]="Services.price"
                                 placeholder="{{'SearchServices.price'| translate}}"></ion-input>
-                            <ion-select placeholder="Select" [(ngModel)]="Services.typemoney">
+                            <ion-select id="type-money" placeholder="Select" [(ngModel)]="Services.typemoney">
                                 <ion-select-option selected  value="euro">Euro</ion-select-option>
                                 <ion-select-option value="dolar">Dolar</ion-select-option>
                             </ion-select>
-                            <ion-select size="small" placeholder="Select"
+                            <ion-select id="type-hour" size="small" placeholder="Select"
                             [(ngModel)]="Services.dayhour">
                             <ion-select-option value="dia">{{'All.day'| translate}}</ion-select-option>
                             <ion-select-option value="hora">{{'All.hour'| translate}}</ion-select-option>
@@ -749,18 +749,18 @@
                         </ion-item>
                         <ion-item class="ion-margin-top" lines="none">
                             <ion-label>{{'UserRegister.location'| translate}}:</ion-label>
-                            <ion-input type="text" [(ngModel)]="Services.location"
+                            <ion-input id="type-location" type="text" [(ngModel)]="Services.location"
                                 placeholder="{{'UserRegister.location'| translate}}"></ion-input>
                         </ion-item>
                         <ion-item *ngIf="Services.typeservice=='Pet Care'" class="ion-margin-top" lines="none">
                             <ion-label>{{'Profile.caregiven'| translate}}:</ion-label>
-                            <ion-textarea type="text" [(ngModel)]="Services.descriptioncare" placeholder="...">
+                            <ion-textarea id="type-care" type="text" [(ngModel)]="Services.descriptioncare" placeholder="...">
                             </ion-textarea>
                         </ion-item>
-                        <ion-button class="ion-margin-top" (click)="buttonaddanimal(0)" color="medium">
+                        <ion-button  class="ion-margin-top" (click)="buttonaddanimal(0)" color="medium">
                             <ion-icon name="arrow-back"></ion-icon>
                         </ion-button>
-                        <ion-button class="ion-margin-top" (click)="addservice()" color="medium">
+                        <ion-button id="type-button" class="ion-margin-top" (click)="addservice()" color="medium">
                             {{ 'All.add' | translate }}
                         </ion-button>
 

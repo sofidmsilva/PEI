@@ -374,6 +374,7 @@ private monthcalendar: string;
         this.AddComment.to = to[3];
         await this.userServices.addComments(this.AddComment);
       }
+      this.AddComment==[];
     }
     catch (error) {
 

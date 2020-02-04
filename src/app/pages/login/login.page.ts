@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonSlides, LoadingController, ToastController, PopoverController, NavController,AlertController } from '@ionic/angular';
+import { IonSlides, LoadingController, ToastController, PopoverController, NavController, AlertController } from '@ionic/angular';
 import { NativeKeyboard } from '@ionic-native/native-keyboard/ngx';
 import { User } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -29,12 +29,12 @@ export class LoginPage implements OnInit {
   public position: number = 0;
   public guardposition: number = 0;
   platform: any;
-  private _appId: string = 'cZhsObl98cbkEcgYHrwn';  
-  private _appCode: string = 'JAkuOIaFZ4x_Zer-IbR0noK9ma5MO3BAQLfXC8wbz7s';  
+  private _appId: string = 'cZhsObl98cbkEcgYHrwn';
+  private _appCode: string = 'JAkuOIaFZ4x_Zer-IbR0noK9ma5MO3BAQLfXC8wbz7s';
   search: any;
- 
 
- 
+
+
   constructor(
     public nativekeyboard: NativeKeyboard,
     private loadingCtrl: LoadingController,
@@ -44,10 +44,10 @@ export class LoginPage implements OnInit {
     private translationservice: TranslateService,
     private registerServices: RegisterService,
     private router: Router,
-    private storage: Storage,  public navCtrl: NavController,  public alertController: AlertController ) {
-  
-      
-     }
+    private storage: Storage, public navCtrl: NavController, public alertController: AlertController) {
+
+
+  }
   ngOnInit() { }
 
   segmentChanged(event: any) {
@@ -77,20 +77,20 @@ export class LoginPage implements OnInit {
     await this.presentLoading();
 
     try {
-      await this.authServices.login(this.userLogin).then((res)=>{   
-        this.registerServices.getIfUserIsValid(res.user.uid).subscribe(resp=>{
-          if(resp.data().isActive==false){
+      await this.authServices.login(this.userLogin).then((res) => {
+        this.registerServices.getIfUserIsValid(res.user.uid).subscribe(resp => {
+          if (resp.data().isActive == false) {
             this.presentAlert();
             this.authServices.logout();
           }
         })
         this.storage.set('currentActiveUser', this.authServices.getAuth().currentUser.uid);
-    });
+      });
 
-  
-}
+
+    }
     catch (error) {
-    
+
       let message: string;
       switch (error.code) {
         case 'auth/argument-error':
@@ -100,6 +100,13 @@ export class LoginPage implements OnInit {
         case 'auth/invalid-email':
           message = this.translationservice.instant('Login.errormessage.invalidemail');
           break;
+        case 'auth/wrong-password':
+          message = "Password Errada";
+          break;
+        case 'auth/user-not-found':
+          message = "Não há nenhum utilizador que corresponda ao inserido. Pode ter sido apagado.";
+          break;
+
       }
       console.log(error);
       this.presentToast(message);
@@ -119,10 +126,10 @@ export class LoginPage implements OnInit {
       } else {
         const NewUser = await this.authServices.register(this.userRegister);
         this.userRegister.verifycode = Math.floor(Math.random() * 3000);
-        if(this.userRegister.tipoutilizador==2){
-          this.userRegister.premium=false;
+        if (this.userRegister.tipoutilizador == 2) {
+          this.userRegister.premium = false;
         }
-        this.userRegister.ratings=0;
+        this.userRegister.ratings = 0;
         await this.registerServices.addUser(this.userRegister, NewUser);
 
 
@@ -148,8 +155,8 @@ export class LoginPage implements OnInit {
 
     this.loading.dismiss();
     this.router.navigate(['tabs/userregister']);
-    
-    
+
+
   }
 
   async presentLoading() {
@@ -174,7 +181,7 @@ export class LoginPage implements OnInit {
     const alert = await this.alertController.create({
       header: 'Bloqueado',
       message: 'O seu perfil encontra-se bloqueado pelo seu administrador, por favor contacte o suporte para mais informações',
-     
+
       buttons: ['OK']
     });
 
