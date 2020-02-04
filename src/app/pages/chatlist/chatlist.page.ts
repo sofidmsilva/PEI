@@ -55,7 +55,6 @@ export class ChatListPage implements OnInit, OnDestroy {
   constructor(private afs: AngularFirestore,
     private route: Router,
     public authServices: AuthService, public userServices: RegisterService,private servicespetServices: ServicespetService,private router:ActivatedRoute) {
-    
     this.userSubscription = this.userServices.getAllUser().subscribe(
       data => {
    
@@ -70,28 +69,35 @@ export class ChatListPage implements OnInit, OnDestroy {
         this.datapetsitter=[];
         this.requestservices = data;
         for (let i = 0; i <= this.requestservices.length - 1; i++) {
-          if(this.requestservices[i].accept == 5 && this.requestservices[i].done !=true){
+          if(this.requestservices[i].accept == 5 && this.requestservices[i].done ==false
+            &&this.requestservices[i].payment==true){
 
             for (let a = 0; a <= this.datauser.length - 1; a++) {
-              if(this.requestservices[i].to==this.datauser[a].id){
-                var f= this.datauser[a];
-                let y={servie:this.requestservices[i].id};
-                let nameservice={nameservice:this.requestservices[i].type}
-                let location={location:this.requestservices[i].location}
-                Object.assign(y,f,nameservice,location);
-                this.datapetsitter.push(y);
-  
-               
+              if(this.authServices.getAuth().currentUser.uid==this.requestservices[i].from
+              || this.authServices.getAuth().currentUser.uid==this.requestservices[i].to){
+                if(this.requestservices[i].to==this.datauser[a].id){
+                  var f= this.datauser[a];
+                  let y={servie:this.requestservices[i].id};
+                  let nameservice={nameservice:this.requestservices[i].type}
+                  let location={location:this.requestservices[i].location}
+                  Object.assign(y,f,nameservice,location);
+                  this.datapetsitter.push(y);
+    
+                 
+                }
+             
+                if(this.requestservices[i].from==this.datauser[a].id){     
+                  let u={servie:this.requestservices[i].id};
+                  var p= this.datauser[a];
+                  let nameservice={nameservice:this.requestservices[i].type}
+                  let location={location:this.requestservices[i].location}
+                  Object.assign(u, p,nameservice,location);
+                 this.datadono.push(u);
+    
+                }
               }
-              if(this.requestservices[i].from==this.datauser[a].id){     
-                let u={servie:this.requestservices[i].id};
-                var p= this.datauser[a];
-                let nameservice={nameservice:this.requestservices[i].type}
-                let location={location:this.requestservices[i].location}
-                Object.assign(u, p,nameservice,location);
-               this.datadono.push(u);
-            
-              }
+         
+     
               if(this.requestservices[i].from==this.authServices.getAuth().currentUser.uid){
                 this.showlistowner=false;
            
@@ -123,7 +129,7 @@ export class ChatListPage implements OnInit, OnDestroy {
           .filter(item2 => (item2.from == dono[i].id))
           .filter(item3 => (item3.service == pet[i].servie))
         ));
-      
+
       this.messageSubscription
       .subscribe(
           result => {

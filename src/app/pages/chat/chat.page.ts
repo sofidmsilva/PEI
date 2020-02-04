@@ -64,6 +64,7 @@ export class ChatPage implements OnInit {
   }
 
   ngOnInit() {
+    console.log(8);
     this.activatedRoute.params.subscribe((params) => {
      this.info = params
     });
@@ -86,6 +87,7 @@ export class ChatPage implements OnInit {
   }
   
   sendMessage(image){
+    console.log(1);
     if(this.CurrentUser.uid == this.conteudo.from){
       this.sendID = this.CurrentUser.uid
       this.recvID = this.conteudo.to

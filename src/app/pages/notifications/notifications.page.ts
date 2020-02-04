@@ -100,6 +100,7 @@ export class NotificationsPage implements OnInit, OnDestroy {
 async payment(ev){
   this.requestservice.id = ev.id;
   this.requestservice.accept = 5;
+  this.requestservice.payment=true;
   this.event.title = ev.type + ' ' + ev.location;
 
     this.event.startTime = ev.hoursbegin;
