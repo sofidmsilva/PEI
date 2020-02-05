@@ -17,6 +17,7 @@ describe('new App', () => {
     browser.driver.sleep(5000);
     expect(await page.getPageTitle(browser)).toEqual('Olá!');
   });*/
+  
   it('displays an error message if the login fails', async () => {
     page.navigateTo('/login');
     browser.driver.sleep(7000);
@@ -69,19 +70,37 @@ describe('new App', () => {
     );
   });
 
-
-
- /* it('should display error message if the register of service fail', async () => {
+  it('should display error message if email is already in use on Register', async () => {
     page.navigateTo('/login');
-    page.enterInputText('#email-input', 'tudofinal@gmail.com');
-    page.enterInputText('#password-input', 'sofia1997');
-    page.clickButton('#login-button');
+    page.clickButton('#Registar');
+    browser.driver.sleep(4000);
+    page.enterInputText('#email-input1', 'tudofinal@gmail.com');
+    page.enterInputText('#password-input2', 'sofia1997');
+    page.enterInputText('#confirmpassword-input', 'sofia1997');
+    page.clickButton('#Next');
+    page.enterInputText('#nameuser', 'sofia');
+    page.clickButton('#register-button');
+    browser.driver.sleep(4000);
+    expect(await page.getErrorMessage(browser)).toEqual(
+      'E-mail já em uso!'
+    );
+  });
+
+  it('should display error message if email is invalid on Register', async () => {
+    page.navigateTo('/login');
+    page.clickButton('#Registar');
     browser.driver.sleep(7000);
-    page.navigateTo('/tabs/profile/WQxH0YKActYMORjyXUCtfYCsD1o1');
-    page.enterInputText('#type-service', 'Pet Walking');
-    browser.driver.sleep(5000);
-    expect(await page.getPageTitle(browser)).toEqual('Olá!');
-  });*/
+    page.enterInputText('#email-input1', 'tudofinal');
+    page.enterInputText('#password-input2', 'sofia1997');
+    page.enterInputText('#confirmpassword-input', 'sofia1997');
+    page.clickButton('#Next');
+    page.enterInputText('#nameuser', 'sofia');
+    page.clickButton('#register-button');
+    browser.driver.sleep(1000);
+    expect(await page.getErrorMessage(browser)).toEqual(
+      'E-mail Inválido!'
+    );
+  });
 
 
 

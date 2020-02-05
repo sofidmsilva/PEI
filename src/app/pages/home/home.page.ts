@@ -171,10 +171,11 @@ export class HomePage implements OnInit, OnDestroy {
     for (let i = 0; i <= this.lengthrequest - 1; i++) {
       if(this.requestservices[i].done==true){
         switch (this.requestservices[i].datedone) {
+          
           case 'Jan':
           this.servicepermonth.Jan++;
             break;
-          case 'Fev':
+          case 'Feb':
             this.servicepermonth.Fev++;
             break;
           case 'Mar':
@@ -217,7 +218,6 @@ export class HomePage implements OnInit, OnDestroy {
 
   getPieChart() {
     this.getnumbermonths();
-    
     if(this.servicepermonth.Jan==0 && this.servicepermonth.Fev==0 && this.servicepermonth.March==0 && this.servicepermonth.April==0
       && this.servicepermonth.May==0 && this.servicepermonth.June==0 && this.servicepermonth.July==0 && this.servicepermonth.August==0
       && this.servicepermonth.September==0 && this.servicepermonth.October==0 && this.servicepermonth.November==0

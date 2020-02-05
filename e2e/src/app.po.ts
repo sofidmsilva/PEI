@@ -6,7 +6,11 @@ export class AppPage {
   }
 
   async getPageTitle(browser : ProtractorBrowser) {
-    return (await browser.driver.findElement(by.css('ion-title#pet-sitter-title'))).getText()
+    const element = await browser.driver.findElement( by.css('item-title-default') );
+
+    const root = await browser.driver.executeScript<WebElement>("return arguments[0].shadowRoot", element );
+
+    return (await root.findElement( by.css('#pet-sitter-title') )).getText();
   }
   waitForError() {
     return browser.wait(

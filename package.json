@@ -34,6 +34,7 @@
     "@ngx-translate/http-loader": "^4.0.0",
     "@types/ol": "^5.3.7",
     "angularfire2": "^5.4.0",
+    "caniuse-lite": "^1.0.30001025",
     "chart.js": "^2.9.3",
     "cordova-android": "^8.1.0",
     "cordova-browser": "^6.0.0",
